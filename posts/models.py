@@ -3,6 +3,7 @@ from django.db import models
 #we can add more later
 #we may want a user and a group model
 #not sure if we can use what django provides us...
+#we probably don't even want to use slugs because we can just use the primary key
 
 class Post(models.Model):
   title = models.CharField(max_length=200)
