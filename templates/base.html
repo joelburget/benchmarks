@@ -8,6 +8,22 @@
 	<![endif]-->
 </head>
 <body>
-  {% block content %}{{ content }}{% endblock %}
+  <!-- Site header -->
+  <div id="header">
+    <h1>OSU RSRG Benchmarks</h1>
+    <h2>{{ title }}</h2>
+  </div>
+
+  <!-- Login form -->
+  <div id="login">
+    {% include "_login.html" %}
+  </div>
+
+  <!-- Content -->
+  <div id="content">
+    {% block content %}{{ content }}{% endblock %}
+  </div>
+
+  <!-- Footer -->
 </body>
 </html>
