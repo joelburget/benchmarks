@@ -2,10 +2,17 @@
 {% block title %}RSRG Benchmarks{% endblock %}
 </div>
 {% block content %}
-{% for object in latest_post_list %}
+{% for object in featured_posts %}
 <div class="block">
 <h3>{{ object.title }}</h3></a>
 <br />
 {{ object.body|truncatewords_html:"50"|striptags }}
+{% endfor %}
+{% for object in latest_posts %}
+<div class="block">
+<h3>{{ object.title }}</h3></a>
+<br />
+{{ object.body|truncatewords_html:"50"|striptags }}
+{% endfor %}
 </div>
 {% endblock %}
