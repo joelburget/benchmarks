@@ -5,10 +5,6 @@ from django.http import HttpResponseRedirect
 from django.views.generic.simple import direct_to_template
 from django.template import RequestContext
 
-def post_detail(request, object_id):
-  p = get_object_or_404(Post, pk=object_id)
-  return render_to_response('posts/post_detail.html', {'object':p, 'user':request.user}, context_instance=RequestContext(request))
-
 def loginuser(request):
   if request.method == 'POST':
     # Get post parameters

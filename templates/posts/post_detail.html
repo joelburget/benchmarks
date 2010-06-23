@@ -3,11 +3,5 @@
 {% block title %}{{ object.title }}{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
-<h1>{{ object.title }}</h1>
 {{ object.body }}
-{% else %}
-<h1>Warning!</h1>
-<p>To view this page's content, you must be logged in!</p>
-{% endif %}
 {% endblock %}
