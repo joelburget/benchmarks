@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}RSRG Benchmarks{% endblock %}
+</div>
+{% block content %}
+{% for object in latest_post_list %}
+<div class="block">
+<h3>{{ object.title }}</h3></a>
+<br />
+{{ object.body|truncatewords_html:"50"|striptags }}
+</div>
+{% endblock %}
