@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}{{ object.username }} - Profile{% endblock %}
+
+{% block content %}
+<h2>User: {{ object.username }}</h2>
+
+<p>
+  <ul>
+    <li>Real Name: {{ object.first_name }} {{ object.last_name }}</li>
+    <li>Joined: {{ object.date_joined }}</li>
+    <li>Last Seen: {{ object.last_login }}</li>
+  </ul>
+</p>
+{% endblock %}
