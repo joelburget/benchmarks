@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user.username }} - Profile - Edit{% endblock %}
+
+{% block content %}
+<form action="." method="post">
+{% for field in formset %}
+  {{ field.label_tag }}: {{ field }}<br />
+{% endfor %}
+<input type="submit" value="Save Changes" />
+</form>
+{% endblock %}

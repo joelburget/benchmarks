@@ -1,5 +1,5 @@
 {% if user.is_authenticated %}
-  <span>Hello, <a href="/user/{{ user.username }}/">{{ user.username }}!</a></span>
+  <span>Hello, <a href="/user/{{ user.username }}/">{{ user.first_name }}</a>!</span>
   <span>{% if user.is_staff %}<a href="/admin/">Admin</a> - {% endif %}<a href="/user/{{ user.username }}">Profile</a> - <a href="/logout/">Logout</a></span>
   {% else %}
   <form action="/login/" method="post" accept-charset="utf-8">

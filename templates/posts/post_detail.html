@@ -3,19 +3,16 @@
 {% block title %}{{ object.title }}{% endblock %}
 
 {% block content %}
+<h2>{{ object.title }}</h2>
 {{ object.body }}
 
-<p>Posted by: <a href="/user/{{ object.author }}/">{{ object.author.first_name }} {{ object.author.last_name }}</a>, on {{ object.published }}</p>
 {% load comments %}
 {% get_comment_count for object as comment_count %}
-{% if comment_count == 1 %}
-<p>1 comment.</p>
-{% else %}
-<p>{{ comment_count }} comments.</p>
-{% endif %}
+<p>Posted by: <a href="/user/{{ object.author }}/">{{ object.author.first_name }} {{ object.author.last_name }}</a>, on {{ object.published }}</p> 
+<h2>{{ comment_count }} comment{{ comment_count|pluralize }}</h2>
 {% render_comment_list for object %}
 {% if user.is_authenticated %}
-<h2>Leave a comment</h2>
+<h3>Leave a comment</h3>
 {% get_comment_form for object as form %}
     <form action="{% comment_form_target %}" method="POST"> 
 {{ form.comment }} 

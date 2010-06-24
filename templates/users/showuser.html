@@ -1,18 +1,21 @@
 {% extends "base.html" %}
 
-{% block title %}{{ object.username }} - Profile{% endblock %}
+{% block title %}{{ object.first_name }} {{ object.last_name }} - Profile{% endblock %}
 
 {% block content %}
-<h2>User: {{ object.username }}</h2>
-
-<h3>Profile</h3>
+<h2>Profile</h2>
 <ul>
+  <li>Username: {{ object.username }}</li>
   <li>Real Name: {{ object.first_name }} {{ object.last_name }}</li>
   <li>Joined: {{ object.date_joined }}</li>
   <li>Last Seen: {{ object.last_login }}</li>
 </ul>
 
-<h3>Posts</h3>
+{% if user.username == object.username %}
+<a href="/user/{{ object.username }}/edit/">Edit</a>
+{% endif %}
+
+<h2>Posts</h2>
 {% if posts %}
 <ul>
 {% for post in posts %}
@@ -23,7 +26,7 @@
 <p>This user hasn't posted any content yet.</p>
 {% endif %}
 
-<h3>Comments</h3>
+<h2>Comments</h2>
 {% if comments_list %}
 <ul>
 {% for c in comments_list %}
