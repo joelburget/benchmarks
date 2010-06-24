@@ -2,5 +2,7 @@ from django.conf.urls.defaults import *
 from django.contrib.auth.models import User
 
 urlpatterns = patterns('',
-  (r'^(?P<uname>[a-zA-Z0-9_]{3,16})/$', 'benchmarks.users.views.showuser'),
+  # Note: Regex below is alphanumeric chars, and +, ., _, or -, min length 1, max 30
+  # Follows Django username field requirements as specified in docs.
+  (r'^(?P<uname>[a-zA-Z0-9_\@\+\.\-]{1,30})/$', 'benchmarks.users.views.showuser'),
 )
