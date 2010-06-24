@@ -2,6 +2,7 @@
 {% load comments %}
 {% block title %}RSRG Benchmarks{% endblock %}
 {% block content %}
+<h2>Featured Posts</h2>
 {% for object in featured_posts %}
 	<div class="block">
 	<h3><a href="/{{ object.id }}">{{ object.title }}</a></h3>
@@ -14,17 +15,22 @@
 	{% endif %}
 	</div>
 {% endfor %}
+
+<h2>Latest Posts</h2>
 	{% for object in latest_posts %}
 	<div class="block">
-	<h3><a href="{{ object.id }}">{{ object.title }}</a></h3></a>
+	<h3><a href="/{{ object.id }}/">{{ object.title }}</a></h3></a>
 	{{ object.body|truncatewords_html:"50"|striptags }}
 	{% get_comment_count for object as comment_count %}
-	{% if comment_count == 1 %}
-	<p>1 comment.</p>
-	{% else %}
-	<p>{{ comment_count }} comments.</p>
-	{% endif %}
+	<p>Posted by: <a href="/user/{{ object.author }}/">{{ object.author.first_name }} {{ object.author.last_name }}</a>, on {{ object.published }} - <a href="/{{ object.id }}#comments">{{ comment_count }} comment{{ comment_count|pluralize }}</a></p>
 	</div>
 {% endfor %}
+
+<h2>Latest Discussion</h2>
+<ul>
+{% for comment in latest_discussion %}
+  <li>{{ comment.comment }} - <a href="/user/{{ comment.user.username }}/">{{ comment.user.username }}</a></li>
+{% endfor %}
+</ul>
 </div>
 {% endblock %}
