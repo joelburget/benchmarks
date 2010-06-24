@@ -1,0 +1,25 @@
+body {
+  margin: auto;
+  width: 920px;
+}
+
+a {
+  text-decoration: none;
+}
+
+#header {
+  display: block;
+}
+
+#banner {
+  float: left;
+}
+
+#login {
+  float: right;
+}
+
+#content {
+  clear: both;
+  padding-top: 10px;
+}

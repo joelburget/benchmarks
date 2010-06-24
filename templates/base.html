@@ -6,16 +6,19 @@
 	<!--[if IE]>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
+  <link rel="stylesheet" href="{{ MEDIA_URL }}benchmarks.css" />
 </head>
 <body>
   <!-- Site header -->
   <div id="header">
-    <h1><a href="/">OSU RSRG Benchmarks</a></h1>
-  </div>
+    <div id="banner">
+      <h1><a href="/">OSU RSRG Benchmarks</a></h1>
+    </div>
 
-  <!-- Login form -->
-  <div id="login">
-    {% include "_login.html" %}
+    <!-- Login form -->
+    <div id="login">
+      {% include "_login.html" %}
+    </div>
   </div>
 
   <!-- Content -->
