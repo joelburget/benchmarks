@@ -5,11 +5,21 @@
 {% block content %}
 <h2>User: {{ object.username }}</h2>
 
-<p>
-  <ul>
-    <li>Real Name: {{ object.first_name }} {{ object.last_name }}</li>
-    <li>Joined: {{ object.date_joined }}</li>
-    <li>Last Seen: {{ object.last_login }}</li>
-  </ul>
-</p>
+<h3>Profile</h3>
+<ul>
+  <li>Real Name: {{ object.first_name }} {{ object.last_name }}</li>
+  <li>Joined: {{ object.date_joined }}</li>
+  <li>Last Seen: {{ object.last_login }}</li>
+</ul>
+
+<h3>Posts</h3>
+{% if posts %}
+<ul>
+{% for post in posts %}
+  <li><a href="/{{ post.id }}/">{{ post.title }}</a></li>
+{% endfor %}
+</ul>
+{% else %}
+<p>This user hasn't posted any content yet.</p>
+{% endif %}
 {% endblock %}

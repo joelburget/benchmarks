@@ -4,4 +4,6 @@
 
 {% block content %}
 {{ object.body }}
+
+<p>Posted by: {{ object.author }} ({{ object.author.first_name }} {{ object.author.last_name }}), on {{ object.published }}</p>
 {% endblock %}

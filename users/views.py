@@ -3,5 +3,6 @@ from django.template import RequestContext
 from django.contrib.auth.models import User
 
 def showuser(request, uname):
-  user = get_object_or_404(User, username=uname)
-  return render_to_response('users/showuser.html', {'object':user}, context_instance=RequestContext(request))
+  u = get_object_or_404(User, username=uname)
+  posts = u.post_set.all()
+  return render_to_response('users/showuser.html', context_instance=RequestContext(request, {'object':u, 'posts':posts}))
