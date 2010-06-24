@@ -27,7 +27,7 @@
 {% if comments_list %}
 <ul>
 {% for c in comments_list %}
-  <li>{{ c.comment }}</li>
+  <li><a href="/{{ c.object_pk }}/">{{ c.comment }}</a></li>
 {% endfor %}
 </ul>
 {% else %}
