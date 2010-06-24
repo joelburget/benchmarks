@@ -22,4 +22,15 @@
 {% else %}
 <p>This user hasn't posted any content yet.</p>
 {% endif %}
+
+<h3>Comments</h3>
+{% if comments_list %}
+<ul>
+{% for c in comments_list %}
+  <li>{{ c.comment }}</li>
+{% endfor %}
+</ul>
+{% else %}
+<p>This user hasn't commented on any posts yet.</p>
+{% endif %}
 {% endblock %}
