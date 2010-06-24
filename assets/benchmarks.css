@@ -19,6 +19,17 @@ a {
   float: right;
 }
 
+#login span {
+  padding: 5px;
+  position: relative;
+  top: 35px;
+}
+
+#login form {
+  position: relative;
+  top: 28px;
+}
+
 #content {
   clear: both;
   padding-top: 10px;
