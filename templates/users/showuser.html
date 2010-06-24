@@ -12,6 +12,10 @@
   <li>Last Seen: {{ object.last_login }}</li>
 </ul>
 
+{% if user.username == object.username %}
+<a href="/user/{{ object.username }}/edit/">Edit</a>
+{% endif %}
+
 <h3>Posts</h3>
 {% if posts %}
 <ul>
