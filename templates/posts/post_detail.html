@@ -5,7 +5,7 @@
 {% block content %}
 {{ object.body }}
 
-<p>Posted by: {{ object.author }} ({{ object.author.first_name }} {{ object.author.last_name }}), on {{ object.published }}</p>
+<p>Posted by: <a href="/user/{{ object.author }}/">{{ object.author }}</a> ({{ object.author.first_name }} {{ object.author.last_name }}), on {{ object.published }}</p>
 {% load comments %}
 {% get_comment_count for object as comment_count %}
 {% if comment_count == 1 %}
