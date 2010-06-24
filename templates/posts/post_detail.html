@@ -20,6 +20,8 @@
 {{ form.object_pk }} 
 {{ form.timestamp }} 
 {{ form.security_hash }} 
+<p style="display:none;"> {{ form.honeypot }}</p>
+<input type="submit" name="preview" class="submit-preview" value="Preview" />
 <input type="submit" value="Add comment" id="id_submit" />
 </form> 
  {% endif %}
