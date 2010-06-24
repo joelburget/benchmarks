@@ -2,17 +2,17 @@
 {% load comments %}
 {% block title %}RSRG Benchmarks{% endblock %}
 {% block content %}
+{% if not user.is_authenticated %}
+<h2>Welcome!</h2>
+<p>Hello, and welcome to the OSU Reusable Software Research Group's online Benchmarks web application!</p>
+{% endif %}
 <h2>Featured Posts</h2>
 {% for object in featured_posts %}
 	<div class="block">
 	<h3><a href="/{{ object.id }}">{{ object.title }}</a></h3>
 	{{ object.body|truncatewords_html:"50"|striptags }}
 	{% get_comment_count for object as comment_count %}
-	{% if comment_count == 1 %}
-	<p>1 comment.</p>
-	{% else %}
-	<p>{{ comment_count }} comments.</p>
-	{% endif %}
+	<p>Posted by: <a href="/user/{{ object.author }}/">{{ object.author.first_name }} {{ object.author.last_name }}</a>, on {{ object.published }} - <a href="/{{ object.id }}#comments">{{ comment_count }} comment{{ comment_count|pluralize }}</a></p>
 	</div>
 {% endfor %}
 
