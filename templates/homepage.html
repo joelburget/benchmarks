@@ -1,18 +1,30 @@
 {% extends "base.html" %}
+{% load comments %}
 {% block title %}RSRG Benchmarks{% endblock %}
-</div>
 {% block content %}
 {% for object in featured_posts %}
-<div class="block">
-<h3><a href="/{{ object.id }}">{{ object.title }}</a></h3></a>
-<br />
-{{ object.body|truncatewords_html:"50"|striptags }}
+	<div class="block">
+	<h3><a href="/{{ object.id }}">{{ object.title }}</a></h3>
+	{{ object.body|truncatewords_html:"50"|striptags }}
+	{% get_comment_count for object as comment_count %}
+	{% if comment_count == 1 %}
+	<p>1 comment.</p>
+	{% else %}
+	<p>{{ comment_count }} comments.</p>
+	{% endif %}
+	</div>
 {% endfor %}
-{% for object in latest_posts %}
-<div class="block">
-<h3><a href="{{ object.id }}">{{ object.title }}</a></h3></a>
-<br />
-{{ object.body|truncatewords_html:"50"|striptags }}
+	{% for object in latest_posts %}
+	<div class="block">
+	<h3><a href="{{ object.id }}">{{ object.title }}</a></h3></a>
+	{{ object.body|truncatewords_html:"50"|striptags }}
+	{% get_comment_count for object as comment_count %}
+	{% if comment_count == 1 %}
+	<p>1 comment.</p>
+	{% else %}
+	<p>{{ comment_count }} comments.</p>
+	{% endif %}
+	</div>
 {% endfor %}
 </div>
 {% endblock %}
