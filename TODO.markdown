@@ -13,3 +13,4 @@ Open
 - edit profile page
 - current page login middleware
 - allow uploading of files and directories
+- add post page
