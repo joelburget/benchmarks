@@ -13,7 +13,7 @@
 {% get_comment_list for object as comment_list %}
 {% for comment in comment_list %}
   <div id="c{{ comment.id }}">
-    <p>{{ comment.submit_date|date:"F j, Y" }} at {{ comment.submit_date|date:"P" }} - {{ comment.name|escape }}</p> 
+    <p>{{ comment.submit_date|date:"F j, Y" }} at {{ comment.submit_date|date:"P" }} - <a href="/user/{{ comment.user.username }}">{{ comment.name|escape }}</a></p> 
     <div class="comment">{{ comment.comment|safe|linebreaks }}</div>
   </div>
 {% endfor %}
