@@ -7,6 +7,7 @@
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
   <link rel="stylesheet" href="{{ MEDIA_URL }}benchmarks.css" />
+  {% block cssblock %}{% endblock %}
 </head>
 <body>
   <!-- Site header -->
@@ -27,5 +28,6 @@
   </div>
 
   <!-- Footer -->
+  {% block jsblock %}{% endblock %}
 </body>
 </html>
