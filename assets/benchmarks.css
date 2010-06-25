@@ -34,3 +34,9 @@ a {
   clear: both;
   padding-top: 10px;
 }
+
+.comment {
+  background-color: #eee;
+  border: 1px solid black; 
+  padding: 5px;
+}

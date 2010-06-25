@@ -29,7 +29,7 @@
 <h2>Latest Discussion</h2>
 <ul>
 {% for comment in latest_discussion %}
-  <li>{{ comment.comment }} - <a href="/user/{{ comment.user.username }}/">{{ comment.user.first_name }} {{ comment.user.last_name }}</a></li>
+  <li>{{ comment.comment|safe }} - <a href="/user/{{ comment.user.username }}/">{{ comment.user.first_name }} {{ comment.user.last_name }}</a></li>
 {% endfor %}
 </ul>
 </div>

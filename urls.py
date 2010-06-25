@@ -15,6 +15,7 @@ urlpatterns = patterns('',
 
   # Uncomment the next line to enable the admin:
   (r'^admin/', include(admin.site.urls)),
+  (r'^comments/post/$', 'benchmarks.views.post'),
   (r'^comments/', include('django.contrib.comments.urls')),
   (r'^user/', include('benchmarks.users.urls')),
   (r'^$', 'benchmarks.views.homepage'),
