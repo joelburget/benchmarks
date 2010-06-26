@@ -7,7 +7,6 @@ class Post(models.Model):
   body = models.TextField()
   sticky = models.BooleanField('Show on Frontpage?', default=False)
   author = models.ForeignKey(User)
-  testsouth = models.CharField(max_length=20)
 
   def __unicode__(self):
     return self.title
