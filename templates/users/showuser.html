@@ -15,6 +15,17 @@
 <a href="/user/{{ object.username }}/edit/">Edit</a>
 {% endif %}
 
+<h2>Groups</h2>
+{% if object.groups.all %}
+<ul>
+{% for g in object.groups.all %}
+  <li>{{ g.name }}</li>
+{% endfor %}
+</ul>
+{% else %}
+<p>This user hasn't joined any groups yet.</p>
+{% endif %}
+
 <h2>Posts</h2>
 {% if posts %}
 <ul>
