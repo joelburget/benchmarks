@@ -21,6 +21,7 @@
 <h3>Leave a comment</h3>
 {% get_comment_form for object as form %}
     <form action="{% comment_form_target %}" method="POST"> 
+{% csrf_token %}
 {{ form.comment }} 
 {{ form.content_type }} 
 {{ form.object_pk }} 
