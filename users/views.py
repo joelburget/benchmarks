@@ -4,6 +4,7 @@ from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.contrib.comments.models import Comment
 from benchmarks.users.models import UserForm 
+from django.http import HttpResponseRedirect
 
 def showuser(request, uname):
   u = get_object_or_404(User, username=uname)
@@ -29,17 +30,12 @@ def edituser(request, uname):
       # Save changes
       meform = UserForm(request.POST, instance=me)
       meform.save()
-      return render_to_response('users/edituser.html',
-        context_instance=RequestContext(request, {
-                                                  'formset' : meform,
-                                                 }))
+      return HttpResponseRedirect('/user/' + me.username + '/')
     else:
       # Display form
       formset = UserForm(instance=me)
       return render_to_response('users/edituser.html',
-        context_instance=RequestContext(request, {
-                                                  'formset' : formset,
-                                                 }))
+        context_instance=RequestContext(request, { 'formset' : formset, }))
   else:
     # Disallow edits
     return direct_to_template(request, 'users/edituser_bad.html')
