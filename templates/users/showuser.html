@@ -5,10 +5,10 @@
 {% block content %}
 <h2>Profile</h2>
 <ul>
-  <li>Username: {{ object.username }}</li>
-  <li>Real Name: {{ object.first_name }} {{ object.last_name }}</li>
-  <li>Joined: {{ object.date_joined }}</li>
-  <li>Last Seen: {{ object.last_login }}</li>
+  <li><b>Username:</b> {{ object.username }}</li>
+  <li><b>Real Name:</b> {{ object.first_name }} {{ object.last_name }}</li>
+  <li><b>Joined:</b> {{ object.date_joined }}</li>
+  <li><b>Last Seen:</b> {{ object.last_login }}</li>
 </ul>
 
 {% if user.username == object.username %}

@@ -15,6 +15,13 @@ a { text-decoration: none; }
   position: relative;
   top: 28px;
 }
+
+#welcome {
+  background-color: #eee;
+  border: 1px solid #aaa;
+  padding: 10px;
+}
+
 #content {
   clear: both;
   padding-top: 10px;

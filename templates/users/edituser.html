@@ -4,6 +4,7 @@
 
 {% block content %}
 <form action="." method="post">
+{% csrf_token %}
 {% for field in formset %}
   {{ field.label_tag }}: {{ field }}<br />
 {% endfor %}

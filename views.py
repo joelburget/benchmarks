@@ -8,6 +8,7 @@ import html5lib
 from html5lib import sanitizer
 
 def homepage(request):
+  #featured posts always stay on the homepage
   featured_posts = Post.objects.filter(sticky=True)
   latest_posts = Post.objects.filter(sticky=False).order_by('-published')[:5]
   latest_discussion = Comment.objects.all().order_by('-submit_date')[:5]
@@ -17,12 +18,20 @@ def homepage(request):
                                               'latest_discussion' : latest_discussion, 
                                             }, context_instance = RequestContext(request))
 
+#This sanitizes the input the user will see in the preview area for comments
+#because that is not covered by the sanitization in comment-sanitizer/__init__.py
+#(We want them to see what will actually show up)
 def post(request):
   preview = "preview" in request.POST
+  #If the user is requesting a preview we must sanitize the input
+  #The other option is if they are actually posting in which case
+  #the input will already be sanitized
   if preview:
     comment = request.POST.__getitem__('comment')
     p = html5lib.HTMLParser(tokenizer=sanitizer.HTMLSanitizer)
     comment = p.parse(comment).childNodes[0].childNodes[1].toxml()[6:-7]
+	
+	#reqest.POST is immutable so we must create a new request to change request.POST
     req = HttpRequest()
     req.path = request.path
     req.method = request.method
