@@ -3,13 +3,14 @@
 {% block title %}Group - {{ group.name }}{% endblock %}
 
 {% block content %}
-<h2>{{ group.name }}</h2>
-
-<h3>Members</h3>
+<h2>Members of {{ group.name }}</h2>
+{% if user.is_authenticated %}
+<p>{% if group in user.groups.all %}<a href="">Leave this group</a>{% else %}<a href="">Join this group</a>{% endif %}</p>
+{% endif %}
 {% if group.user_set.all %}
 <ul>
 {% for member in group.user_set.all %}
-  <li>{{ member.username }} ({{ member.first_name }} {{ member.last_name }})</li>
+  <li><a href="/user/{{ member.username }}/">{{ member.first_name }} {{ member.last_name }}</a></li>
 {% endfor %}
 </ul>
 {% else %}
