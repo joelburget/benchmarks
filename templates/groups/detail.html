@@ -5,7 +5,11 @@
 {% block content %}
 <h2>Members of {{ group.name }}</h2>
 {% if user.is_authenticated %}
-<p>{% if group in user.groups.all %}<a href="">Leave this group</a>{% else %}<a href="">Join this group</a>{% endif %}</p>
+<form action="/groups/{% if group in user.groups.all %}leave{% else %}join{% endif %}/" method="post">
+{% csrf_token %}
+  <input type="hidden" value="{{ group.pk }}" name="groupid" value="groupid" />
+  <input type="submit" value="{% if group in user.groups.all %}Leave this Group{% else %}Join this Group{% endif %}" />
+</form>
 {% endif %}
 {% if group.user_set.all %}
 <ul>
