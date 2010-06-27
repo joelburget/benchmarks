@@ -5,7 +5,7 @@
 <h2>Groups</h2>
 <ul>
 {% for group in groups %}
-  <li>{{ group }}</li>
+  <li><a href="/groups/{{ group.pk }}">{{ group }}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}
