@@ -6,7 +6,7 @@ This is the README for the OSU RSRG Benchmarks website.  See the TODO file for w
 Basic Database Workflow
 -----------------------
 
-Note: This application does not use Django itself for database/model development.  A database migration library, South, is used (see http://south.aeracode.org/ for details).  To use this, code your model as usual, but use South to migrate from one version of the model to the next, instead of syncdb and manually altering tables.
+Note: This application does not use Django itself for database/model development.  A database migration library, South, is used (see [http://south.aeracode.org/](http://south.aeracode.org/) for details).  To use this, code your model as usual, but use South to migrate from one version of the model to the next, instead of syncdb and manually altering tables.
 
 Here is an example work session, updating the database model for a Post:
 
