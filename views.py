@@ -6,6 +6,9 @@ from django.contrib.comments.views.comments import post_comment
 from django.http import HttpRequest
 import html5lib
 from html5lib import sanitizer
+from benchmarks.posts.models import UploadFileForm
+import os
+from benchmarks.settings import MEDIA_ROOT
 
 def homepage(request):
   #featured posts always stay on the homepage
@@ -22,6 +25,10 @@ def homepage(request):
 #because that is not covered by the sanitization in comment-sanitizer/__init__.py
 #(We want them to see what will actually show up)
 def post(request):
+  if request.FILES:
+    form = UploadFileForm(request.POST, request.FILES)
+    if form.is_valid():
+      handle_uploaded_file(request.FILES['file'])
   preview = "preview" in request.POST
   #If the user is requesting a preview we must sanitize the input
   #The other option is if they are actually posting in which case
@@ -50,3 +57,10 @@ def post(request):
     return post_comment(req) 
   else:
     return post_comment(request)
+
+def handle_uploaded_file(f):
+  path = os.path.join(MEDIA_ROOT, 'uploads/') + f.name
+  destination = open(path, 'wb+')
+  for chunk in f.chunks():
+    destination.write(chunk)
+  destination.close()

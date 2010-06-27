@@ -14,3 +14,8 @@ Open
 - current page login middleware
 - allow uploading of files and directories
 - add post page
+
+The upload problem
+==================
+- http://stackoverflow.com/questions/1095250/django-file-upload-input-validation-and-security
+- http://www.thecssninja.com/javascript/gmail-upload

@@ -20,13 +20,14 @@
 {% if user.is_authenticated %}
 <h3>Leave a comment</h3>
 {% get_comment_form for object as form %}
-    <form action="{% comment_form_target %}" method="POST"> 
+    <form action="{% comment_form_target %}" method="POST" enctype="multipart/form-data"> 
 {% csrf_token %}
 {{ form.comment }} 
 {{ form.content_type }} 
 {{ form.object_pk }} 
 {{ form.timestamp }} 
 {{ form.security_hash }} 
+{{ upload.as_p }}
 <p style="display:none;"> {{ form.honeypot }}</p>
 <input type="submit" name="preview" class="submit-preview" value="Preview" />
 <input type="submit" value="Add comment" class="submit-post" id="id_submit" />

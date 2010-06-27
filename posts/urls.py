@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from benchmarks.posts.models import Post
+from benchmarks.posts.models import Post, UploadFileForm
 
 info_dict = {
   'queryset': Post.objects.all(),
@@ -7,7 +7,7 @@ info_dict = {
 
 urlpatterns = patterns('',
   # View posts
-  (r'^(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', info_dict),
+  (r'^(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', dict(info_dict, extra_context={'upload': UploadFileForm()})),
 
   # Login/logout
   (r'^login/$', 'benchmarks.posts.views.loginuser'),
