@@ -19,7 +19,7 @@
 {% if object.groups.all %}
 <ul>
 {% for g in object.groups.all %}
-  <li>{{ g.name }}</li>
+  <li><a href="/groups/{{ g.pk }}">{{ g.name }}</a></li>
 {% endfor %}
 </ul>
 {% else %}
