@@ -1,5 +1,4 @@
 from django.db import models
-from django import forms
 from django.contrib.auth.models import User
 
 class Post(models.Model):
@@ -11,6 +10,3 @@ class Post(models.Model):
 
   def __unicode__(self):
     return self.title
-
-class UploadFileForm(forms.Form):
-  file  = forms.FileField()

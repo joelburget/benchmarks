@@ -103,5 +103,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'benchmarks.posts',
     'benchmarks.comment-sanitizer',
+    'benchmarks.extended_comments',
     'benchmarks.south',
 )

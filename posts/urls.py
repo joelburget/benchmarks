@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import *
-from benchmarks.posts.models import Post, UploadFileForm
+from benchmarks.posts.models import Post
+from benchmarks.extended_comments.models import UploadFileForm
 
 info_dict = {
   'queryset': Post.objects.all(),

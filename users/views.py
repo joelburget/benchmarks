@@ -9,7 +9,7 @@ from django.http import HttpResponseRedirect
 def showuser(request, uname):
   u = get_object_or_404(User, username=uname)
   posts = u.post_set.all()
-  comments = Comment.objects.filter(user=u)
+  comments = Comment.objects.filter(user=u).order_by('-submit_date')[:10]
   return render_to_response('users/showuser.html', 
     context_instance=RequestContext(request, {
                                               'object' : u, 
