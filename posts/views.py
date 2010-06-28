@@ -14,8 +14,9 @@ def loginuser(request):
 
     if user is not None and user.is_active:
       # Login, valid and active user
+      lastpage = request.session['lastpage']
       login(request, user)
-      return HttpResponseRedirect('/')
+      return HttpResponseRedirect(lastpage)
     else:
       # Error! User isn't valid or account details are wrong
       return direct_to_template(request, 'login_invalid.html')
@@ -26,6 +27,6 @@ def loginuser(request):
 
 def logoutuser(request):
   # Logout user and open up the logout screen
+  lastpage = request.session['lastpage']
   logout(request)
-  return HttpResponseRedirect('/')
-
+  return HttpResponseRedirect(lastpage)
