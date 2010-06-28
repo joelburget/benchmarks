@@ -20,3 +20,4 @@ The upload problem
 ==================
 - [validating files](http://stackoverflow.com/questions/1095250/django-file-upload-input-validation-and-security)
 - [how gmail does it](http://www.thecssninja.com/javascript/gmail-upload)
+- [I like this](http://the-stickman.com/web-development/javascript/upload-multiple-files-with-a-single-file-element/)
