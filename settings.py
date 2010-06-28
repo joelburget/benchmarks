@@ -106,3 +106,5 @@ INSTALLED_APPS = (
     'benchmarks.extended_comments',
     'benchmarks.south',
 )
+
+COMMENTS_APP = 'benchmarks.extended_comments'

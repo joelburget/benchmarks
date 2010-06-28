@@ -1,9 +1,9 @@
 from benchmarks.extended_comments.models import ExtendedComment
+from benchmarks.extended_comments.forms import ExtendedCommentForm
 from django.contrib.comments.views.comments import post_comment
 from django.http import HttpRequest
 import html5lib
 from html5lib import sanitizer
-from benchmarks.extended_comments.models import UploadFileForm
 import os
 from benchmarks.settings import MEDIA_ROOT
 
@@ -12,7 +12,7 @@ from benchmarks.settings import MEDIA_ROOT
 #(We want them to see what will actually show up)
 def post(request):
   if request.FILES:
-    form = UploadFileForm(request.POST, request.FILES)
+    form = ExtendedCommentForm(request.POST, request.FILES)
     if form.is_valid():
       handle_uploaded_file(request.FILES['file'])
   preview = "preview" in request.POST
