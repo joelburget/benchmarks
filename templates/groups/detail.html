@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Group - {{ group.name }}{% endblock %}
+
+{% block content %}
+<h2>Members of {{ group.name }}</h2>
+{% if user.is_authenticated %}
+<form action="/groups/{% if group in user.groups.all %}leave{% else %}join{% endif %}/" method="post">
+{% csrf_token %}
+  <input type="hidden" value="{{ group.pk }}" name="groupid" value="groupid" />
+  <input type="submit" value="{% if group in user.groups.all %}Leave this Group{% else %}Join this Group{% endif %}" />
+</form>
+{% endif %}
+{% if group.user_set.all %}
+<ul>
+{% for member in group.user_set.all %}
+  <li><a href="/user/{{ member.username }}/">{{ member.first_name }} {{ member.last_name }}</a></li>
+{% endfor %}
+</ul>
+{% else %}
+<p>No users have joined this group yet.</p>
+{% endif %}
+{% endblock %}
