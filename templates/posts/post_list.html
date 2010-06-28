@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Posts{% endblock %}
+{% block jsheadblock %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}jquery.tablesorter.min.js"></script>
+{% endblock %}
+{% block jsblock %}
+<script>
+$(document).ready(function() 
+    { 
+        $("#postTable").tablesorter(); 
+    } 
+); 
+</script>
+{% endblock %}
+{% block cssblock %}
+<link rel="stylesheet" href="{{ MEDIA_URL }}blue/style.css" type="text/css" />
+{% endblock %}
+{% block content %}
+<table class="tablesorter" id="postTable">
+  <thead>
+  <tr>
+    <th>Title</th>
+    <th>Content</th>
+    <th>Publish Date</th>
+    <th>Author</th>
+    <th>Frontpage</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  {% for object in object_list %}
+  <tr>
+    <td>{{ object.title }}</td>
+    <td>{{ object.body|truncatewords_html:"50"|striptags }} </td>
+    <td>{{ object.published }}</td>
+    <td>{{ object.author }}</td>
+    <td>{{ object.sticky }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
