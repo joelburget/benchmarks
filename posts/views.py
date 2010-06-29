@@ -26,7 +26,7 @@ def loginuser(request):
     return HttpResponseRedirect('/')
 
 def logoutuser(request):
-  # Logout user and open up the logout screen
+  # Logout user
   lastpage = request.session['lastpage']
   logout(request)
   return HttpResponseRedirect(lastpage)
