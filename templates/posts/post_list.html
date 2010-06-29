@@ -8,7 +8,9 @@
 <script>
 $(document).ready(function() 
     { 
-        $("#postTable").tablesorter(); 
+        $("#postTable").tablesorter({
+          sortList: [[2,0]]
+        }); 
     } 
 ); 
 </script>
@@ -24,18 +26,18 @@ $(document).ready(function()
     <th>Content</th>
     <th>Publish Date</th>
     <th>Author</th>
-    <th>Frontpage</th>
+    <th>Featured</th>
   </tr>
   </thead>
 
   <tbody>
   {% for object in object_list %}
   <tr>
-    <td>{{ object.title }}</td>
+    <td><a href="/{{ object.pk }}">{{ object.title }}</a></td>
     <td>{{ object.body|truncatewords_html:"50"|striptags }} </td>
     <td>{{ object.published }}</td>
-    <td>{{ object.author }}</td>
-    <td>{{ object.sticky }}</td>
+    <td><a href="/user/{{ object.author.username }}">{{ object.author.first_name }} {{ object.author.last_name }}</a></td>
+    <td>{% if object.sticky %}Yes{% else %}No{% endif %}</td>
   </tr>
   {% endfor %}
   </tbody>
