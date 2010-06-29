@@ -29,3 +29,16 @@ Here is an example work session, updating the database model for a Post:
 After following these steps, the model will be changed, the database migrations will be created, the database itself will be updated, and git will be aware of your changes.  Please note that adding the migration file to git is easy to forget, but very important.
 
 Follow this example for each change you make to the database, whether it is an addition or removal of a field.  Please see the South tutorial/documentation for more information.
+
+CSS Workflow
+------------
+
+CSS development is done using [LessCSS](http://lesscss.org/index.html).  See the homepage for installation (requires ruby/rubygems).  To use less, code your CSS in a .less file, and compile it to css with lessc:
+
+    $ vim benchmarks.less
+
+    ...
+
+    $ lessc benchmarks.less
+    $ ls
+    benchmarks.css benchmarks.less
