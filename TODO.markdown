@@ -7,14 +7,21 @@ Completed
 - profile page, attempt to get /username, not /users/...
 - search field for posts in admin, editable bool flag in place
 - add links to entries on homepage
+- edit profile page
+- current page login middleware
 
 Open
 ====
-- edit profile page
-- current page login middleware
 - allow uploading of files and directories
 - add post page
-- better 404 and 500 error pages
+- better 404 and 500 error pages (include url user tried)
+- We won't display email address note
+- Problem, Realization, Verification, Other
+- Stylesheet
+- Posts page, search
+- Introduction page
+- Bio (About me)
+- Change posts url
 
 The upload problem
 ==================
