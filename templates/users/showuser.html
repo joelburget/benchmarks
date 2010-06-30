@@ -7,6 +7,7 @@
 <ul>
   <li><b>Username:</b> {{ object.username }}</li>
   <li><b>Real Name:</b> {{ object.first_name }} {{ object.last_name }}</li>
+  <li><b>Email:</b> {% if user.is_authenticated %}{{ object.email }}{% else %}<i>Please log in to see user email addresses.</i>{% endif %}</li>
   <li><b>Joined:</b> {{ object.date_joined }}</li>
   <li><b>Last Seen:</b> {{ object.last_login }}</li>
 </ul>

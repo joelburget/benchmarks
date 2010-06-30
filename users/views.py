@@ -29,8 +29,15 @@ def edituser(request, uname):
     if request.method == 'POST':
       # Save changes
       meform = UserForm(request.POST, instance=me)
-      meform.save()
-      return HttpResponseRedirect('/user/' + me.username + '/')
+
+      if meform.is_valid():      
+        # Save form
+        meform.save()
+        return HttpResponseRedirect('/user/' + me.username + '/')
+      else:
+        # Redisplay with errors
+        return render_to_response('users/edituser.html',
+          context_instance=RequestContext(request, { 'formset' : meform, }))
     else:
       # Display form
       formset = UserForm(instance=me)

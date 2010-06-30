@@ -36,3 +36,7 @@ a { text-decoration: none; }
   border: 1px solid black;
   padding: 5px;
 }
+.errorlist {
+  background-color: #fc3d3d;
+  color: #ffffff;
+}

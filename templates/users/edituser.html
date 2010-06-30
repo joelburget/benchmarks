@@ -6,7 +6,7 @@
 <form action="." method="post">
 {% csrf_token %}
 {% for field in formset %}
-  {{ field.label_tag }}: {{ field }}<br />
+  {{ field.label_tag }}: {{ field }} {{ field.errors }}<br />
 {% endfor %}
 <input type="submit" value="Save Changes" />
 </form>
