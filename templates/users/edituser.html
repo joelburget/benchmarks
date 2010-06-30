@@ -2,12 +2,22 @@
 
 {% block title %}{{ user.username }} - Profile - Edit{% endblock %}
 
+{% block jsheadblock %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
+<script>
+$(document).ready(function() {
+  $('#editForm').validate();
+});
+</script>
+{% endblock %}
+
 {% block content %}
-<form action="." method="post">
-{% csrf_token %}
-{% for field in formset %}
-  {{ field.label_tag }}: {{ field }} {{ field.errors }}<br />
-{% endfor %}
-<input type="submit" value="Save Changes" />
+<form action="." method="post" id="editForm">
+  {% csrf_token %}
+  {{ formset.first_name.label_tag }}: <input class="required" type="text" name="first_name" id="first_name" value="{{ user.first_name }}" /> {{ formset.first_name.errors }}<br />
+  {{ formset.last_name.label_tag }}: <input class="required" type="text" name="last_name" id="last_name" value= "{{ user.last_name }}" /> {{ formset.last_name.errors }}<br />
+  {{ formset.email.label_tag }}: <input class="required email" type="text" name="email" id="email" value="{{ user.email }}" /> {{ formset.email.errors }}<br />
+  <input type="submit" value="Save Changes" />
 </form>
 {% endblock %}
