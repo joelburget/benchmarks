@@ -9,14 +9,14 @@ Completed
 - add links to entries on homepage
 - edit profile page
 - current page login middleware
+- We won't display email address note
 
 Open
 ====
 - allow uploading of files and directories
 - add post page
 - better 404 and 500 error pages (include url user tried)
-- We won't display email address note
-- Problem, Realization, Verification, Other
+- Categories for Posts: Other (add text field for other)
 - Stylesheet
 - Posts page, search
 - Introduction page
