@@ -13,11 +13,12 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block content %}
+<p>We will not share email addresses with the public. Addresses are only displayed to other Benchmark app users.  Providing your address will make it even easier to collaborate with other users, and as such, is highly suggested.</p>
 <form action="." method="post" id="editForm">
   {% csrf_token %}
   {{ formset.first_name.label_tag }}: <input class="required" type="text" name="first_name" id="first_name" value="{{ user.first_name }}" /> {{ formset.first_name.errors }}<br />
   {{ formset.last_name.label_tag }}: <input class="required" type="text" name="last_name" id="last_name" value= "{{ user.last_name }}" /> {{ formset.last_name.errors }}<br />
-  {{ formset.email.label_tag }}: <input class="required email" type="text" name="email" id="email" value="{{ user.email }}" /> {{ formset.email.errors }}<br />
+  {{ formset.email.label_tag }}: <input class="required email" type="text" name="email" id="email" value="{{ user.email }}" /> {{ formset.email.errors }}<br /> 
   <input type="submit" value="Save Changes" />
 </form>
 {% endblock %}
