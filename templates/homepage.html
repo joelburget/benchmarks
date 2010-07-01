@@ -21,7 +21,7 @@
 <h2>Latest Posts</h2>
 	{% for object in latest_posts %}
 	<div class="block">
-	<h3><a href="/{{ object.id }}/">{{ object.title }}</a></h3></a>
+	<h3><a href="/{{ object.id }}/">{{ object.title }}</a></h3>
 	{{ object.body|truncatewords_html:"50"|striptags }}
 	{% get_comment_count for object as comment_count %}
 	<p>Posted by: <a href="/user/{{ object.author }}/">{{ object.author.first_name }} {{ object.author.last_name }}</a>, on {{ object.published }} - <a href="/{{ object.id }}#comments">{{ comment_count }} comment{{ comment_count|pluralize }}</a></p>
@@ -34,5 +34,4 @@
   <li>{{ comment.comment|safe }} - <a href="/user/{{ comment.user.username }}/">{{ comment.user.first_name }} {{ comment.user.last_name }}</a></li>
 {% endfor %}
 </ul>
-</div>
 {% endblock %}

@@ -12,4 +12,5 @@ def homepage(request):
                                               'featured_posts': featured_posts,
                                               'latest_posts': latest_posts, 
                                               'latest_discussion' : latest_discussion, 
+                                              'less_style' : True,
                                             }, context_instance = RequestContext(request))
