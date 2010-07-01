@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.forms import ModelForm
 
 CATEGORY_CHOICES = (
   ('P', 'Problem'),
@@ -18,3 +19,7 @@ class Post(models.Model):
 
   def __unicode__(self):
     return self.title
+
+class PostForm(ModelForm):
+  class Meta():
+    model = Post

@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User #do we need this?
 
 urlpatterns = patterns('',
   # Note: Regex below is alphanumeric chars, and +, ., _, or -, min length 1, max 30

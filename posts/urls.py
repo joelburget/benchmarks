@@ -14,6 +14,9 @@ urlpatterns = patterns('',
   # View posts
   (r'^(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', dict(info_dict)),
 
+  # Edit post
+  (r'^posts/new/$', 'benchmarks.posts.views.editpost'),
+
   # Login/logout
   (r'^login/$', 'benchmarks.posts.views.loginuser'),
   (r'^logout/$', 'benchmarks.posts.views.logoutuser'),
