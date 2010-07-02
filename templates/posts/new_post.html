@@ -3,13 +3,15 @@
 {% block title %}Add Post{% endblock %}
 
 {% block content %}
-<form action="." method="post">
+<form action="." method="post" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form.title.label_tag }}: {{ form.title }}
   <br />
   {{ form.body.label_tag }}: {{ form.body }}
   <br />
   {{ form.category.label_tag }}: {{ form.category }}
+  <br />
+  {{ form.file.label_tag }}: {{ form.file }}
   <input type="submit" value="Submit" />
 </form>
 {% endblock %}

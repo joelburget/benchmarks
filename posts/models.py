@@ -16,6 +16,7 @@ class Post(models.Model):
   sticky = models.BooleanField('Show on Frontpage?', default=False)
   author = models.ForeignKey(User)
   category = models.CharField(max_length=1, choices=CATEGORY_CHOICES)
+  file = models.FileField(upload_to='uploads', null=True, blank=True)
 
   def __unicode__(self):
     return self.title
@@ -23,4 +24,4 @@ class Post(models.Model):
 class PostForm(ModelForm):
   class Meta():
     model = Post
-    fields = ('title', 'body', 'category',) 
+    fields = ('title', 'body', 'category', 'file')
