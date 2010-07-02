@@ -1,0 +1,83 @@
+<table style="border: 1px solid;background-color: green">
+ <tr style="background-color:#e2b753"><th>{{name}}({{classname}})</th></tr>
+{% ifequal dtype "basic" %}
+ <tr style="background-color:#F9FBCE"><td style="padding:4px;">{{meta}}</td></tr>
+{% endifequal %}
+{% ifequal dtype "model" %}
+ <tr>
+  <td>
+   <table style="background-color: green" cellpadding="4px">
+    <tr><th>Field</th><th>Type</th><th>Value</th></tr>
+    {% for f in meta.fields %}
+    <tr style="background-color:{% cycle #F9FBCE,#E1E2D5 %}">
+        <td>{{ f.name }}</td>
+        <td>{{ f.type }}</td>
+        <td>{{ f.value }}</td>
+    </tr>
+    {% endfor %}
+   </table>
+  </td>
+ </tr>
+{% endifequal %}
+{% ifequal dtype "form" %}
+ <tr>
+  <td>
+   <table style="background-color: green;" cellpadding="4px">
+    <tr>
+        <th>Field</th>
+        <th>Type</th>
+        <th>Widget</th>
+        <th>Initial</th>
+        <th>Bound</th>
+        <th>Errors</th>
+    </tr>
+    {% for f in meta.fields %}
+    <tr style="background-color:{% cycle #F9FBCE,#E1E2D5 %}">
+        <td>{{ f.name }}</td>
+        <td>{{ f.type }}</td>
+        <td>{{ f.widget }}</td>
+        <td>{{ f.initial }}</td>
+        <td>{{ f.bound }}</td>
+	<td>
+ 	{% for e in f.errors %}
+	{{ e }}
+	{% endfor %}
+	</td>
+    </tr>
+    {% endfor %}
+   </table>
+  </td>
+ </tr>
+{% endifequal %}
+{% ifequal dtype "dict" %}
+ <tr>
+  <td>
+   <table style="background-color: green" cellpadding="4px">
+    <tr><th>Key</th><th>Type</th><th>Value</th></tr>
+    {% for k in meta.keys %}
+    <tr style="background-color:{% cycle #F9FBCE,#E1E2D5 %}">
+        <td>{{ k.name }}</td>
+        <td>{{ k.type }}</td>
+        <td>{{ k.value }}</td>
+    </tr>
+    {% endfor %}
+   </table>
+  </td>
+ </tr>
+{% endifequal %}
+{% ifequal dtype "list" %}
+ <tr>
+  <td>
+   <table style="background-color: green" cellpadding="4px">
+    {% for i in meta %}
+    <tr style="background-color:{% cycle #F9FBCE,#E1E2D5 %}">
+        <td>{{ i }}</td>
+    </tr>
+    {% endfor %}
+   </table>
+  </td>
+ </tr>
+{% endifequal %}
+</table>
+
+
