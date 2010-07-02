@@ -4,6 +4,7 @@ from benchmarks.posts.models import Post, PostForm
 from django.http import HttpResponseRedirect
 from django.views.generic.simple import direct_to_template
 from django.template import RequestContext
+#from django.contrib.auth.decorators import login_required
 
 def loginuser(request):
   if request.method == 'POST':
@@ -31,21 +32,21 @@ def logoutuser(request):
   logout(request)
   return HttpResponseRedirect(lastpage)
 
+#@login_required
 def editpost(request):
+  #only authenticated users may post
+  if not request.user.is_authenticated():
+    return direct_to_template(request, 'posts/must_login.html')
   if request.method == 'POST': 
-    print "posted"
     post = Post(author=request.user)
     form = PostForm(request.POST, instance=post)
     if form.is_valid():
-      print "valid"
       form.save()
       return HttpResponseRedirect('/')#should redirect to post
-    else:
-      print form.errors
   else:
-    print "newform"
     form = PostForm()
 
   return render_to_response('posts/new_post.html', {
       'form': form,
-  })
+  },
+  context_instance=RequestContext(request))

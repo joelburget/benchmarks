@@ -23,3 +23,4 @@ class Post(models.Model):
 class PostForm(ModelForm):
   class Meta():
     model = Post
+    fields = ('title', 'body', 'category',) 

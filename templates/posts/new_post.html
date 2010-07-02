@@ -4,6 +4,7 @@
 
 {% block content %}
 <form action="." method="post">
+  {% csrf_token %}
   {{ form.title.label_tag }}: {{ form.title }}
   <br />
   {{ form.body.label_tag }}: {{ form.body }}
