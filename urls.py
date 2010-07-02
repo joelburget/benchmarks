@@ -24,6 +24,10 @@ urlpatterns = patterns('',
   (r'^posts/', include('benchmarks.posts.urls')),
   (r'^user/', include('benchmarks.users.urls')),
 
+  # Login/logout
+  (r'^login/$', 'benchmarks.posts.views.loginuser'),
+  (r'^logout/$', 'benchmarks.posts.views.logoutuser'),
+
   # Root
   (r'^$', 'benchmarks.views.homepage'),
 )
