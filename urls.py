@@ -13,15 +13,19 @@ urlpatterns = patterns('',
   # to INSTALLED_APPS to enable admin documentation:
   # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-  # Uncomment the next line to enable the admin:
+  # About/Getting started templates
   (r'^about/$', 'django.views.generic.simple.direct_to_template', {'template': 'about.html'}),
   (r'^getting-started/$', 'django.views.generic.simple.direct_to_template', {'template': 'getting-started.html'}),
+
+  # Redirects
   (r'^admin/', include(admin.site.urls)),
   (r'^comments/', include('benchmarks.extended_comments.urls')),
   (r'^groups/', include('benchmarks.groups.urls')),
+  (r'^posts/', include('benchmarks.posts.urls')),
   (r'^user/', include('benchmarks.users.urls')),
+
+  # Root
   (r'^$', 'benchmarks.views.homepage'),
-  (r'^', include('benchmarks.posts.urls')),
 )
 
 if settings.DEBUG:
