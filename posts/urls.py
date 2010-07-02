@@ -9,7 +9,7 @@ urlpatterns = patterns('',
   # Index
   # NOTE: Just using posts here, because / redirects to post urls
   # Not ideally in the right location, but it works
-  (r'^posts/$', 'django.views.generic.list_detail.object_list', dict(info_dict)),
+  (r'^$', 'django.views.generic.list_detail.object_list', dict(info_dict)),
 
   # View posts
   (r'^(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', dict(info_dict)),
