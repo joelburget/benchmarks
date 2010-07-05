@@ -19,6 +19,7 @@ $(document).ready(function()
 <link rel="stylesheet" href="{{ MEDIA_URL }}blue/style.css" type="text/css" />
 {% endblock %}
 {% block content %}
+{% include "posts/_search.html" %}
 <table class="tablesorter" id="postTable">
   <thead>
   <tr>

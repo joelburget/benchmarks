@@ -16,4 +16,7 @@ urlpatterns = patterns('',
 
   # Edit post
   (r'^new/$', 'benchmarks.posts.views.editpost'),
+
+  # Search posts
+  (r'^search/$', 'benchmarks.posts.views.search'),
 )

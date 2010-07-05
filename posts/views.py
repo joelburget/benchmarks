@@ -9,7 +9,7 @@ from benchmarks.settings import MEDIA_ROOT
 
 #@login_required
 def editpost(request):
-  #only authenticated users may post
+  # only authenticated users may post
   if not request.user.is_authenticated():
     return direct_to_template(request, 'posts/must_login.html')
   if request.method == 'POST': 
@@ -19,14 +19,13 @@ def editpost(request):
     if form.is_valid():
       form.save()
       handle_uploaded_file(request.FILES['file'])
-      return HttpResponseRedirect('/')#should redirect to post
+      return HttpResponseRedirect('/') # should redirect to post
   else:
     form = PostForm()
 
   return render_to_response('posts/new_post.html', {
       'form': form,
-  },
-  context_instance=RequestContext(request))
+    }, context_instance=RequestContext(request))
 
 def handle_uploaded_file(f):
   path = os.path.join(MEDIA_ROOT, 'uploads/') + f.name
@@ -34,3 +33,16 @@ def handle_uploaded_file(f):
   for chunk in f.chunks():
     destination.write(chunk)
   destination.close()
+
+def search(request):
+  if request.method == 'POST':
+    # Display search form and results
+    query = request.POST['query']
+    hits = Post.objects.filter(body__icontains=query)
+  else:
+    # Just display search form
+    query = ''
+    hits = []
+
+  return render_to_response('posts/search.html', {'query' : query, 'hits' : hits},
+    context_instance=RequestContext(request))

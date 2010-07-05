@@ -1,0 +1,13 @@
+<form action="/posts/search/" method="post">
+  <label for="query">Query:</label><input name="query" id="query" value="{{ query }}" />
+  <input type="submit" value="Search!" />
+</form>
+
+{% if hits %}
+<h2>Results</h2>
+
+{% for hit in hits %}
+<h3><a href="/posts/{{ hit.pk }}/">{{ hit.title }}</a></h3>
+<p>{{ hit.body }}</p>
+{% endfor %}
+{% endif %}
