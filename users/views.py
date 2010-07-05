@@ -33,7 +33,7 @@ def edituser(request, uname):
       if meform.is_valid():      
         # Save form
         meform.save()
-        return HttpResponseRedirect('/user/' + me.username + '/')
+        return HttpResponseRedirect(me.get_absolute_url())
       else:
         # Redisplay with errors
         return render_to_response('users/edituser.html',

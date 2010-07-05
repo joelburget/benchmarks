@@ -21,6 +21,12 @@ class Post(models.Model):
   def __unicode__(self):
     return self.title
 
+  def get_absolute_url(self):
+    return '/posts/%s/' % (self.pk,)
+
+  def get_absolute_url_with_comments(self):
+    return '%s#comments' % (self.get_absolute_url(),)
+
 class PostForm(ModelForm):
   class Meta():
     model = Post

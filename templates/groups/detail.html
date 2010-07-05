@@ -14,7 +14,7 @@
 {% if group.user_set.all %}
 <ul>
 {% for member in group.user_set.all %}
-  <li><a href="/user/{{ member.username }}/">{{ member.first_name }} {{ member.last_name }}</a></li>
+  <li><a href="{{ member.get_absolute_url }}">{{ member.first_name }} {{ member.last_name }}</a></li>
 {% endfor %}
 </ul>
 {% else %}

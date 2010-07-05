@@ -11,27 +11,27 @@
 <h2>Featured Posts</h2>
 {% for object in featured_posts %}
 	<div class="block">
-	<h3><a href="/posts/{{ object.id }}">{{ object.title }}</a></h3>
+	<h3><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h3>
 	{{ object.body|truncatewords_html:"50"|striptags }}
 	{% get_comment_count for object as comment_count %}
-	<p>Posted by: <a href="/user/{{ object.author }}/">{{ object.author.first_name }} {{ object.author.last_name }}</a>, on {{ object.published }} - <a href="/posts/{{ object.id }}#comments">{{ comment_count }} comment{{ comment_count|pluralize }}</a></p>
+	<p>Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.first_name }} {{ object.author.last_name }}</a>, on {{ object.published }} - <a href="{{ object.get_absolute_url_with_comments }}">{{ comment_count }} comment{{ comment_count|pluralize }}</a></p>
 	</div>
 {% endfor %}
 
 <h2>Latest Posts</h2>
 	{% for object in latest_posts %}
 	<div class="block">
-	<h3><a href="/posts/{{ object.id }}/">{{ object.title }}</a></h3>
+	<h3><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h3>
 	{{ object.body|truncatewords_html:"50"|striptags }}
 	{% get_comment_count for object as comment_count %}
-	<p>Posted by: <a href="/user/{{ object.author }}/">{{ object.author.first_name }} {{ object.author.last_name }}</a>, on {{ object.published }} - <a href="/posts/{{ object.id }}#comments">{{ comment_count }} comment{{ comment_count|pluralize }}</a></p>
+	<p>Posted by: <a href="/user/{{ object.author }}/">{{ object.author.first_name }} {{ object.author.last_name }}</a>, on {{ object.published }} - <a href="{{ object.get_absolute_url_with_comments }}">{{ comment_count }} comment{{ comment_count|pluralize }}</a></p>
 	</div>
 {% endfor %}
 
 <h2>Latest Discussion</h2>
 <ul>
 {% for comment in latest_discussion %}
-  <li>{{ comment.comment|safe }} - <a href="/user/{{ comment.user.username }}/">{{ comment.user.first_name }} {{ comment.user.last_name }}</a></li>
+  <li>{{ comment.comment|safe }} - <a href="{{ comment.user.get_absolute_url }}">{{ comment.user.first_name }} {{ comment.user.last_name }}</a> on <a href="{{ comment.get_absolute_url }}">{{ comment.content_object.title }}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}

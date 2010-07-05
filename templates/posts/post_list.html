@@ -35,10 +35,10 @@ $(document).ready(function()
   <tbody>
   {% for object in object_list %}
   <tr>
-    <td><a href="/posts/{{ object.pk }}">{{ object.title }}</a></td>
+    <td><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></td>
     <td>{{ object.body|truncatewords_html:"20"|striptags }} </td>
     <td>{{ object.published }}</td>
-    <td><a href="/user/{{ object.author.username }}">{{ object.author.first_name }} {{ object.author.last_name }}</a></td>
+    <td><a href="{{ object.author.get_absolute_url }}">{{ object.author.first_name }} {{ object.author.last_name }}</a></td>
     <td>{% if object.sticky %}Yes{% else %}No{% endif %}</td>
     <td>{{ object.get_category_display }}</td>
   </tr>

@@ -5,6 +5,6 @@
 
 {% block content %}
   <h1>{% trans "Thank you for your comment" %}.</h1>
-  <a href="/posts/{{ comment.object_pk }}/">Return to the original post</a>
+  <a href="{{ comment.content_object.get_absolute_url }}">Return to the original post</a>
 {% endblock %}
 

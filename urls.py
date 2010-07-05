@@ -22,7 +22,7 @@ urlpatterns = patterns('',
   (r'^comments/', include('benchmarks.extended_comments.urls')),
   (r'^groups/', include('benchmarks.groups.urls')),
   (r'^posts/', include('benchmarks.posts.urls')),
-  (r'^user/', include('benchmarks.users.urls')),
+  (r'^users/', include('benchmarks.users.urls')),
 
   # Login/logout
   (r'^login/$', 'benchmarks.views.loginuser'),
