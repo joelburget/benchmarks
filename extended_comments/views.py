@@ -6,6 +6,7 @@ import html5lib
 from html5lib import sanitizer
 import os
 from benchmarks.settings import MEDIA_ROOT
+from django.http import HttpResponseRedirect
 
 #This sanitizes the input the user will see in the preview area for comments
 #because that is not covered by the sanitization in comment-sanitizer/__init__.py
@@ -50,3 +51,13 @@ def handle_uploaded_file(f):
   for chunk in f.chunks():
     destination.write(chunk)
   destination.close()
+
+def comment_posted(request):
+  if request.GET['c']:
+    comment_id = request.GET['c']
+    comment = ExtendedComment.objects.get(pk=comment_id)
+
+    if comment:
+      return HttpResponseRedirect(comment.get_absolute_url())
+
+  return HttpResponseRedirect("/")
