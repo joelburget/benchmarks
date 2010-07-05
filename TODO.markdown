@@ -10,18 +10,18 @@ Completed
 - edit profile page
 - current page login middleware
 - We won't display email address note
+- add post page
+- Change posts url
 
 Open
 ====
 - allow uploading of files and directories
-- add post page
 - better 404 and 500 error pages (include url user tried)
 - Categories for Posts: Other (add text field for other)
 - Stylesheet
 - Posts page, search
 - Introduction page
 - Bio (About me)
-- Change posts url
 
 The upload problem
 ==================
