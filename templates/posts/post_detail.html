@@ -7,8 +7,10 @@
 <div id="post-content">{{ object.body }}</div>
 
 {% load comments %}
+{% if object.file %}
 <p>Files:</p>
-<a href="{{ MEDIA_URL }}/{{ object.file }}">{{ object.file }}</a>
+<a href="{{ MEDIA_URL }}{{ object.file }}">{{ object.file }}</a>
+{% endif %}
 <p>Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.first_name }} {{ object.author.last_name }}</a>, on {{ object.published }}</p> 
 {% get_comment_count for object as comment_count %}
 <h2>{{ comment_count }} comment{{ comment_count|pluralize }}</h2>
