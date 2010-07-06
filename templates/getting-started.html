@@ -1,11 +1,19 @@
 {% extends "base.html" %}
 {% block title %}Getting Started{% endblock %}
+{% block jsheadblock %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+{% endblock %}
 {% block content %}
 <h1>Getting Started</h1>
 <h3>Get a username</h3>
-<p>This guide assumes you have a username. If you don't have one yet please email Professor Bruce Weide at <a href="mailto:weide.1@osu.edu">weide.1@osu.edu</a> to set up an account. Please include your name, organization (if any), and why you would like to participate</p>
+<p>This guide assumes you have a username. If you don't have one yet please email Professor Bruce Weide at <a class="email">weide (dot) 1 (at) osu (dot) edu</a> to set up an account. Please include your name, organization (if any), and why you would like to participate</p>
 <h3>Post</h3>
 <p>Once you have your account set up the next step is to post something. Click the link in the toolbar at the top which will take you to an editor. Simple html tags such as &lt;p&gt;, &lt;b&gt;, and &lt;code&gt; are allowed. Javascript is not. Files can be included through hyperlinks or by using the file upload button below the text field. Posts can be classified as Problem, Realization, Verification, or Other. See other posts on the site for clarification of the distinction.</p>
 <h3>Comments</h3>
 <p>Comments are included for every post. The same html tags that can be used in posts can be used in comments.</p>
+<script>
+  var a = "weide";
+  var b = "su.ed";
+  $('a.email').replaceWith('<a href=\"mailto:' + a + '.1\@o' + b + 'u' + "\">" + a + '.1\@o' + b + 'u' + '</a>');
+</script>
 {% endblock %}
