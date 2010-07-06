@@ -33,6 +33,12 @@ def edituser(request, uname):
       if meform.is_valid():      
         # Save form
         meform.save()
+
+        # Hack for profiles
+        profile = me.get_profile()
+        profile.bio = request.POST['bio']
+        profile.save()
+
         return HttpResponseRedirect(me.get_absolute_url())
       else:
         # Redisplay with errors

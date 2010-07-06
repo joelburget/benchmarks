@@ -1,5 +1,7 @@
 # Django settings for benchmarks project.
 
+AUTH_PROFILE_MODULE = 'users.UserProfile'
+
 #set up relative paths
 import os
 import django
@@ -104,6 +106,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'benchmarks.groups',
     'benchmarks.posts',
+    'benchmarks.users',
     'benchmarks.comment-sanitizer',
     'benchmarks.extended_comments',
     'benchmarks.south',
