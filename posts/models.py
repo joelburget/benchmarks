@@ -17,7 +17,6 @@ class Post(models.Model):
   sticky = models.BooleanField('Show on Frontpage?', default=False)
   author = models.ForeignKey(User)
   category = models.CharField(max_length=1, choices=CATEGORY_CHOICES)
-  file = models.FileField(upload_to='uploads', null=True, blank=True)
 
   def __unicode__(self):
     return self.title
@@ -35,3 +34,7 @@ class PostForm(ModelForm):
     widgets = {
         'file': MultiFileInput(attrs={'class': 'multi'}),
     }
+
+class PostFile(models.Model):
+  file = models.FileField(upload_to='uploads', null=True, blank=True)
+  post = models.ForeignKey(Post)
