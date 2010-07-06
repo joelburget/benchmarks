@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.forms import ModelForm
+from benchmarks.posts.widgets import MultiFileInput
 
 CATEGORY_CHOICES = (
   ('P', 'Problem'),
@@ -31,3 +32,6 @@ class PostForm(ModelForm):
   class Meta():
     model = Post
     fields = ('title', 'body', 'category', 'file')
+    widgets = {
+        'file': MultiFileInput(attrs={'class': 'multi'}),
+    }

@@ -4,7 +4,7 @@
 
 {% block content %}
 <h2>{{ object.title }} <span class="postType">({{ object.get_category_display }})</span></h2>
-{{ object.body }}
+<div id="post-content">{{ object.body }}</div>
 
 {% load comments %}
 <p>Files:</p>

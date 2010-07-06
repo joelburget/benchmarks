@@ -1,43 +1,15 @@
-body {
-  margin: auto;
-  width: 920px;
-}
-a { text-decoration: none; }
-#header { display: block; }
-#banner { float: left; }
-#login { float: right; }
-#login span {
-  padding: 5px;
-  position: relative;
-  top: 35px;
-}
-#login form {
-  position: relative;
-  top: 28px;
-}
-#welcome {
-  background-color: #eeeeee;
-  padding: 20px;
-}
-#navigation ul {
-  text-align: center;
-  list-style-type: none;
-}
-#navigation ul li {
-  display: inline;
-  padding: 10px;
-}
-#content {
-  clear: both;
-  padding-top: 10px;
-}
-.comment {
-  background-color: #eeeeee;
-  border: 1px solid black;
-  padding: 5px;
-}
-.errorlist {
-  background-color: #fc3d3d;
-  color: #ffffff;
-}
-.postType { color: #665566; }
+body{margin:auto;width:920px;}
+a{text-decoration:none;}
+#header{display:block;}
+#banner{float:left;}
+#login{float:right;}
+#login span{padding:5px;position:relative;top:35px;}
+#login form{position:relative;top:28px;}
+#welcome{background-color:#eeeeee;padding:20px;border:1px black solid;}
+#navigation ul{text-align:center;list-style-type:none;}
+#navigation ul li{display:inline;padding:10px;}
+#content{clear:both;padding-top:10px;}
+.comment{background-color:#eeeeee;border:1px solid black;padding:5px;}
+.errorlist{background-color:#fc3d3d;color:#fff;}
+.postType{color:#656;}
+#post-content{background-color:#eeeeee;border:1px solid black;padding:5px;}

@@ -2,6 +2,11 @@
 
 {% block title %}Add Post{% endblock %}
 
+{% block jsheadblock %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="{{ MEDIA_URL }}jquery.MultiFile.pack.js"></script>
+{% endblock %}
+
 {% block content %}
 <form action="." method="post" enctype="multipart/form-data">
   {% csrf_token %}
@@ -14,4 +19,5 @@
   {{ form.file.label_tag }}: {{ form.file }}
   <input type="submit" value="Submit" />
 </form>
+<div id="files_list"></div>
 {% endblock %}

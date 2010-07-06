@@ -2,7 +2,7 @@
 #
 # Run manage.py shell (NOT python.exe)
 # >> from scripts import user_profiles
-# >> user_profile.run()
+# >> user_profiles.run()
 from django.contrib.auth.models import User
 from benchmarks.users.models import UserProfile
 
