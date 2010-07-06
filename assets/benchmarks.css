@@ -9,7 +9,8 @@ a{text-decoration:none;}
 #navigation ul{text-align:center;list-style-type:none;}
 #navigation ul li{display:inline;padding:10px;}
 #content{clear:both;padding-top:10px;}
-.comment{background-color:#eeeeee;border:1px solid black;padding:5px;}
+.comment{background-color:#eeeeee;border:1px solid black;padding:5px;margin-left:50px;}
 .errorlist{background-color:#fc3d3d;color:#fff;}
 .postType{color:#656;}
 #post-content{background-color:#eeeeee;border:1px solid black;padding:5px;}
+.gravatar{float:left;}
