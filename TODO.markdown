@@ -12,6 +12,9 @@ Completed
 - We won't display email address note
 - add post page
 - Change posts url
+- Posts page, search
+- Introduction page
+- Bio (About me)
 
 Open
 ====
@@ -19,9 +22,6 @@ Open
 - better 404 and 500 error pages (include url user tried)
 - Categories for Posts: Other (add text field for other)
 - Stylesheet
-- Posts page, search
-- Introduction page
-- Bio (About me)
 
 The upload problem
 ==================
