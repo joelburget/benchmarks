@@ -4,6 +4,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
+from django.views.generic.simple import direct_to_template 
 
 def homepage(request):
   # featured posts always stay on the homepage
