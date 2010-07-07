@@ -26,7 +26,7 @@ def gravatar(email, size=48):
         'gravatar_id': hashlib.md5(email).hexdigest(), 
         'size': str(size)
     })
-    url += "&default=monsterid"#choices are: identicon, wavatar, monsterid
+    url += "&default=identicon"#choices are: identicon, wavatar, monsterid
     
     return """<img src="%s" width="%s" height="%s" alt="gravatar" class="gravatar" border="0" />""" % (url, size, size)
 
