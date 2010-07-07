@@ -2,16 +2,6 @@
 
 {% block title %}{{ user.username }} - Profile - Edit{% endblock %}
 
-{% block jsheadblock %}
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
-<script>
-$(document).ready(function() {
-  $('#editForm').validate();
-});
-</script>
-{% endblock %}
-
 {% block content %}
 <p>We will not share email addresses with the public. Addresses are only displayed to other Benchmark app users.  Providing your address will make it even easier to collaborate with other users, and as such, is highly suggested.</p>
 <form action="." method="post" id="editForm">
@@ -22,4 +12,14 @@ $(document).ready(function() {
   <label for="bio">Bio</label>: <input class="" type="text" name="bio" id="bio" value="{{ user.get_profile.bio }}" /><br />
   <input type="submit" value="Save Changes" />
 </form>
+
+{% block jsblock %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
+<script>
+$(document).ready(function() {
+  $('#editForm').validate();
+});
+</script>
+{% endblock %}
 {% endblock %}

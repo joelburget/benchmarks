@@ -1,10 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Posts{% endblock %}
-{% block jsheadblock %}
+{% block jsblock %}
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}jquery.tablesorter.min.js"></script>
-{% endblock %}
-{% block jsblock %}
 <script>
 $(document).ready(function() 
     { 
