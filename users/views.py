@@ -36,7 +36,13 @@ def edituser(request, uname):
 
         # Hack for profiles
         profile = me.get_profile()
-        profile.bio = request.POST['bio']
+        profile.bio = request.POST['bio'][0:200] # truncated to 200 chars
+
+        if 'showemail' in request.POST:
+          profile.showemail = True
+        else:
+          profile.showemail = False  # By HTML spec, nonchecked boxes don't go thru POST
+
         profile.save()
 
         return HttpResponseRedirect(me.get_absolute_url())

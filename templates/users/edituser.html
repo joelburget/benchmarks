@@ -3,13 +3,23 @@
 {% block title %}{{ user.username }} - Profile - Edit{% endblock %}
 
 {% block content %}
-<p>We will not share email addresses with the public. Addresses are only displayed to other Benchmark app users.  Providing your address will make it even easier to collaborate with other users, and as such, is highly suggested.</p>
+<!-- Notice -->
+<p>We will not share email addresses with the public. Addresses are only displayed to other Benchmark app users, provided you allow it.  Providing your address will make it even easier to collaborate with other users, and as such, is highly suggested.</p>
+
+<!-- Form -->
 <form action="." method="post" id="editForm">
   {% csrf_token %}
+
   {{ formset.first_name.label_tag }}: <input class="required" type="text" name="first_name" id="first_name" value="{{ user.first_name }}" /> {{ formset.first_name.errors }}<br />
+
   {{ formset.last_name.label_tag }}: <input class="required" type="text" name="last_name" id="last_name" value= "{{ user.last_name }}" /> {{ formset.last_name.errors }}<br />
+
   {{ formset.email.label_tag }}: <input class="required email" type="text" name="email" id="email" value="{{ user.email }}" /> {{ formset.email.errors }}<br /> 
-  <label for="bio">Bio</label>: <input class="" type="text" name="bio" id="bio" value="{{ user.get_profile.bio }}" /><br />
+
+  <label for="bio">Bio</label>: <textarea class="" name="bio" id="bio" value="{{ user.get_profile.bio }}"></textarea><br /> {{ bioerrors }}
+
+  <label for="showemail">Show Email to other Users</label>: <input class="" type="checkbox" {% if user.get_profile.showemail %}checked="yes"{% endif %}" name="showemail" id="showemail" /><br />
+
   <input type="submit" value="Save Changes" />
 </form>
 
