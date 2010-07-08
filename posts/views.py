@@ -1,38 +1,41 @@
+import os
 from django.shortcuts import get_object_or_404, render_to_response
-from benchmarks.posts.models import Post, PostForm
+from benchmarks.posts.models import Post, PostForm, PostFile
+from benchmarks.posts.helpers import *
 from django.http import HttpResponseRedirect
 from django.views.generic.simple import direct_to_template
 from django.template import RequestContext
-import os
-from benchmarks.settings import MEDIA_ROOT
-#from django.contrib.auth.decorators import login_required
 
-#@login_required
 def editpost(request):
-  # only authenticated users may post
+  # Only authenticated users may post
   if not request.user.is_authenticated():
+    # Error! Must login...
     return direct_to_template(request, 'posts/must_login.html')
   if request.method == 'POST': 
+    # Get POST data for new post
     post = Post(author=request.user)
-    print request.FILES
-    form = PostForm(request.POST, request.FILES, instance=post)
+    form = PostForm(request.POST, instance=post)
+
     if form.is_valid():
+      # Save post
       form.save()
-      handle_uploaded_file(request.FILES['file'])
-      return HttpResponseRedirect('/') # should redirect to post
+      
+      # Save files in uploads/ and in db
+      for f in request.FILES:
+        thisfile = request.FILES[f]
+        handle_uploaded_file(thisfile, post.pk)
+
+        pf = PostFile(file = thisfile, post = post)
+        pf.save()
+
+      # Redirect to the submitted post
+      return HttpResponseRedirect(post.get_absolute_url())
   else:
+    # Get a blank post form for editing
     form = PostForm()
 
-  return render_to_response('posts/new_post.html', {
-      'form': form,
-    }, context_instance=RequestContext(request))
+  return render_to_response('posts/new_post.html', { 'form': form }, context_instance=RequestContext(request))
 
-def handle_uploaded_file(f):
-  path = os.path.join(MEDIA_ROOT, 'uploads/') + f.name
-  destination = open(path, 'wb+')
-  for chunk in f.chunks():
-    destination.write(chunk)
-  destination.close()
 
 def search(request):
   if request.method == 'POST':

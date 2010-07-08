@@ -1,4 +1,4 @@
-from benchmarks.posts.models import Post
+from benchmarks.posts.models import Post, PostFile
 from django.contrib import admin
 
 class PostAdmin(admin.ModelAdmin):
@@ -14,3 +14,4 @@ class PostAdmin(admin.ModelAdmin):
   search_fields = ['title']
 
 admin.site.register(Post, PostAdmin)
+admin.site.register(PostFile)

@@ -11,7 +11,7 @@ var swfupload;
 
 function upload_form()
 {
-  if (FlashDetect.installed && FlashDetect.versionAtLeast(9, 0, 28))
+/*if (FlashDetect.installed && FlashDetect.versionAtLeast(9, 0, 28))
   {
     // Flash 9.0.24 or above
     swfupload = new SWFUpload({
@@ -36,11 +36,12 @@ function upload_form()
     $('#filebay').html('<input type="file" id="files" />');
     $('#files').MultiFile({'list':'#filesList'});
   }
-  // Otherwise, use default HTML, none of this JS will be executed
 }
+
 
 // Loaded after document is done loading
 $(document).ready(upload_form);
+*/
 </script>
 {% endblock %}
 
@@ -67,7 +68,7 @@ $(document).ready(upload_form);
 
 {% block jsblock %}
 <script type="text/javascript" src="{{ MEDIA_URL }}jquery.MultiFile.pack.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}flash_detect_min.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}swfupload/swfupload/swfupload.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}swfupload/swfupload/plugins/swupload.cookies.js"></script>
+<!--script type="text/javascript" src="{{ MEDIA_URL }}flash_detect_min.js"></script-->
+<!--script type="text/javascript" src="{{ MEDIA_URL }}swfupload/swfupload/swfupload.js"></script-->
+<!--script type="text/javascript" src="{{ MEDIA_URL }}swfupload/swfupload/plugins/swupload.cookies.js"></script-->
 {% endblock %}

@@ -30,11 +30,11 @@ class Post(models.Model):
 class PostForm(ModelForm):
   class Meta():
     model = Post
-    fields = ('title', 'body', 'category', 'file')
-    widgets = {
-        'file': MultiFileInput(attrs={'class': 'multi'}),
-    }
+    fields = ('title', 'body', 'category')
 
 class PostFile(models.Model):
   file = models.FileField(upload_to='uploads', null=True, blank=True)
   post = models.ForeignKey(Post)
+
+  def __unicode__(self):
+    return '%s' % (self.file,)
