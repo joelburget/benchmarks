@@ -2,6 +2,47 @@
 
 {% block title %}Add Post{% endblock %}
 
+{% block jsheadblock %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript">
+// Determines the type of form, based on what
+// is available (Flash, JS, None)
+var swfupload;
+
+function upload_form()
+{
+  if (FlashDetect.installed && FlashDetect.versionAtLeast(9, 0, 28))
+  {
+    // Flash 9.0.24 or above
+    swfupload = new SWFUpload({
+      debug : false,
+
+      upload_url : '/upload',
+      flash_url : '{{ MEDIA_URL }}swfupload/swfupload/Flash/swfupload.swf',
+
+      button_placeholder_id : 'filebay',
+      button_width : '40',
+      button_height : '16',
+      button_cursor : SWFUpload.CURSOR.HAND,
+      button_text : 'Click',
+
+      file_dialog_complete_handler : function () { this.startUpload(); },
+      upload_complete_handler : function () { this.startUpload(); },
+    });
+  }
+  else
+  {
+    // Javascript
+    $('#filebay').html('<input type="file" id="files" />');
+    $('#files').MultiFile({'list':'#filesList'});
+  }
+  // Otherwise, use default HTML, none of this JS will be executed
+}
+
+// Loaded after document is done loading
+$(document).ready(upload_form);
+</script>
+{% endblock %}
 
 {% block content %}
 <form action="." method="post" enctype="multipart/form-data">
@@ -12,11 +53,21 @@
   <br />
   {{ form.category.label_tag }}: {{ form.category }}
   <br />
-  {{ form.file.label_tag }}: {{ form.file }}
+
+  <div id="filebay">
+    <label for="file1">File:</label><input type="file" name="file1" id="file1" />
+    <label for="file2">File:</label><input type="file" name="file2" id="file2" />
+    <label for="file3">File:</label><input type="file" name="file3" id="file3" />
+  </div>
+  <div id="filesList"></div>
+
   <input type="submit" value="Submit" />
 </form>
-{% block jsblock %}
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script src="{{ MEDIA_URL }}jquery.MultiFile.pack.js"></script>
 {% endblock %}
+
+{% block jsblock %}
+<script type="text/javascript" src="{{ MEDIA_URL }}jquery.MultiFile.pack.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}flash_detect_min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}swfupload/swfupload/swfupload.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}swfupload/swfupload/plugins/swupload.cookies.js"></script>
 {% endblock %}
