@@ -5,6 +5,10 @@ from django.conf import settings
 from django.contrib import admin
 admin.autodiscover()
 
+# Custom 404
+handler404 = 'benchmarks.views.our404'
+handler500 = 'benchmarks.views.our500'
+
 urlpatterns = patterns('',
   # Example:
   # (r'^benchmarks/', include('benchmarks.foo.urls')),

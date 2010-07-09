@@ -1,3 +1,4 @@
+import re
 from benchmarks.posts.models import Post
 from benchmarks.extended_comments.models import ExtendedComment
 from django.shortcuts import render_to_response
@@ -43,3 +44,31 @@ def logoutuser(request):
   lastpage = request.session['lastpage']
   logout(request)
   return HttpResponseRedirect(lastpage)
+
+def our404(request, error='404'):
+  # Get path
+  path = request.get_full_path()
+
+  # Apply regex to find url
+  if re.match('/posts/[0-9]*/', path):
+    # Post
+    suggestion = '<li>Take a look at all of the <a href="/posts">posts</a> on our site.</li>'
+  elif re.match('/users/.*/', path):
+    # User
+    suggestion = '<li>Take a look at all of the users on our site.</li>'
+  elif re.match('/groups/.*/', path):
+    # Group
+    suggestion = '<li>Take a look at all of the <a href="/groups">groups</a> on our site.</li>'
+  else:
+    suggestion = ''
+
+  # Determine error type
+  if error == '404':
+    msg = 'Uh oh!  We\'re sorry, but the page you tried to access doesn\'t exist!'
+  else:
+    msg = 'Uh oh!  Something funky went on with our server!'
+
+  return render_to_response('404.html', {'msg' : msg, 'suggestion' : suggestion})
+
+def our500(request):
+  return our404(request, error='500') 

@@ -4,13 +4,13 @@
 
 {% block content %}
 <h2>Error!</h2>
-<p>We're sorry, but the page you tried to access doesn't exist.</p>
+<p>{{ msg }}</p>
 
 <p>Things to try:</p>
 <ul>
   <li>Go to the <a href="/">homepage</a>.</li>
   <li>Search our site. {% include "posts/_search.html" %}</li>
-  <li>Take a look at all of the <a href="/posts/">posts</a> on our site.</li>
+  {{ suggestion|safe }}
 </ul>
 
 <p>If you think this shouldn't be happening, feel free to email an admin.</p>

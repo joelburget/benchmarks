@@ -1,5 +1,11 @@
 import os
+import commands
 from benchmarks.settings import MEDIA_ROOT
+
+INVALID_FILES = (
+  r'^**$',
+  r'^**$',
+)
 
 def handle_uploaded_file(f, postid):
   # Get folder name and create it
@@ -18,4 +24,13 @@ def handle_uploaded_file(f, postid):
   destination.close()
 
   # Validate file
+  validate(path)
+
+def validate(path):
+  # Get filetype
+  #filetype = commands.getoutput('file ' % (path,))
+
+  # Remove executable flag if needed
+  #if filetype:
+  #  os.system('chmod a-x ' % (path,))
   pass
