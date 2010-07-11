@@ -23,7 +23,7 @@ def editpost(request):
       # Save files in uploads/ and in db
       for f in request.FILES:
         thisfile = request.FILES[f]
-        handle_uploaded_file(thisfile, post.pk)
+        #handle_uploaded_file(thisfile, post.pk)
 
         pf = PostFile(file = thisfile, post = post)
         pf.save()
