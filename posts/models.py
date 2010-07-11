@@ -18,6 +18,7 @@ class Post(models.Model):
   sticky = models.BooleanField('Show on Frontpage?', default=False)
   author = models.ForeignKey(User)
   category = models.CharField(max_length=1, choices=CATEGORY_CHOICES)
+  parent = models.ForeignKey('self', null=True)
 
   def __unicode__(self):
     return self.title
@@ -32,7 +33,7 @@ class Post(models.Model):
 class PostForm(ModelForm):
   class Meta():
     model = Post
-    fields = ('title', 'body', 'category')
+    fields = ('title', 'body', 'category', 'parent')
 
 # PostFile
 def get_upload_path(instance, filename):
