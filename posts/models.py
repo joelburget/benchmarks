@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm
 from benchmarks.posts.widgets import MultiFileInput
 
+# Post
 CATEGORY_CHOICES = (
   ('P', 'Problem'),
   ('R', 'Realization'),
@@ -27,13 +28,18 @@ class Post(models.Model):
   def get_absolute_url_with_comments(self):
     return '%s#comments' % (self.get_absolute_url(),)
 
+# PostForm
 class PostForm(ModelForm):
   class Meta():
     model = Post
     fields = ('title', 'body', 'category')
 
+# PostFile
+def get_upload_path(instance, filename):
+  return 'uploads/%s/%s' % (instance.post.pk, filename,)
+
 class PostFile(models.Model):
-  file = models.FileField(upload_to='uploads', null=True, blank=True)
+  file = models.FileField(upload_to=get_upload_path, null=True, blank=True)
   post = models.ForeignKey(Post)
 
   def __unicode__(self):
