@@ -19,7 +19,7 @@ class Post(models.Model):
   sticky = models.BooleanField('Show on Frontpage?', default=False)
   author = models.ForeignKey(User)
   category = models.CharField(max_length=1, choices=CATEGORY_CHOICES)
-  parent = models.ForeignKey('self', null=True)
+  parent = models.ForeignKey('self', null=True, blank=True)
 
   def __unicode__(self):
     return self.title
