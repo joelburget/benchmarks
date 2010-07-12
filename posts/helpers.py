@@ -4,9 +4,6 @@ import commands
 from benchmarks.settings import MEDIA_ROOT
 from benchmarks.posts.models import Post, PostFile
 
-def validate_file(file):
-  return True
-
 def unzip_file(filepath, post):
   # Get zipfile and paths
   z = zipfile.ZipFile(filepath, 'r')
