@@ -11,8 +11,8 @@ from benchmarks.settings import SITE_ROOT
 def editpost(request):
   # Only authenticated users may post
   if not request.user.is_authenticated():
-    # Error! Must login...
     return direct_to_template(request, 'posts/must_login.html')
+
   if request.method == 'POST': 
     # Get POST data for new post
     post = Post(author=request.user)
@@ -28,10 +28,9 @@ def editpost(request):
         pf = PostFile(file = thisfile, post = post)
         pf.save()
 
-        # Check for zipfiles
+        # Check zips, tars, etc.
         zippath = os.path.join(SITE_ROOT, 'assets/') + str(pf.file)
-        if zippath[-3:] == 'zip':
-          unzip_file(zippath, post)
+        decompress(zippath, post)
 
       # Redirect to the submitted post
       return HttpResponseRedirect(post.get_absolute_url())
