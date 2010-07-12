@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from benchmarks.posts.widgets import MultiFileInput
+from os.path import basename
 
 # Post
 CATEGORY_CHOICES = (
@@ -44,4 +45,4 @@ class PostFile(models.Model):
   post = models.ForeignKey(Post)
 
   def __unicode__(self):
-    return '%s' % (self.file,)
+    return basename('%s' % (self.file,))
