@@ -23,10 +23,11 @@ def editpost(request):
       # Save files in uploads/ and in db
       for f in request.FILES:
         thisfile = request.FILES[f]
-        #handle_uploaded_file(thisfile, post.pk)
 
-        pf = PostFile(file = thisfile, post = post)
-        pf.save()
+        # Validate file and save it
+        if validate_file(thisfile):
+          pf = PostFile(file = thisfile, post = post)
+          pf.save()
 
       # Redirect to the submitted post
       return HttpResponseRedirect(post.get_absolute_url())
