@@ -18,7 +18,7 @@
 {% if object.postfile_set.all %}
 <p>Files:</p>
 {% for f in object.postfile_set.all %}
-<a href="{{ MEDIA_URL }}{{ f.file }}">{{ f.file }}</a>
+<a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a>
 {% endfor %}
 {% endif %}
 
