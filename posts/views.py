@@ -1,10 +1,12 @@
 import os
+import zipfile
 from django.shortcuts import get_object_or_404, render_to_response
 from benchmarks.posts.models import Post, PostForm, PostFile
 from benchmarks.posts.helpers import *
 from django.http import HttpResponseRedirect
 from django.views.generic.simple import direct_to_template
 from django.template import RequestContext
+from benchmarks.settings import SITE_ROOT
 
 def editpost(request):
   # Only authenticated users may post
@@ -28,6 +30,11 @@ def editpost(request):
         if validate_file(thisfile):
           pf = PostFile(file = thisfile, post = post)
           pf.save()
+
+          # Check for zipfile
+          zippath = os.path.join(SITE_ROOT, 'assets/') + str(pf.file)
+          if zippath[-3:] == 'zip':
+            unzip_file(zippath, post)
 
       # Redirect to the submitted post
       return HttpResponseRedirect(post.get_absolute_url())
