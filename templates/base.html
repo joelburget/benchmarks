@@ -16,25 +16,21 @@
     less.watch();
   </script>
   {% else %}
+  <link rel="stylesheet" href="{{ MEDIA_URL }}reset.css" />
   <link rel="stylesheet" href="{{ MEDIA_URL }}benchmarks.css" />
   {% endif %}
   {% block cssblock %}{% endblock %}
 </head>
 <body>
   <!-- Site header -->
-  <div id="header">
-    <div id="banner">
-      <h1><a href="/">OSU RSRG Benchmarks</a></h1>
-    </div>
+  <div id="sidebar">
+    <h1><a href="/">OSU RSRG Benchmarks</a></h1>
 
     <!-- Login form -->
     <div id="login">
       {% include "_login.html" %}
     </div>
-  </div>
 
-  <div style="clear:both;"></div>
-  <div id="navigation">
     <ul>
       <li><a href="/posts/new/">New Post</a></li> -
       <li><a href="/posts/search/">Search Posts</a></li> -

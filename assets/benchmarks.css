@@ -1,16 +1,152 @@
-body{margin:auto;width:920px;}
-a{text-decoration:none;}
-#header{display:block;}
-#banner{float:left;}
-#login{float:right;}
-#login span{padding:5px;position:relative;top:35px;}
-#login form{position:relative;top:28px;}
-#welcome{background-color:#eeeeee;padding:20px;border:1px black solid;}
-#navigation ul{text-align:center;list-style-type:none;}
-#navigation ul li{display:inline;padding:10px;}
-#content{clear:both;padding-top:10px;}
-.comment{background-color:#eeeeee;border:1px solid black;padding:5px;margin-left:50px;}
-.errorlist{background-color:#fc3d3d;color:#fff;}
-.postType{color:#656;}
-#post-content{background-color:#eeeeee;border:1px solid black;padding:5px;}
-.gravatar{float:left;}
+/* Layout */
+html {
+  font-size: 100%;
+}
+body {
+  font-family: sans-serif;
+  font-size: 1em;
+}
+
+/* Layout */
+#content {
+  font-size: 0.88em;
+  margin-right: 440px;
+  padding: 20px;
+}
+#sidebar {
+  font-size: 0.88em;
+  background-color: #eee;
+  width: 400px;
+  float: right;
+  border-radius: 0px 0px 0px 5px;
+  border: 2px solid #ccc;
+  border-right: none;
+  border-top: none;
+  padding: 20px;
+}
+#comments {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px dotted #999;
+}
+
+/* Page elements */
+h1 {
+  font-weight: bold;
+  font-size: 2em;
+  font-family: "Trebuchet MS";
+}
+h2 {
+  font-weight: bold;
+  font-size: 1.75em;
+  font-family: "Trebuchet MS";
+  margin-bottom: 0.75em;
+  margin-left: 5px;
+}
+h3 {
+  font-weight: bold;
+  font-family: "Trebuchet MS";
+}
+a {
+  color: #107FC9;
+  text-decoration: none;
+  border-bottom: 1px dotted #107FC9; 
+}
+a:hover {
+  border-bottom: 1px solid #107FC9;
+}
+pre {
+  font-size: 1.25em;
+  margin: 5px;
+  background-color: #ccc;
+  padding: 10px;
+  font-family: monospace;
+  color: #333;
+  border: 1px solid #999;
+  border-radius: 5px;
+  margin: 5px;
+  margin-top: 0em;
+  margin-bottom: 1em;
+  line-height: 1.5em;
+}
+p {
+  line-height: 1.5em;
+  margin: 5px;
+  margin-top: 0em;
+  margin-bottom: 1em;
+}
+
+/* Post-specific */
+.postInfo {
+  font-size: 0.9em;
+}
+.postInfo a {
+  font-weight: bold;
+  text-decoration: none;
+  border-bottom: 1px dotted #aaa;
+  color: #111;
+}
+.postInfo a:hover {
+  border-bottom: 1px solid #aaa;
+}
+.postType {
+  color: #fff;
+  background-color: #E22929;
+  border: 1px solid #f33;
+  border-bottom: 1px solid #8C1717;
+  border-right: 1px solid #8C1717;
+  padding: 3px;
+}
+.postType a {
+  color: #fff;
+  border-bottom: 1px dotted #fff;
+}
+.postType a:hover {
+  border-bottom: 1px solid #fff;
+}
+#postFiles {
+  background-color: #ddd;
+  border-radius: 5px;
+  margin: 0 auto;
+  margin-bottom: 1.5em;
+  padding: 20px;
+  font-weight: bold;
+}
+#postFiles ul { 
+  margin: 10px;
+  margin-left: 20px;
+}
+#postFiles ul li  {
+  font-weight: normal;
+  list-style-type: square;
+  margin: 5px;
+}
+#postFiles ul li a {
+  font-family: Consolas, monospace;
+  color: #333;
+  border-bottom: 1px dotted #333;
+}
+#postFiles ul li a:hover {
+  border-bottom: 1px solid #333;
+}
+
+/* Comment-specific */
+.commentBox {
+  clear: both;
+  background-color: #ccc;
+  padding: 5px;
+  color: #333;
+  font-weight: bold;
+  border: 1px solid #999;
+  border-radius: 3px;
+}
+.gravatar {
+  float: left;
+}
+.comment {
+  line-height: 1.5em;
+  color: #222;
+  margin-bottom: 1em;
+  padding: 5px;
+  margin-left: 48px;
+}
