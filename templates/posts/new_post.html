@@ -7,11 +7,11 @@
 <script type="text/javascript">
 // Determines the type of form, based on what
 // is available (Flash, JS, None)
-var swfupload;
+/*var swfupload;
 
 function upload_form()
 {
-/*if (FlashDetect.installed && FlashDetect.versionAtLeast(9, 0, 28))
+if (FlashDetect.installed && FlashDetect.versionAtLeast(9, 0, 28))
   {
     // Flash 9.0.24 or above
     swfupload = new SWFUpload({
@@ -54,7 +54,7 @@ $(document).ready(upload_form);
   <br />
   {{ form.category.label_tag }}: {{ form.category }}
   <br />
-  {{ form.parent.label_tag }}: {{ form.parent }}
+  <div id="parent_stuff">{{ form.parent.label_tag }}<span id="optional"> (Optional)</span>: {{ form.parent }}</div>
   <br />
 
   <div id="filebay">
@@ -73,4 +73,23 @@ $(document).ready(upload_form);
 <!--script type="text/javascript" src="{{ MEDIA_URL }}flash_detect_min.js"></script-->
 <!--script type="text/javascript" src="{{ MEDIA_URL }}swfupload/swfupload/swfupload.js"></script-->
 <!--script type="text/javascript" src="{{ MEDIA_URL }}swfupload/swfupload/plugins/swupload.cookies.js"></script-->
+<script>
+$("#parent_stuff").hide();
+$("#optional").hide();
+$("#id_category").change(function() {
+  var val = $(this).val();
+  if (val === "O") {
+    $("#optional").fadeIn();
+  }
+  else {
+    $("#optional").fadeOut();
+  }
+  if ((val !== "") && (val !== "P")) {
+    $("#parent_stuff").slideDown();
+  }
+  else {
+    $("#parent_stuff").slideUp();
+  }
+});
+</script>
 {% endblock %}
