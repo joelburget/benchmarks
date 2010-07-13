@@ -3,6 +3,7 @@
 {% block title %}{{ object.first_name }} {{ object.last_name }} - Profile{% endblock %}
 
 {% block content %}
+<div class="block">
 <h2>Profile</h2>
 <ul>
   <li><b>Username:</b> {{ object.username }}</li>
@@ -25,9 +26,11 @@
 </ul>
 
 {% if user.username == object.username %}
-<a href="{{ object.get_absolute_url }}edit/">Edit</a>
+<p><a href="{{ object.get_absolute_url }}edit/">Edit</a></p>
 {% endif %}
+</div>
 
+<div class="block">
 <h2>Groups</h2>
 {% if object.groups.all %}
 <ul>
@@ -39,7 +42,9 @@
 <p>This user hasn't joined any groups yet.</p>
 {% endif %}
 <p><a href="/groups/">View all Groups</a></p>
+</div>
 
+<div class="block">
 <h2>Posts</h2>
 {% if posts %}
 <ul>
@@ -50,15 +55,18 @@
 {% else %}
 <p>This user hasn't posted any content yet.</p>
 {% endif %}
+</div>
 
+<div class="block">
 <h2>Comments</h2>
 {% if comments_list %}
 <ul>
 {% for c in comments_list %}
-  <li><a href="/posts/{{ c.object_pk }}/">{{ c.comment }}</a></li>
+  <li>{{ c.comment }} on <a href="{{ c.get_absolute_url }}">{{ c.content_object.title }}</a></li>
 {% endfor %}
 </ul>
 {% else %}
 <p>This user hasn't commented on any posts yet.</p>
 {% endif %}
+</div>
 {% endblock %}

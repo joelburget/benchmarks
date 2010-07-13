@@ -4,34 +4,38 @@
 {% block content %}
 {% if not user.is_authenticated %}
 <div id="welcome">
-<h2>Welcome!</h2>
+<h1>Welcome!</h1>
 <p>Hello, and welcome to the OSU Reusable Software Research Group's online Benchmarks web application! Before joining, there are a few useful resources you might want to read. The <a href="/about/">About</a> page discusses the purpose and mission of the RSRG and Benchmarks application. The <a href="/getting-started">Getting Started</a> page will help you start creating, submitting, and posting your ideas.<p>
 </div>
 {% endif %}
-<h2>Featured Posts</h2>
+<h1>Featured Posts</h1>
+{% if featured_posts %}
 {% for object in featured_posts %}
 	<div class="block">
-	<h3><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h3>
+	<h2><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h2>
 	{{ object.body|truncatewords_html:"50"|striptags }}
 	{% get_comment_count for object as comment_count %}
-	<p>Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.first_name }} {{ object.author.last_name }}</a>, on {{ object.published }} - <a href="{{ object.get_absolute_url_with_comments }}">{{ comment_count }} comment{{ comment_count|pluralize }}</a></p>
+  <p class="postInfo"><span class="postType"><a href="">{{ object.get_category_display }}</a></span> Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.first_name }} {{ object.author.last_name }}</a>, on {{ object.published }}</p>
 	</div>
 {% endfor %}
+{% else %}
+<p>Sorry, we don't have any featured posts yet.</p>
+{% endif %}
 
-<h2>Latest Posts</h2>
-	{% for object in latest_posts %}
+<h1>Latest Posts</h1>
+{% for object in latest_posts %}
 	<div class="block">
-	<h3><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h3>
-	{{ object.body|truncatewords_html:"50"|striptags }}
+	<h2><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h2>
+	<p>{{ object.body|truncatewords_html:"50"|striptags }}</p>
 	{% get_comment_count for object as comment_count %}
-	<p>Posted by: <a href="/users/{{ object.author }}/">{{ object.author.first_name }} {{ object.author.last_name }}</a>, on {{ object.published }} - <a href="{{ object.get_absolute_url_with_comments }}">{{ comment_count }} comment{{ comment_count|pluralize }}</a></p>
-	</div>
+  <p class="postInfo"><span class="postType"><a href="">{{ object.get_category_display }}</a></span> Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.first_name }} {{ object.author.last_name }}</a>, on {{ object.published }}</p>
+  </div>
 {% endfor %}
 
-<h2>Latest Discussion</h2>
+<h1>Latest Discussion</h1>
 <ul>
 {% for comment in latest_discussion %}
-  <li>{{ comment.comment|safe }} - <a href="{{ comment.user.get_absolute_url }}">{{ comment.user.first_name }} {{ comment.user.last_name }}</a> on <a href="{{ comment.get_absolute_url }}">{{ comment.content_object.title }}</a></li>
+  <li class="latestComment">{{ comment.comment|safe }} - <a href="{{ comment.user.get_absolute_url }}">{{ comment.user.first_name }} {{ comment.user.last_name }}</a> on <a href="{{ comment.get_absolute_url }}">{{ comment.content_object.title }}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}

@@ -24,21 +24,28 @@
 <body>
   <!-- Site header -->
   <div id="sidebar">
-    <h1><a href="/">OSU RSRG Benchmarks</a></h1>
+    <h1 style="text-align: center;"><a href="/">OSU RSRG Benchmarks</a></h1>
 
     <!-- Login form -->
-    <div id="login">
+    <h3>Profile</h3>
+    <div class="block" id="login">
       {% include "_login.html" %}
     </div>
 
-    <ul>
-      <li><a href="/posts/new/">New Post</a></li> -
-      <li><a href="/posts/search/">Search Posts</a></li> -
-      <li><a href="/posts/">View all Posts</a></li> -
-      <li><a href="/groups/">View all Groups</a></li> -
-      <li><a href="/getting-started/">Getting Started</a></li> - 
+    <h3>Navigation</h3>
+    <ul id="nav" class="block">
+      <li><a href="/posts/new/">New Post</a></li> 
+      <li><a href="/posts/search/">Search Posts</a></li> 
+      <li><a href="/posts/">View all Posts</a></li> 
+      <li><a href="/groups/">View all Groups</a></li> 
+      <li><a href="/getting-started/">Getting Started</a></li>  
       <li><a href="/about/">About</a></li>
-    </ul>
+      {% if user.is_authenticated %}
+      <li>{% if user.is_staff %}<a href="/admin/">Admin</a>{% endif %}</li>
+      <li><a href="{{ user.get_absolute_url }}">Profile</a></li>
+      <li><a href="/logout/">Logout</a></li>
+      {% endif %}
+   </ul>
   </div>
 
   <!-- Content -->
