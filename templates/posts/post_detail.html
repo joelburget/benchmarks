@@ -4,6 +4,28 @@
 
 {% block title %}{{ object.title }}{% endblock %}
 
+{% block jsheadblock %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}jqueryFileTree/jqueryFileTree.js" />
+
+<script type="text/javascript">
+$(document).ready( function() {
+  $('#files').fileTree(
+    {
+      root: '{{ object.pk }}/',
+      script: '/dirlist'
+    },
+    function(file) {
+      window.location.href = ('{{ MEDIA_URL }}' + file.replace('{{ SITE_ROOT }}/assets/', ''));
+    });
+});
+</script>
+{% endblock %}
+
+{% block cssblock %}
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}jqueryFileTree/jqueryFileTree.css" />
+{% endblock %}
+
 {% block content %}
 <!-- Title -->
 <h2>{{ object.title }}</span></h2>
@@ -16,7 +38,7 @@
 
 <!-- Files -->
 {% if object.postfile_set.all %}
-<div id="postFiles">
+<div id="files">
 <h3>Files:</h3>
 <ul>
 {% for f in object.postfile_set.all %}

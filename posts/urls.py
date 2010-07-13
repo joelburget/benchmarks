@@ -1,8 +1,12 @@
 from django.conf.urls.defaults import *
 from benchmarks.posts.models import Post
+from benchmarks.settings import SITE_ROOT
 
 info_dict = {
   'queryset': Post.objects.all(),
+  'extra_context' : {
+    'SITE_ROOT' : SITE_ROOT,
+  }  
 }
 
 urlpatterns = patterns('',

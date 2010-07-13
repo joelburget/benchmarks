@@ -32,6 +32,9 @@ urlpatterns = patterns('',
   (r'^login/$', 'benchmarks.views.loginuser'),
   (r'^logout/$', 'benchmarks.views.logoutuser'),
 
+  # AJAX/API actions
+  (r'^dirlist.*$', 'benchmarks.views.dirlist'),
+
   # Root
   (r'^$', 'benchmarks.views.homepage'),
 )

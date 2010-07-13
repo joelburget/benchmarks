@@ -1,10 +1,13 @@
 import re
+import os
+import urllib
+from benchmarks.settings import SITE_ROOT
 from benchmarks.posts.models import Post
 from benchmarks.extended_comments.models import ExtendedComment
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic.simple import direct_to_template 
 
 def homepage(request):
@@ -72,3 +75,26 @@ def our404(request, error='404'):
 
 def our500(request):
   return our404(request, error='500') 
+
+# Modified connector script for Django from jqueryFileTree codebase
+def dirlist(request):
+   r=['<ul class="jqueryFileTree" style="display: none;">']
+   try:
+       r=['<ul class="jqueryFileTree" style="display: none;">']
+       uploads = os.path.join(SITE_ROOT, 'assets/uploads/')
+       d=urllib.unquote(request.POST.get('dir', '/'))
+
+       if d[0] != '/': d = uploads + d
+
+       for f in os.listdir(d):
+           ff=os.path.join(d,f)
+           if os.path.isdir(ff):
+               r.append('<li class="directory collapsed"><a href="#" rel="%s/">%s</a></li>' % (ff,f))
+           else:
+               e=os.path.splitext(f)[1][1:] # get .ext and remove dot
+               r.append('<li class="file ext_%s"><a href="#" rel="%s">%s</a></li>' % (e,ff,f))
+       r.append('</ul>')
+   except Exception,e:
+       r.append('Could not load directory: %s' % str(e))
+   r.append('</ul>')
+   return HttpResponse(''.join(r))
