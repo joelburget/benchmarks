@@ -13,7 +13,8 @@ $(document).ready( function() {
   $('#files').fileTree(
     {
       root: '{{ object.pk }}/',
-      script: '/dirlist'
+      script: '/dirlist',
+      multiFolder: false,
     },
     function(file) {
       window.location.href = ('{{ MEDIA_URL }}' + file.replace('{{ SITE_ROOT }}/assets/', ''));
@@ -38,8 +39,8 @@ $(document).ready( function() {
 
 <!-- Files -->
 {% if object.postfile_set.all %}
-<div id="files">
 <h3>Files:</h3>
+<div id="files">
 <ul>
 {% for f in object.postfile_set.all %}
   <li><a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a></li>

@@ -103,23 +103,15 @@ ul li {
   margin: 0 auto;
   margin-bottom: 1.5em;
   padding: 20px;
-  font-weight: bold;
 }
-#postFiles ul {
-  margin: 10px;
-  margin-left: 20px;
-}
-#postFiles ul li {
-  font-weight: normal;
-  list-style-type: square;
-  margin: 5px;
-}
-#postFiles ul li a {
-  font-family: Consolas, monospace;
+#files ul li a {
   color: #333333;
-  border-bottom: 1px dotted #333333;
+  border: none;
 }
-#postFiles ul li a:hover { border-bottom: 1px solid #333333; }
+#files ul li a:hover {
+  border: none;
+  color: #000000;
+}
 .commentBox {
   clear: both;
   background-color: #cccccc;
