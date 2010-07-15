@@ -179,11 +179,11 @@ ul li {
 /* Comment-specific */
 .commentBox {
   clear: both;
-  background-color: #ccc;
+  background-color: @background-gray;
   padding: 5px;
   color: #333;
   font-weight: bold;
-  border: 1px solid #999;
+  border: 1px solid @border-gray;
   .rounded();
 }
 
@@ -205,4 +205,16 @@ ul li {
   padding-top: 0px;
   padding-left: 0px;
   margin-left: 5px;
+}
+
+#welcome {
+  background-color: @background-gray;
+  border: 1px solid @border-gray;
+  .rounded();
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+#post-content {
+  margin: 20px 0px;
 }
