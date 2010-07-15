@@ -43,6 +43,21 @@ if (FlashDetect.installed && FlashDetect.versionAtLeast(9, 0, 28))
 $(document).ready(upload_form);
 */
 </script>
+<script src="{{ MEDIA_URL }}codemirror/js/codemirror.js" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}codemirror/js/mirrorframe.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+   $('textarea').attr({
+      cols: '120',
+      rows: '30'
+   });
+   var editor = new CodeMirror.fromTextArea('id_body', {
+     parserfile: "parsexml.js",
+     path: "{{ MEDIA_URL }}codemirror/js/",
+     stylesheet: "{{ MEDIA_URL }}codemirror/css/xmlcolors.css"
+   });
+});
+</script>
 {% endblock %}
 
 {% block content %}
