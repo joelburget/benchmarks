@@ -9,6 +9,7 @@ from django.template import RequestContext
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic.simple import direct_to_template 
+from django.http import Http404
 
 def homepage(request):
   # featured posts always stay on the homepage
@@ -78,6 +79,8 @@ def our500(request):
 
 # Modified connector script for Django from jqueryFileTree codebase
 def dirlist(request):
+   if not request.is_ajax():
+     raise Http404
    r=['<ul class="jqueryFileTree" style="display: none;">']
    try:
        r=['<ul class="jqueryFileTree" style="display: none;">']
