@@ -29,5 +29,8 @@ def decompress(filepath, post):
     unzippedfile = os.path.join(outputpath, name)
     modelfile = 'uploads/%s/%s' % (post.pk, name,) 
 
-    filemod = PostFile(file=modelfile, post=post)
-    filemod.save()
+    # Note, don't add directories, otherwise Django can't remove them without
+    # complaining with error messages.
+    if not os.path.isdir(unzippedfile):
+      filemod = PostFile(file=modelfile, post=post)
+      filemod.save()
