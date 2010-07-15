@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm
 from benchmarks.posts.widgets import MultiFileInput
 from os.path import basename
+from django import forms
 
 # Post
 CATEGORY_CHOICES = (
@@ -32,6 +33,9 @@ class Post(models.Model):
 
 # PostForm
 class PostForm(ModelForm):
+  title = forms.CharField(widget=forms.TextInput(attrs = {'class' : 'required'}))
+  body = forms.CharField(widget=forms.TextInput(attrs = {'class' : 'required'}))
+
   class Meta():
     model = Post
     fields = ('title', 'body', 'category', 'parent')
