@@ -1,13 +1,24 @@
-@blue-color: #3714b0;
-@dark-purple: #4a036f;
-@bright-pink: #d2006b;
-@light-purple: #7309aa;
 @background-gray: #eee;
+@border-gray: #ccc;
+
+.rounded(@radius: 4px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  -opera-border-radius: @radius;
+  border-radius: @radius;
+}
+
+.rounded-bl(@radius: 4px) {
+  -webkit-border-bottom-left-radius: @radius;
+  -moz-border-radius-bottomleft: @radius;
+  border-bottom-left-radius: @radius;
+}
 
 /* Layout */
 html {
   font-size: 100%;
 }
+
 body {
   font-family: sans-serif;
   font-size: 1em;
@@ -19,25 +30,37 @@ body {
   margin-right: 440px;
   padding: 20px;
 }
-#sidebar {
+
+nav {
   font-size: 0.88em;
-  background-color: #eee;
-  width: 400px;
+  background-color: @background-gray;
+  width: 250px;
   float: right;
-  border-radius: 0px 0px 0px 5px;
-  border: 2px solid #ccc;
+  .rounded-bl();
+  border: 1px solid @border-gray;
   border-right: none;
   border-top: none;
   padding: 20px;
   padding-bottom: 0px;
   position: fixed;
   right: 0px;
+
+  ul { 
+    padding: 20px; padding-top: 0px; list-style-type: square; 
+
+    li {
+      margin: 0em;
+      padding: 5px; 
+    }
+  }
 }
+
 #comments {
   margin-top: 20px;
   padding-top: 20px;
   border-top: 1px dotted #999;
 }
+
 .block {
   margin-bottom: 20px;
 }
@@ -50,6 +73,7 @@ h1 {
   margin-bottom: 0.75em;
   margin-left: 5px;
 }
+
 h2 {
   font-weight: bold;
   font-size: 1.75em;
@@ -57,6 +81,7 @@ h2 {
   margin-bottom: 0.75em;
   margin-left: 5px;
 }
+
 h3 {
   font-weight: bold;
   font-family: "Trebuchet MS";
@@ -64,34 +89,39 @@ h3 {
   margin-bottom: 0.75em;
   margin-left: 5px;
 }
+
 a {
   color: #107FC9;
   text-decoration: none;
   border-bottom: 1px dotted #107FC9; 
+
+  :hover {
+    border-bottom: 1px solid #107FC9;
+  }
 }
-a:hover {
-  border-bottom: 1px solid #107FC9;
-}
-pre {
+
+pre, code {
   font-size: 1.25em;
   margin: 5px;
-  background-color: #ccc;
+  background-color: @background-gray;
   padding: 10px;
   font-family: monospace;
   color: #333;
-  border: 1px solid #999;
-  border-radius: 5px;
+  border: 1px solid @border-gray;
+  .rounded();
   margin: 5px;
   margin-top: 0em;
   margin-bottom: 1em;
   line-height: 1.5em;
 }
+
 p {
   line-height: 1.5em;
   margin: 5px;
   margin-top: 0em;
   margin-bottom: 1em;
 }
+
 ul li {
   line-height: 1.5em;
   margin: 5px;
@@ -102,16 +132,19 @@ ul li {
 /* Post-specific */
 .postInfo {
   font-size: 0.9em;
+
+  a {
+    font-weight: bold;
+    text-decoration: none;
+    border-bottom: 1px dotted #aaa;
+    color: #111;
+
+    :hover {
+      border-bottom: 1px solid #aaa;
+    }
+  }
 }
-.postInfo a {
-  font-weight: bold;
-  text-decoration: none;
-  border-bottom: 1px dotted #aaa;
-  color: #111;
-}
-.postInfo a:hover {
-  border-bottom: 1px solid #aaa;
-}
+
 .postType {
   color: #fff;
   background-color: #E22929;
@@ -119,41 +152,48 @@ ul li {
   border-bottom: 1px solid #8C1717;
   border-right: 1px solid #8C1717;
   padding: 3px;
+
+  a {
+    color: #fff;
+    border-bottom: 1px dotted #fff;
+
+    :hover {
+      border-bottom: 1px solid #fff;
+    }
+  }
 }
-.postType a {
-  color: #fff;
-  border-bottom: 1px dotted #fff;
-}
-.postType a:hover {
-  border-bottom: 1px solid #fff;
-}
+
 #files {
   margin: 0 auto;
   margin-bottom: 1.5em;
   padding: 20px;
-}
-#files ul li a {
-  color: #333;
-  border: none;
-}
-#files ul li a:hover {
-  border: none;
-  color: #000;
+
+  ul li a {
+    color: #333;
+    border: none;
+
+    :hover {
+      border: none;
+      color: #000;
+    }
+  }
 }
 
 /* Comment-specific */
 .commentBox {
   clear: both;
-  background-color: #ccc;
+  background-color: @background-gray;
   padding: 5px;
   color: #333;
   font-weight: bold;
-  border: 1px solid #999;
-  border-radius: 3px;
+  border: 1px solid @border-gray;
+  .rounded();
 }
+
 .gravatar {
   float: left;
 }
+
 .comment {
   line-height: 1.5em;
   color: #222;
@@ -170,11 +210,18 @@ ul li {
   margin-left: 5px;
 }
 
-/* Sidebar */
-#nav { padding: 20px; padding-top: 0px; list-style-type: square; }
-#nav li {
-  margin: 0em;
-  padding: 5px; 
+#welcome {
+  background-color: @background-gray;
+  border: 1px solid @border-gray;
+  .rounded();
+  padding: 10px;
+  margin-bottom: 20px;
 }
 
-/* Forms */
+#post-content {
+  margin: 20px 0px;
+}
+
+#body_box {
+  border: 1px solid @border-gray;
+}

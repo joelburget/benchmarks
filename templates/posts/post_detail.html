@@ -6,7 +6,7 @@
 
 {% block jsheadblock %}
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}jqueryFileTree/jqueryFileTree.js" />
+<script type="text/javascript" src="{{ MEDIA_URL }}jqueryFileTree/jqueryFileTree.js"></script>
 
 <script type="text/javascript">
 $(document).ready( function() {
@@ -28,7 +28,7 @@ $(document).ready( function() {
 
 {% block content %}
 <!-- Title -->
-<h2>{{ object.title }}</span></h2>
+<h2>{{ object.title }}</h2>
 {% if object.parent %}
 <h3>In response to <a href="{{ object.parent.get_absolute_url }}">{{ object.parent.title }}</a></h3>
 {% endif %}
