@@ -1,12 +1,12 @@
-# Django settings for benchmarks project.
-
-AUTH_PROFILE_MODULE = 'users.UserProfile'
-
-#set up relative paths
 import os
 import django
-DJANGO_ROOT = os.path.dirname(os.path.realpath(django.__file__))#path to the django installation
-SITE_ROOT = os.path.dirname(os.path.realpath(__file__))#path to the project directory
+
+# Django settings for benchmarks project.
+AUTH_PROFILE_MODULE = 'users.UserProfile'
+
+# Set up relative paths
+DJANGO_ROOT = os.path.dirname(os.path.realpath(django.__file__)) # path to the django installation
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__)) # path to the project directory
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -114,3 +114,11 @@ INSTALLED_APPS = (
 )
 
 COMMENTS_APP = 'benchmarks.extended_comments'
+
+# Tuple of regular expressions
+# The LastPage middleware will skip tracking these.
+LASTPAGE_SKIP = (
+  r'^/dirlist.*$',
+  r'^/favicon.ico$',
+  r'^' + MEDIA_URL + '.*$',
+)
