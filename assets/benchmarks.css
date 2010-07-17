@@ -17,16 +17,16 @@ nav {
   background-color: #eeeeee;
   width: 250px;
   float: right;
-  -webkit-border-bottom-left-radius: 4px;
-  -moz-border-radius-bottomleft: 4px;
-  border-bottom-left-radius: 4px;
   border: 1px solid #cccccc;
   border-right: none;
   border-top: none;
+  border-bottom: none;
   padding: 20px;
   padding-bottom: 0px;
   position: fixed;
   right: 0px;
+  top: 0;
+  bottom: 0;
 }
 nav ul {
   padding: 20px;
@@ -76,7 +76,7 @@ pre, code {
   font-size: 1.25em;
   margin: 5px;
   background-color: #eeeeee;
-  padding: 10px;
+  padding: 5px;
   font-family: monospace;
   color: #333;
   border: 1px solid #cccccc;
@@ -184,4 +184,52 @@ ul li {
 }
 #post-content {
   margin: 20px 0px;
+}
+#body_box {
+  border: 1px solid #cccccc;
+}
+#id_comment {
+  height: 200px;
+  width: 400px;
+  line-height: 150%;
+}
+input, textarea {
+  padding: 7px;
+  border: solid 1px #cccccc;
+  outline: 0;
+  font: normal 13px/100% Verdana, Tahoma, sans-serif;
+  width: 200px;
+  background: #fff;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -opera-border-radius: 4px;
+  border-radius: 4px;
+}
+input:hover,
+textarea:hover,
+input:focus,
+textarea:focus {
+  border-color: #bbbbbb;
+}
+form ol {
+  list-style: none;
+}
+form li {
+  clear: both;
+}
+form label {
+  float: left;
+  margin-right: 6px;
+  line-height: 30px;
+}
+form .button {
+  padding: 9px;
+}
+.CodeMirror-wrapping {
+  border: 1px solid #cccccc;
+  margin: 20px 0px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -opera-border-radius: 4px;
+  border-radius: 4px;
 }
