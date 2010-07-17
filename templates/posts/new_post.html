@@ -2,24 +2,8 @@
 
 {% block title %}Add Post{% endblock %}
 
-{% block jsheadblock %}
+{% block cssblock %}
 <link rel="stylesheet" href="{{ MEDIA_URL }}uniform.default.css" type="text/css" media="screen" charset="utf-8" />
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script src="{{ MEDIA_URL }}codemirror/js/codemirror.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}codemirror/js/mirrorframe.js" type="text/javascript"></script>
-<script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function() {
-   $('form').validate();
-   var editor = new CodeMirror.fromTextArea('id_body', {
-     parserfile: "parsexml.js",
-     path: "{{ MEDIA_URL }}codemirror/js/",
-     stylesheet: "{{ MEDIA_URL }}codemirror/css/xmlcolors.css",
-     height: "400px",
-     width: "500px"
-   });
-});
-</script>
 {% endblock %}
 
 {% block content %}
@@ -59,29 +43,43 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block jsblock %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}jquery.MultiFile.pack.js"></script>
 <!--script type="text/javascript" src="{{ MEDIA_URL }}flash_detect_min.js"></script-->
 <!--script type="text/javascript" src="{{ MEDIA_URL }}swfupload/swfupload/swfupload.js"></script-->
 <!--script type="text/javascript" src="{{ MEDIA_URL }}swfupload/swfupload/plugins/swupload.cookies.js"></script-->
 <script src="{{ MEDIA_URL }}jquery.uniform.js" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}codemirror/js/codemirror.js" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}codemirror/js/mirrorframe.js" type="text/javascript"></script>
 <script>
-$("#parent_stuff").hide();
-$("#optional").hide();
-$("#id_category").change(function() {
-  var val = $(this).val();
-  if (val === "O") {
-    $("#optional").fadeIn();
-  }
-  else {
-    $("#optional").fadeOut();
-  }
-  if ((val !== "") && (val !== "P")) {
-    $("#parent_stuff").slideDown();
-  }
-  else {
-    $("#parent_stuff").slideUp();
-  }
-});
-$("select, input:checkbox, input:radio, input:file").uniform();
+(function($){
+  $("#parent_stuff").hide();
+  $("#optional").hide();
+  $("#id_category").change(function(){
+    var val = $(this).val();
+    if (val === "O") {
+      $("#optional").fadeIn();
+    }
+    else {
+      $("#optional").fadeOut();
+    }
+    if ((val !== "") && (val !== "P")){
+      $("#parent_stuff").slideDown();
+    }
+    else {
+      $("#parent_stuff").slideUp();
+    }
+  });
+  $("select, input:checkbox, input:radio, input:file").uniform();
+     $('form').validate();
+     var editor = new CodeMirror.fromTextArea('id_body', {
+       parserfile: "parsexml.js",
+       path: "{{ MEDIA_URL }}codemirror/js/",
+       stylesheet: "{{ MEDIA_URL }}codemirror/css/xmlcolors.css",
+       height: "400px",
+       width: "500px"
+  });
+})(jQuery);
 </script>
 {% endblock %}

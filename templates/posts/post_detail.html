@@ -4,23 +4,6 @@
 
 {% block title %}{{ object.title }}{% endblock %}
 
-{% block jsheadblock %}
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}jqueryFileTree/jqueryFileTree.js"></script>
-
-<script type="text/javascript">
-$(document).ready( function() {
-  $('#files').fileTree(
-    {
-      root: '/assets/uploads/{{ object.pk }}/',
-      script: '/dirlist'
-    },
-    function(file) {
-      window.location.href = ('{{ MEDIA_URL }}' + file);
-    });
-});
-</script>
-{% endblock %}
 
 {% block cssblock %}
 <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}jqueryFileTree/jqueryFileTree.css" />
@@ -109,3 +92,21 @@ $("select, input:checkbox, input:radio, input:file").uniform();
 </script>
 {% endblock %}
 {% endcomment %}
+
+{% block jsblock %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}jqueryFileTree/jqueryFileTree.js"></script>
+
+<script type="text/javascript">
+(function($){
+  $('#files').fileTree(
+    {
+      root: '/assets/uploads/{{ object.pk }}/',
+      script: '/dirlist'
+    },
+    function(file) {
+      window.location.href = ('{{ MEDIA_URL }}' + file);
+  });
+})(jQuery);
+</script>
+{% endblock %}
