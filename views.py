@@ -10,6 +10,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic.simple import direct_to_template 
 from django.http import Http404
+from benchmarks.feeds import RssPostsFeed, AtomPostsFeed
 
 def homepage(request):
   # featured posts always stay on the homepage
@@ -96,3 +97,19 @@ def dirlist(request):
 
   response += '</ul>'
   return HttpResponse(response)
+
+def rss(request):
+  if request.user.is_authenticated():
+    #display personalized feed for authenticated users
+    #including all posts, comments on their posts, response comments
+    return RssPostsFeed().__call__(request)
+  else:
+    return RssPostsFeed().__call__(request)
+
+def atom(request):
+  if request.user.is_authenticated():
+    #display personalized feed for authenticated users
+    #including all posts, comments on their posts, response comments
+    return AtomPostsFeed().__call__(request)
+  else:
+    return AtomPostsFeed().__call__(request)

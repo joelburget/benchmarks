@@ -23,8 +23,6 @@
 - favicon
 - logo?
 - icons throughout website (famfamfam)
-- move js to body
-- extend sidebar
 - edit posts page
 - search for realizations/etc. while doing new post
 - whoosh for posts, normal search for groups/users

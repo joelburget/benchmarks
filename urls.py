@@ -28,6 +28,10 @@ urlpatterns = patterns('',
   (r'^posts/', include('benchmarks.posts.urls')),
   (r'^users/', include('benchmarks.users.urls')),
 
+  #Feeds
+  (r'^rss/$', 'benchmarks.views.rss'),
+  (r'^atom/$', 'benchmarks.views.atom'),
+
   # Login/logout
   (r'^login/$', 'benchmarks.views.loginuser'),
   (r'^logout/$', 'benchmarks.views.logoutuser'),
