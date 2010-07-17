@@ -1,7 +1,7 @@
 import re
 import os
 import urllib
-from benchmarks.settings import SITE_ROOT
+from benchmarks.helpers import *
 from benchmarks.posts.models import Post
 from benchmarks.extended_comments.models import ExtendedComment
 from django.shortcuts import render_to_response
@@ -75,29 +75,24 @@ def our404(request, error='404'):
   return render_to_response('404.html', {'msg' : msg, 'suggestion' : suggestion})
 
 def our500(request):
-  return our404(request, error='500') 
+  return our404(request, error='500')
 
-# Modified connector script for Django from jqueryFileTree codebase
+
 def dirlist(request):
-   if not request.is_ajax():
-     raise Http404
-   r=['<ul class="jqueryFileTree" style="display: none;">']
-   try:
-       r=['<ul class="jqueryFileTree" style="display: none;">']
-       uploads = os.path.join(SITE_ROOT, 'assets/uploads/')
-       d=urllib.unquote(request.POST.get('dir', '/'))
+  response = '<ul class="jqueryFileTree" style="display:none;">\n'
 
-       if d[0] != '/': d = uploads + d
+  if request.is_ajax():
+    if 'dir' in request.POST:
+      # Get directory
+      root = os.getcwd() + request.POST['dir']
+      l = generate_dirs_list(root)
+      response += l
+    else:
+      # No "dir" parameter
+      response += 'Error! A "dir" GET parameter is required to access this URL.'
+  else:
+    # Non-POST methods
+    response += 'Error! This URL can only be accessed with a POST method.'
 
-       for f in os.listdir(d):
-           ff=os.path.join(d,f)
-           if os.path.isdir(ff):
-               r.append('<li class="directory collapsed"><a href="#" rel="%s/">%s</a></li>' % (ff,f))
-           else:
-               e=os.path.splitext(f)[1][1:] # get .ext and remove dot
-               r.append('<li class="file ext_%s"><a href="#" rel="%s">%s</a></li>' % (e,ff,f))
-       r.append('</ul>')
-   except Exception,e:
-       r.append('Could not load directory: %s' % str(e))
-   r.append('</ul>')
-   return HttpResponse(''.join(r))
+  response += '</ul>'
+  return HttpResponse(response)

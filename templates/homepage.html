@@ -12,8 +12,8 @@
 {% if featured_posts %}
 {% for object in featured_posts %}
 	<div class="block">
-	<h2><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h2>
-	{{ object.body|truncatewords_html:"50"|striptags }}
+	<h2><a href="{{ object.get_absolute_url }}">{{ object.title|truncatewords:"6" }}</a></h2>
+	<p>{{ object.body|truncatewords_html:"50"|striptags }}</p>
 	{% get_comment_count for object as comment_count %}
   <p class="postInfo"><span class="postType"><a href="">{{ object.get_category_display }}</a></span> Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.first_name }} {{ object.author.last_name }}</a>, on {{ object.published }}</p>
 	</div>
@@ -23,19 +23,27 @@
 {% endif %}
 
 <h1>Latest Posts</h1>
+{% if latest_posts %}
 {% for object in latest_posts %}
 	<div class="block">
-	<h2><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h2>
+	<h2><a href="{{ object.get_absolute_url }}">{{ object.title|truncatewords:"6" }}</a></h2>
 	<p>{{ object.body|truncatewords_html:"50"|striptags }}</p>
 	{% get_comment_count for object as comment_count %}
   <p class="postInfo"><span class="postType"><a href="">{{ object.get_category_display }}</a></span> Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.first_name }} {{ object.author.last_name }}</a>, on {{ object.published }}</p>
   </div>
 {% endfor %}
+{% else %}
+<p>Sorry, we don't have any recent posts.</p>
+{% endif %}
 
 <h1>Latest Discussion</h1>
+{% if latest_discussion %}
 <ul>
 {% for comment in latest_discussion %}
   <li class="latestComment">{{ comment.comment|safe }} - <a href="{{ comment.user.get_absolute_url }}">{{ comment.user.first_name }} {{ comment.user.last_name }}</a> on <a href="{{ comment.get_absolute_url }}">{{ comment.content_object.title }}</a></li>
 {% endfor %}
 </ul>
+{% else %}
+<p>Sorry, we don't have any recent comments.</p>
+{% endif %}
 {% endblock %}
