@@ -6,7 +6,7 @@ from django.db.models.signals import post_save
 
 class UserProfile(models.Model):
   user = models.ForeignKey(User, unique=True)
-  bio = models.CharField(max_length=200)
+  bio = models.CharField(max_length=500)
   showemail = models.BooleanField(default=True)
 
   def __unicode__(self):

@@ -1,5 +1,6 @@
 @background-gray: #eee;
 @border-gray: #ccc;
+@border-focus: #bbb;
 
 .rounded(@radius: 4px) {
   -webkit-border-radius: @radius;
@@ -12,6 +13,13 @@
   -webkit-border-bottom-left-radius: @radius;
   -moz-border-radius-bottomleft: @radius;
   border-bottom-left-radius: @radius;
+}
+
+.opacity(@val: 0) {
+  opacity: @val;
+  -moz-opacity: @val;
+  filter: alpha(opacity= @val);
+  -khtml-opacity: @val;
 }
 
 /* Layout */
@@ -37,14 +45,16 @@ nav {
   background-color: @background-gray;
   width: 250px;
   float: right;
-  .rounded-bl();
   border: 1px solid @border-gray;
   border-right: none;
   border-top: none;
+  border-bottom: none;
   padding: 20px;
   padding-bottom: 0px;
   position: fixed;
   right: 0px;
+  top: 0;
+  bottom: 0;
 
   ul { 
     padding: 20px; padding-top: 0px; list-style-type: square; 
@@ -106,7 +116,7 @@ pre, code {
   font-size: 1.25em;
   margin: 5px;
   background-color: @background-gray;
-  padding: 10px;
+  padding: 5px;
   font-family: monospace;
   color: #333;
   border: 1px solid @border-gray;
@@ -225,4 +235,52 @@ ul li {
 
 #body_box {
   border: 1px solid @border-gray;
+}
+
+#id_comment {
+	height: 200px;
+  width: 400px;
+	line-height: 150%;
+}
+
+//Pretty forms
+input, textarea {
+	padding: 7px;
+	border: solid 1px @border-gray;
+	outline: 0;
+	font: normal 13px/100% Verdana, Tahoma, sans-serif;
+	width: 200px;
+	background: #fff;
+  .rounded();
+}
+
+input:hover, textarea:hover,
+input:focus, textarea:focus {
+	border-color: @border-focus;
+}
+
+form {
+  ol {
+    list-style: none;
+  }
+
+  li {
+    clear: both;
+  }
+
+  label {
+    float: left;
+    margin-right: 6px;
+    line-height: 30px;
+  }
+
+  .button {
+    padding: 9px;
+  }
+}
+
+.CodeMirror-wrapping {
+  border: 1px solid @border-gray;
+  margin: 20px 0px;
+  .rounded();
 }

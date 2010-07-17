@@ -1,9 +1,13 @@
-html { font-size: 100%; }
+/* Layout */
+html {
+  font-size: 100%;
+}
 body {
   font-family: sans-serif;
   font-size: 1em;
   line-height: 1.5em;
 }
+/* Layout */
 #content {
   font-size: 0.88em;
   margin-right: 440px;
@@ -14,16 +18,16 @@ nav {
   background-color: #eeeeee;
   width: 250px;
   float: right;
-  -webkit-border-bottom-left-radius: 4px;
-  -moz-border-radius-bottomleft: 4px;
-  border-bottom-left-radius: 4px;
   border: 1px solid #cccccc;
   border-right: none;
   border-top: none;
+  border-bottom: none;
   padding: 20px;
   padding-bottom: 0px;
   position: fixed;
   right: 0px;
+  top: 0;
+  bottom: 0;
 }
 nav ul {
   padding: 20px;
@@ -37,9 +41,12 @@ nav ul li {
 #comments {
   margin-top: 20px;
   padding-top: 20px;
-  border-top: 1px dotted #999999;
+  border-top: 1px dotted #999;
 }
-.block { margin-bottom: 20px; }
+.block {
+  margin-bottom: 20px;
+}
+/* Page elements */
 h1 {
   font-weight: bold;
   font-size: 2em;
@@ -63,18 +70,20 @@ h3 {
   margin-left: 5px;
 }
 a {
-  color: #107fc9;
+  color: #107FC9;
   text-decoration: none;
-  border-bottom: 1px dotted #107fc9;
+  border-bottom: 1px dotted #107FC9;
 }
-a:hover { border-bottom: 1px solid #107fc9; }
+a :hover {
+  border-bottom: 1px solid #107FC9;
+}
 pre, code {
   font-size: 1.25em;
   margin: 5px;
   background-color: #eeeeee;
-  padding: 10px;
+  padding: 5px;
   font-family: monospace;
-  color: #333333;
+  color: #333;
   border: 1px solid #cccccc;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -97,44 +106,52 @@ ul li {
   margin-top: 0em;
   margin-bottom: 1em;
 }
-.postInfo { font-size: 0.9em; }
+/* Post-specific */
+.postInfo {
+  font-size: 0.9em;
+}
 .postInfo a {
   font-weight: bold;
   text-decoration: none;
-  border-bottom: 1px dotted #aaaaaa;
-  color: #111111;
+  border-bottom: 1px dotted #aaa;
+  color: #111;
 }
-.postInfo a:hover { border-bottom: 1px solid #aaaaaa; }
+.postInfo a :hover {
+  border-bottom: 1px solid #aaa;
+}
 .postType {
-  color: #ffffff;
-  background-color: #e22929;
-  border: 1px solid #ff3333;
-  border-bottom: 1px solid #8c1717;
-  border-right: 1px solid #8c1717;
+  color: #fff;
+  background-color: #E22929;
+  border: 1px solid #f33;
+  border-bottom: 1px solid #8C1717;
+  border-right: 1px solid #8C1717;
   padding: 3px;
 }
 .postType a {
-  color: #ffffff;
-  border-bottom: 1px dotted #ffffff;
+  color: #fff;
+  border-bottom: 1px dotted #fff;
 }
-.postType a:hover { border-bottom: 1px solid #ffffff; }
+.postType a :hover {
+  border-bottom: 1px solid #fff;
+}
 #files {
   margin-bottom: 1.5em;
   margin-left: 5px;
 }
 #files ul li a {
-  color: #333333;
+  color: #333;
   border: none;
 }
-#files ul li a:hover {
+#files ul li a :hover {
   border: none;
-  color: #000000;
+  color: #000;
 }
+/* Comment-specific */
 .commentBox {
   clear: both;
   background-color: #eeeeee;
   padding: 5px;
-  color: #333333;
+  color: #333;
   font-weight: bold;
   border: 1px solid #cccccc;
   -webkit-border-radius: 4px;
@@ -142,14 +159,17 @@ ul li {
   -opera-border-radius: 4px;
   border-radius: 4px;
 }
-.gravatar { float: left; }
+.gravatar {
+  float: left;
+}
 .comment {
   line-height: 1.5em;
-  color: #222222;
+  color: #222;
   margin-bottom: 1em;
   padding: 5px;
   margin-left: 48px;
 }
+/* Homepage specific */
 .latestComment {
   padding: 10px;
   padding-top: 0px;
@@ -166,5 +186,54 @@ ul li {
   padding: 10px;
   margin-bottom: 20px;
 }
-#post-content { margin: 20px 5px; }
-#body_box { border: 1px solid #cccccc; }
+#post-content {
+  margin: 20px 5px;
+}
+#body_box {
+  border: 1px solid #cccccc;
+}
+#id_comment {
+  height: 200px;
+  width: 400px;
+  line-height: 150%;
+}
+input, textarea {
+  padding: 7px;
+  border: solid 1px #cccccc;
+  outline: 0;
+  font: normal 13px/100% Verdana, Tahoma, sans-serif;
+  width: 200px;
+  background: #fff;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -opera-border-radius: 4px;
+  border-radius: 4px;
+}
+input:hover,
+textarea:hover,
+input:focus,
+textarea:focus {
+  border-color: #bbbbbb;
+}
+form ol {
+  list-style: none;
+}
+form li {
+  clear: both;
+}
+form label {
+  float: left;
+  margin-right: 6px;
+  line-height: 30px;
+}
+form .button {
+  padding: 9px;
+}
+.CodeMirror-wrapping {
+  border: 1px solid #cccccc;
+  margin: 20px 0px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -opera-border-radius: 4px;
+  border-radius: 4px;
+}

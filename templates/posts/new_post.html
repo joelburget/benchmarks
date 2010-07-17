@@ -2,73 +2,84 @@
 
 {% block title %}Add Post{% endblock %}
 
-{% block jsheadblock %}
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script src="{{ MEDIA_URL }}codemirror/js/codemirror.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}codemirror/js/mirrorframe.js" type="text/javascript"></script>
-<script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function() {
-   $('form').validate();
-   $('textarea').attr({
-      cols: '120',
-      rows: '30'
-   });
-   var editor = new CodeMirror.fromTextArea('id_body', {
-     parserfile: "parsexml.js",
-     path: "{{ MEDIA_URL }}codemirror/js/",
-     stylesheet: "{{ MEDIA_URL }}codemirror/css/xmlcolors.css"
-   });
-});
-</script>
+{% block cssblock %}
+<link rel="stylesheet" href="{{ MEDIA_URL }}uniform.default.css" type="text/css" media="screen" charset="utf-8" />
 {% endblock %}
 
 {% block content %}
 <form action="." method="post" enctype="multipart/form-data">
   {% csrf_token %}
-  {{ form.title.label_tag }}: {{ form.title }}
-  <br />
-  {{ form.body.label_tag }}: {{ form.body }}
-  <p>Note: We accept common HTML tags, such as <b>&lt;b&gt;</b>, <i>&lt;i&gt;</i>, and <code>&lt;code&gt;</code>.</p>
-  <br />
-  {{ form.category.label_tag }}: {{ form.category }}
-  <br />
-  <div id="parent_stuff">{{ form.parent.label_tag }}<span id="optional"> (Optional)</span>: {{ form.parent }}</div>
-  <br />
-
-  <div id="filebay">
-    <label for="file1">File:</label><input type="file" name="file1" id="file1" />
-    <label for="file2">File:</label><input type="file" name="file2" id="file2" />
-    <label for="file3">File:</label><input type="file" name="file3" id="file3" />
-  </div>
-  <div id="filesList"></div>
-
-  <input type="submit" value="Submit" />
+  <ol>
+    <li>
+      {{ form.title.label_tag }} {{ form.title }}
+    </li>
+    <li>
+    {{ form.body.label_tag }}  
+    <br />
+    Note: We accept common HTML tags, such as <b>&lt;b&gt;</b>, <i>&lt;i&gt;</i>, and <code>&lt;code&gt;</code>.
+    {{ form.body }}
+    </li>
+    <li>
+    {{ form.category.label_tag }} {{ form.category }}
+    </li>
+    <li>
+      <div id="parent_stuff">{{ form.parent.label_tag }}<span id="optional"> (Optional)</span> {{ form.parent }}</div>
+    </li>
+    <li>
+      <label for="file1">File</label><input class="realupload" type="file" name="file1" id="file1" />
+    </li>
+    <li>
+      <label for="file2">File</label><input class="realupload" type="file" name="file2" id="file2" />
+    </li>
+    <li>
+      <label for="file3">File</label><input class="realupload" type="file" name="file3" id="file3" />
+    </li>
+    <li>
+      <input class="button" type="submit" value="Submit" />
+    </li>
+  <div id="filelist"></div>
+</ol>
 </form>
 {% endblock %}
 
 {% block jsblock %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}jquery.MultiFile.pack.js"></script>
 <!--script type="text/javascript" src="{{ MEDIA_URL }}flash_detect_min.js"></script-->
 <!--script type="text/javascript" src="{{ MEDIA_URL }}swfupload/swfupload/swfupload.js"></script-->
 <!--script type="text/javascript" src="{{ MEDIA_URL }}swfupload/swfupload/plugins/swupload.cookies.js"></script-->
+<script src="{{ MEDIA_URL }}jquery.uniform.js" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}codemirror/js/codemirror.js" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}codemirror/js/mirrorframe.js" type="text/javascript"></script>
 <script>
-$("#parent_stuff").hide();
-$("#optional").hide();
-$("#id_category").change(function() {
-  var val = $(this).val();
-  if (val === "O") {
-    $("#optional").fadeIn();
-  }
-  else {
-    $("#optional").fadeOut();
-  }
-  if ((val !== "") && (val !== "P")) {
-    $("#parent_stuff").slideDown();
-  }
-  else {
-    $("#parent_stuff").slideUp();
-  }
-});
+(function($){
+  $("#parent_stuff").hide();
+  $("#optional").hide();
+  $("#id_category").change(function(){
+    var val = $(this).val();
+    if (val === "O") {
+      $("#optional").fadeIn();
+    }
+    else {
+      $("#optional").fadeOut();
+    }
+    if ((val !== "") && (val !== "P")){
+      $("#parent_stuff").slideDown();
+    }
+    else {
+      $("#parent_stuff").slideUp();
+    }
+  });
+  $("select, input:checkbox, input:radio, input:file").uniform();
+     $('form').validate();
+     var editor = new CodeMirror.fromTextArea('id_body', {
+       parserfile: "parsexml.js",
+       path: "{{ MEDIA_URL }}codemirror/js/",
+       stylesheet: "{{ MEDIA_URL }}codemirror/css/xmlcolors.css",
+       height: "400px",
+       width: "500px"
+  });
+})(jQuery);
 </script>
 {% endblock %}
