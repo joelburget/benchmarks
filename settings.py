@@ -120,5 +120,5 @@ COMMENTS_APP = 'benchmarks.extended_comments'
 LASTPAGE_SKIP = (
   r'^/dirlist.*$',
   r'^/favicon.ico$',
-  r'^/' + MEDIA_URL + '.*$',
+  r'^' + MEDIA_URL + '.*$',
 )
