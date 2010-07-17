@@ -1,0 +1,35 @@
+- post save remove signal
+- finish css forms
+- signal/js \n -> <br /> 
+- tag lists
+- right hand menu
+- js upload
+- documentation
+- posts view
+- searching
+- view/search in one page for posts
+- user/group searches (+ userlist page)
+- remove get_list_or_404 from group list page
+- group bios/etc. (remove ugly from /groups)
+- remove ugly from user profiles
+  - gravatar
+  - pretty up comment list 
+- homepage comments (make less ugly, like post page)
+- groupprofile model
+  - bio
+  - image?
+  - link
+- page titles
+- favicon
+- logo?
+- icons throughout website (famfamfam)
+- move js to body
+- extend sidebar
+- edit posts page
+- search for realizations/etc. while doing new post
+- whoosh for posts, normal search for groups/users
+- rss feeds
+- file management in edit posts
+- remove comment file upload (or get them working)
+- number comments (permalink link, stuff like that, highlight your comments)
+- error css not ugly
