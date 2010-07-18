@@ -99,17 +99,7 @@ def dirlist(request):
   return HttpResponse(response)
 
 def rss(request):
-  if request.user.is_authenticated():
-    #display personalized feed for authenticated users
-    #including all posts, comments on their posts, response comments
-    return RssPostsFeed().__call__(request)
-  else:
-    return RssPostsFeed().__call__(request)
+  return RssPostsFeed().__call__(request)
 
 def atom(request):
-  if request.user.is_authenticated():
-    #display personalized feed for authenticated users
-    #including all posts, comments on their posts, response comments
-    return AtomPostsFeed().__call__(request)
-  else:
-    return AtomPostsFeed().__call__(request)
+  return AtomPostsFeed().__call__(request)
