@@ -1,7 +1,8 @@
 import os
 import shutil
+from django.utils.html import linebreaks
 from benchmarks.settings import SITE_ROOT
-from django.db.models.signals import pre_delete
+from django.db.models.signals import pre_delete, pre_save
 from django.db import models
 from django.contrib.auth.models import User
 from django.forms import ModelForm
@@ -34,6 +35,12 @@ class Post(models.Model):
 
   def get_absolute_url_with_comments(self):
     return '%s#comments' % (self.get_absolute_url(),)
+
+def newlines_to_brs(sender, instance, **kwargs):
+  print instance.body
+  instance.body = linebreaks(instance.body)
+
+pre_save.connect(newlines_to_brs, sender=Post)
 
 def clean_up_after_post(sender, instance, **kwargs):
   # Delete all postfiles
