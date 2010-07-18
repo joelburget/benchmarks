@@ -1,11 +1,18 @@
 {% extends "base.html" %}
 {% block title %}Groups{% endblock %}
-
+{% include inspection %}
 {% block content %}
 <h2>Groups</h2>
-<ul>
 {% for group in groups %}
-  <li><a href="/groups/{{ group.pk }}">{{ group }}</a></li>
+  <div class="block">
+    <h3><a href="/groups/{{ group.pk }}">{{ group }}</a></h3>
+
+    <p><b>About:</b> {% if group.groupprofile.about %}{{ group.groupprofile.about }}{% else %}This group has not provided an about section yet.{% endif %}
+
+    {% if group.groupprofile.link %}
+    (<a href="{{ group.groupprofile.link }}">Link</a>)
+    {% endif %}
+    </p>
+  </div>
 {% endfor %}
-</ul>
 {% endblock %}

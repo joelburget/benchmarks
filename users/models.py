@@ -15,6 +15,7 @@ class UserProfile(models.Model):
 def new_profile(sender, instance, created, **kwargs):
   if created:
     profile, created = UserProfile.objects.get_or_create(user=instance)
+
 post_save.connect(new_profile, sender=User)
 
 class UserForm(ModelForm):
