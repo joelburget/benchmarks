@@ -27,25 +27,30 @@
     <h1 style="text-align: center;"><a href="/">OSU RSRG Benchmarks</a></h1>
 
     <!-- Login form -->
-    <h3>Profile</h3>
+    {% if user.is_authenticated %}
+    {% else %}
+    <h3>Login</h3>
+    {% endif %}
     <div class="block" id="login">
       {% include "_login.html" %}
     </div>
 
+    {% if user.is_authenticated %}
+    <ul class="block">
+      <li><a href="/logout/">Logout</a></li>
+      <li><a href="/posts/new/">New Post</a></li>
+      {% if user.is_staff %}
+      <li><a href="/admin/">Admin</a></li>
+      {% endif %}
+    </ul>
+    {% endif %}
+
     <h3>Navigation</h3>
     <ul class="block">
-      {% if user.is_authenticated %}
-      <li><a href="/posts/new/">New Post</a></li> 
-      {% endif %}
       <li><a href="/posts/">Posts</a></li> 
-      <li><a href="/groups/">View all Groups</a></li> 
+      <li><a href="/groups/">Groups</a></li> 
       <li><a href="/getting-started/">Getting Started</a></li>  
       <li><a href="/about/">About</a></li>
-      {% if user.is_authenticated %}
-      <li>{% if user.is_staff %}<a href="/admin/">Admin</a>{% endif %}</li>
-      <li><a href="{{ user.get_absolute_url }}">Profile</a></li>
-      <li><a href="/logout/">Logout</a></li>
-      {% endif %}
    </ul>
   </nav>
 
