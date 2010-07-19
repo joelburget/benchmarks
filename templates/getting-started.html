@@ -2,18 +2,30 @@
 {% block title %}Getting Started{% endblock %}
 {% block content %}
 <h1>Getting Started</h1>
+<h3>Membership</h3>
+<p>Anyone can view posts and comments but members enjoy these benefits:</p>
+<ul class="bullets">
+  <li>Propose new benchmarks or solutions on this site.</li>
+  <li>Comment on other posts.</li>
+  <li>Collaborate with other researchers interested in software verification in a centralized location.</li>
+  <li>Allow other researchers to contact you more easily (we will share only the information you allow).</li>
+</ul>
 <h3>Get a username</h3>
-<p>This guide assumes you have a username. If you don't have one yet please email Professor Bruce Weide at <a class="email">weide (dot) 1 (at) osu (dot) edu</a> to set up an account. Please include your name, organization (if any), and why you would like to participate</p>
+<p>The rest of this guide assumes you have a username. If you don't have one yet please email Professor Bruce Weide at <a class="email">weide (dot) 1 (at) osu (dot) edu</a> to set up an account. Please include your name, organization (if any), and why you would like to participate.</p>
+<h3>Set your information</h3>
+<p>After you sign in for the first time you can click on the link to your profile in the top right (it should be your name). You can add a short bio about yourself and set your email to be shown to other users. We will never show your email to visitors who aren't signed in</p>
 <h3>Post</h3>
-<p>Once you have your account set up the next step is to post something. Click the link in the toolbar at the top which will take you to an editor. Simple html tags such as &lt;p&gt;, &lt;b&gt;, and &lt;code&gt; are allowed. Javascript is not. Files can be included through hyperlinks or by using the file upload button below the text field. Posts can be classified as Problem, Realization, Verification, or Other. See other posts on the site for clarification of the distinction.</p>
+<p>Once your account is set up the next step is to post something. Click on "new post" in the toolbar which will take you to an editor. Most html tags such as &lt;p&gt;, &lt;b&gt;, and &lt;code&gt; are allowed. CSS is also allowed but not recommended. Javascript is of course not allowed. For more information on how we sanitize posts see <a href="/sanitizing/">here</a>, although everything will usually just work. Files can be included through hyperlinks or by using the file upload button below the text field. Each post can be classified as a Problem, Realization, Verification, or Other. Each type of post except Problem can be linked to the post it is in response to. For instance a verification would be linked to the realization it verifies. See other posts on the site for examples.</p>
 <h3>Comments</h3>
-<p>Comments are included for every post. The same html tags that can be used in posts can be used in comments.</p>
+<p>Comments are included for every post. The same html and css that can be used in posts can be used in comments.</p>
 {% block jsblock %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script>
+(function($){
   var a = "weide";
   var b = "su.ed";
   $('a.email').replaceWith('<a href=\"mailto:' + a + '.1\@o' + b + 'u' + "\">" + a + '.1\@o' + b + 'u' + '</a>');
+}(jQuery));
 </script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 {% endblock %}
 {% endblock %}
