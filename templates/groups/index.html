@@ -1,8 +1,15 @@
 {% extends "base.html" %}
 {% block title %}Groups{% endblock %}
-{% include inspection %}
 {% block content %}
 <h2>Groups</h2>
+
+<h3>Search</h3>
+<form class="block" action="." method="get">
+  <input type="text" value="{{ searchtxt }}" name="searchtxt" id="searchtxt" />
+  <input type="submit" value="Search" />
+</form>
+
+<h3>Results</h3>
 {% for group in groups %}
   <div class="block">
     <h3><a href="/groups/{{ group.pk }}">{{ group }}</a></h3>

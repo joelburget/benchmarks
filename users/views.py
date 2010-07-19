@@ -5,6 +5,22 @@ from django.contrib.auth.models import User
 from django.contrib.comments.models import Comment
 from benchmarks.users.models import UserForm 
 from django.http import HttpResponseRedirect
+from django.db.models import Q
+
+def index(request):
+  if 'searchtxt' in request.GET:
+    searchtxt = request.GET['searchtxt']
+    users = User.objects.filter(
+      Q(username__icontains=searchtxt) | 
+      Q(first_name__icontains=searchtxt) |
+      Q(last_name__icontains=searchtxt) 
+    ).distinct()
+  else:
+    searchtxt = ''
+    users = User.objects.all()
+
+  return render_to_response('users/index.html', 
+    context_instance=RequestContext(request, { 'searchtxt' : searchtxt, 'users' : users}))
 
 def showuser(request, uname):
   u = get_object_or_404(User, username=uname)
