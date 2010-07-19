@@ -10,7 +10,8 @@
 </form>
 
 <h3>Results</h3>
-{% for group in groups %}
+{% if groups %}
+{% for group in groups.object_list %}
   <div class="block">
     <h3><a href="/groups/{{ group.pk }}">{{ group }}</a></h3>
 
@@ -22,4 +23,21 @@
     </p>
   </div>
 {% endfor %}
+{% else %}
+<p>Sorry, no groups exist that match your criteria.</p>
+{% endif %}
+
+<div class="block">
+  <p>
+  {% if groups.has_previous %}
+    <a href="?page={{ groups.previous_page_number }}">Previous</a>
+  {% endif %}
+
+  <b>Page {{ groups.number }} of {{ groups.paginator.num_pages }}</b>
+
+  {% if groups.has_next %}
+    <a href="?page={{ groups.next_page_number }}">Next</a>
+  {% endif %}
+  </p>
+</div>
 {% endblock %}

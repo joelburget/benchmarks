@@ -6,18 +6,32 @@ from django.contrib.comments.models import Comment
 from benchmarks.users.models import UserForm 
 from django.http import HttpResponseRedirect
 from django.db.models import Q
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 def index(request):
   if 'searchtxt' in request.GET:
     searchtxt = request.GET['searchtxt']
-    users = User.objects.filter(
+    pusers = User.objects.filter(
       Q(username__icontains=searchtxt) | 
       Q(first_name__icontains=searchtxt) |
       Q(last_name__icontains=searchtxt) 
     ).distinct()
   else:
     searchtxt = ''
-    users = User.objects.all()
+    pusers = User.objects.all()
+
+  # Paginate
+  paginator = Paginator(pusers, 20)
+  
+  try:
+    page = int(request.GET.get('page', '1'))
+  except ValueError:
+    page = 1
+
+  try:
+    users = paginator.page(page)
+  except (EmptyPage, InvalidPage):
+    users = pageinator.page(paginator.num_pages)
 
   return render_to_response('users/index.html', 
     context_instance=RequestContext(request, { 'searchtxt' : searchtxt, 'users' : users}))

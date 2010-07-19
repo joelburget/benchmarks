@@ -3,14 +3,29 @@ from django.contrib.auth.models import Group
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from benchmarks.groups.models import GroupProfile
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 def index(request):
+  # Search, or index
   if 'searchtxt' in request.GET:
     searchtxt = request.GET['searchtxt']
-    groups = Group.objects.filter(name__icontains=searchtxt)
+    pgroups = Group.objects.filter(name__icontains=searchtxt)
   else:
     searchtxt = ''
-    groups = Group.objects.all()
+    pgroups = Group.objects.all()
+
+  # Paginate
+  paginator = Paginator(pgroups, 20)
+  
+  try:
+    page = int(request.GET.get('page', '1'))
+  except ValueError:
+    page = 1
+
+  try:
+    groups = paginator.page(page)
+  except (EmptyPage, InvalidPage):
+    groups = pageinator.page(paginator.num_pages)
 
   return render_to_response('groups/index.html', { 'searchtxt' : searchtxt, 'groups' : groups }, context_instance=RequestContext(request))
 
