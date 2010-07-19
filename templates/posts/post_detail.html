@@ -54,7 +54,7 @@
 {% get_comment_list for object as comment_list %}
 {% for comment in comment_list %}
   <div id="c{{ comment.id }}">
-    <p class="commentBox">{{ comment.submit_date|date:"F j, Y" }} at {{ comment.submit_date|date:"P" }} - <a href="{{ comment.user.get_absolute_url }}">{{ comment.name|escape }}</a></p> 
+    <p class="commentBox"><a href="{{ comment.get_absolute_url }}">#{{ forloop.counter }}</a> &mdash; {{ comment.submit_date|date:"F j, Y" }} at {{ comment.submit_date|date:"P" }} by <a href="{{ comment.user.get_absolute_url }}">{{ comment.name|escape }}</a></p> 
     <div class="gravatar"><a href="{{ comment.user.get_absolute_url }}">{% gravatar comment.user.email 48 %}</a></div>
     <div class="comment">{{ comment.comment|safe|linebreaks }}</div>
   </div>
@@ -63,7 +63,6 @@
 <!-- Comment form -->
 {% if user.is_authenticated %}
   <h3 style="clear:both;">Leave a comment</h3>
-  <br />
   {% get_comment_form for object as form %}
   <form action="{% comment_form_target %}" method="post" enctype="multipart/form-data"> 
     {% csrf_token %}
