@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>{% block title %}{{ title }}{% endblock %}</title>
+	<title>{% block title %}{% endblock %} - RSRG Benchmarks</title>
   <link rel="icon" type="image/vnd.microsoft.icon" href="{{ MEDIA_URL }}img/favicon.ico" />
 	<!--[if IE]>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -31,7 +31,16 @@
     <h3>Login</h3>
     {% endif %}
     <div class="block" id="login">
-      {% include "_login.html" %}
+      {% if user.is_authenticated %}
+        <p><span>Hello, <a href="{{ user.get_absolute_url }}">{% if user.first_name == '' %}{{ user.username }}{% else %}{{ user.first_name }}{% endif %}</a>!</p>
+          {% else %}
+        <form class="block" action="/login/" method="post" accept-charset="utf-8">
+          {% csrf_token %}
+          <label for="username">Username:</label><br /><input type="text" name="username" id="username" value="" /><br />
+          <label for="password">Password:</label><br /><input type="password" name="password" id="password" value="" /><br />
+          <input id="navlogin" type="submit" value="Login" />
+        </form>
+      {% endif %}
     </div>
 
     {% if user.is_authenticated %}

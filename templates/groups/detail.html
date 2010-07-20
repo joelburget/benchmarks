@@ -1,9 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}Group - {{ group.name }}{% endblock %}
+{% block title %}{{ group.name }}{% endblock %}
 
 {% block content %}
-<h2>Members of {{ group.name }}</h2>
+<h2>{{ group.name }} &mdash; {{ group.user_set.count }} Member{% if group.user_set.count == 1 %}{% else %}s{% endif %}</h2>
+
+<div class="block">
+<h3>About</h3>
+<p>{{ group.groupprofile.about }}</p>
+
 {% if user.is_authenticated %}
 <form action="/groups/{% if group in user.groups.all %}leave{% else %}join{% endif %}/" method="post">
 {% csrf_token %}
@@ -11,13 +16,19 @@
   <input type="submit" value="{% if group in user.groups.all %}Leave this Group{% else %}Join this Group{% endif %}" />
 </form>
 {% endif %}
+</div>
+
+<div class="block">
+<h3>Members</h3>
 {% if group.user_set.all %}
-<ul>
 {% for member in group.user_set.all %}
-  <li><a href="{{ member.get_absolute_url }}">{{ member.first_name }} {{ member.last_name }}</a></li>
+  <div class="block">
+    <h3><a href="{{ member.get_absolute_url }}">{{ member.get_profile.get_display_name }}{% if not user.get_profile.get_display_name == user.username %} ({{ user.username}}){% endif %}</a></h3>
+    <p><b>Bio:</b> {% if member.get_profile.bio %}{{ member.get_profile.bio }}{% else %}This user hasn't entered a bio yet.{% endif %}</p>
+  </div>
 {% endfor %}
-</ul>
 {% else %}
 <p>No users have joined this group yet.</p>
 {% endif %}
+</div>
 {% endblock %}

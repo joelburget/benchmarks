@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ object.first_name }} {{ object.last_name }} - Profile{% endblock %}
+{% block title %}{{ object.get_profile.get_display_name }}{% endblock %}
 
 {% block content %}
 <div id="rss">

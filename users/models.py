@@ -9,6 +9,12 @@ class UserProfile(models.Model):
   bio = models.CharField(max_length=500)
   showemail = models.BooleanField(default=True)
 
+  def get_display_name(self):
+    if self.user.first_name:
+      return self.user.first_name + ' ' + self.user.last_name
+    else:
+      return self.user.username
+
   def __unicode__(self):
     return 'Profile for %s' % (self.user.username,)
 
