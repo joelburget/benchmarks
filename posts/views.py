@@ -7,6 +7,8 @@ from django.http import HttpResponseRedirect
 from django.views.generic.simple import direct_to_template
 from django.template import RequestContext
 from benchmarks.settings import SITE_ROOT
+from django.db.models import Q
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 def editpost(request):
   # Only authenticated users may post
@@ -40,16 +42,28 @@ def editpost(request):
 
   return render_to_response('posts/new_post.html', { 'form': form }, context_instance=RequestContext(request))
 
-
-def search(request):
-  if request.method == 'POST':
-    # Display search form and results
-    query = request.POST['query']
-    hits = Post.objects.filter(body__icontains=query)
+def index(request):
+  if 'searchtxt' in request.GET:
+    searchtxt = request.GET['searchtxt']
+    pposts = Post.objects.filter(
+      Q(title__icontains=searchtxt) |
+      Q(body__icontains=searchtxt)
+    ).distinct()
   else:
-    # Just display search form
-    query = ''
-    hits = []
+    searchtxt = ''
+    pposts = Post.objects.all()
 
-  return render_to_response('posts/search.html', {'query' : query, 'hits' : hits},
+  paginator = Paginator(pposts, 20)
+
+  try:
+    page = int(request.GET.get('page', '1'))
+  except ValueError:
+    page = 1
+
+  try:
+    posts = paginator.page(page)
+  except (EmptyPage, InvalidPage):
+    posts = paginator.page(paginator.num_pages)
+
+  return render_to_response('posts/index.html', { 'searchtxt' : searchtxt, 'posts' : posts },
     context_instance=RequestContext(request))

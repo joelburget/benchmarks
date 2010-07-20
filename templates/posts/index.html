@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Posts{% endblock %}
+
+{% block content %}
+<h2>Posts</h2>
+
+<h3>Search</h3>
+<form action="." method="get" class="block">
+  <input type="text" name="searchtxt" id="searchtxt" value="{{ searchtxt }}" />
+  <input type="submit" value="Search" />
+</form>
+
+<h3>Results</h3>
+{% for post in posts.object_list %}
+  <div class="block">
+    <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+    <p>{{ post.body|truncatewords_html:"50"|striptags }}</p>
+    <p class="postInfo"><span class="postType"><a href="">{{ post.get_category_display }}</a></span> Posted by: <a href="{{ post.author.get_absolute_url }}">{{ post.author.first_name }} {{ post.author.last_name }}</a>, on {{ post.published }}</p>
+  </div>
+{% endfor %}
+
+<div class="block">
+  <p>
+  {% if posts.has_previous %}
+    <a href="?page={{ posts.previous_page_number }}">Previous</a>
+  {% endif %}
+
+  <b>Page {{ posts.number }} of {{ posts.paginator.num_pages }}</b>
+
+  {% if posts.has_next %}
+    <a href="?page={{ posts.next_page_number }}">Next</a>
+  {% endif %}
+  </p>
+</div>
+{% endblock %}
