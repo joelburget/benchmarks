@@ -7,7 +7,16 @@
 
 <h3>Search</h3>
 <form action="." method="get" class="block">
+  <p><a id="advancedlink" href="#">Advanced Search &rarr;</a></p>
+  <p id="advanced">
+        <label for="problem">Problem:</label><input type="checkbox" id="problem" name="problem" /><br />
+    <label for="realization">Realization:</label><input type="checkbox" id="realization" name="realization" /><br />
+    <label for="verification">Verification:</label><input type="checkbox" id="verification" name="verification" /><br />
+    <label for="other">Other:</label><input type="checkbox" id="other" name="other" /><br />
+  </p>
+
   <input type="text" name="searchtxt" id="searchtxt" value="{{ searchtxt }}" />
+  
   <input type="submit" value="Search" />
 </form>
 
@@ -33,4 +42,20 @@
   {% endif %}
   </p>
 </div>
+{% endblock %}
+
+{% block jsblock %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#advanced').hide();
+  $('#advancedlink').click(function() {
+    if ($('#advanced').is(':visible')) {
+      $('#advanced').slideUp();
+    } else {
+      $('#advanced').slideDown();
+    }
+  });
+});
+</script>
 {% endblock %}

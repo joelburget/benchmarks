@@ -21,7 +21,7 @@ def index(request):
     pusers = User.objects.all()
 
   # Paginate
-  paginator = Paginator(pusers, 20)
+  paginator = Paginator(pusers, 10)
   
   try:
     page = int(request.GET.get('page', '1'))

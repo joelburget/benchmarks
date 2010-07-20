@@ -53,7 +53,7 @@ def index(request):
     searchtxt = ''
     pposts = Post.objects.all()
 
-  paginator = Paginator(pposts, 20)
+  paginator = Paginator(pposts, 10)
 
   try:
     page = int(request.GET.get('page', '1'))
