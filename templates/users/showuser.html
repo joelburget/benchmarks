@@ -3,6 +3,10 @@
 {% block title %}{{ object.first_name }} {{ object.last_name }} - Profile{% endblock %}
 
 {% block content %}
+<div id="rss">
+  <img src="{{ MEDIA_URL }}feed-icon16x16.png" height="16px" width="16px" />
+  <span>Personal <a href="rss/">RSS</a> / <a href="atom/">Atom</a></span>
+</div>
 <div class="block">
 <h2>Profile</h2>
 <ul>
