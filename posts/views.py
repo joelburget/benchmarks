@@ -45,8 +45,6 @@ def editpost(request):
   return render_to_response('posts/new_post.html', { 'form': form }, context_instance=RequestContext(request))
 
 def index(request):
-  print request.GET
-
   if 'searchtxt' in request.GET:
     searchtxt = request.GET['searchtxt']
 
