@@ -254,7 +254,7 @@ p {
 	line-height: 150%;
 }
 
-//Pretty forms
+// Pretty forms
 input, textarea {
 	padding: 7px;
 	border: solid 1px @border-gray;
@@ -263,6 +263,11 @@ input, textarea {
 	width: 200px;
 	background: #fff;
   .rounded();
+  clear: both;
+}
+
+input[type=checkbox] {
+  width: auto;
 }
 
 textarea {
@@ -288,6 +293,7 @@ form {
     float: left;
     margin-right: 6px;
     line-height: 30px;
+    clear: both;
   }
 
   .button {

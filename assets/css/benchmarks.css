@@ -189,7 +189,9 @@ input, textarea {
   -moz-border-radius: 4px;
   -opera-border-radius: 4px;
   border-radius: 4px;
+  clear: both;
 }
+input[type=checkbox] { width: auto; }
 textarea {
   height: 400px;
   width: 500px;
@@ -204,6 +206,7 @@ form label {
   float: left;
   margin-right: 6px;
   line-height: 30px;
+  clear: both;
 }
 form .button { padding: 9px; }
 .CodeMirror-wrapping {
