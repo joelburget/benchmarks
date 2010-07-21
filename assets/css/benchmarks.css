@@ -217,3 +217,15 @@ form .button { padding: 9px; }
   -opera-border-radius: 4px;
   border-radius: 4px;
 }
+#advanced {
+  background-color: #eeeeee;
+  margin: 10px;
+  margin-top: 0px;
+  padding: 10px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -opera-border-radius: 4px;
+  border-radius: 4px;
+  width: 300px;
+  text-align: right;
+}

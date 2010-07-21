@@ -10,7 +10,7 @@
 </form>
 
 <h3>Results</h3>
-{% if groups %}
+{% if groups.object_list %}
 {% for group in groups.object_list %}
   <div class="block">
     <h3><a href="/groups/{{ group.pk }}">{{ group }}</a> &mdash; {{ group.user_set.count }} Member{% if group.user_set.count == 1 %}{% else %}s{% endif %}</h3>

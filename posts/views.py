@@ -1,5 +1,7 @@
 import os
+from datetime import datetime
 import zipfile
+from benchmarks.posts.models import CATEGORY_CHOICES
 from django.shortcuts import get_object_or_404, render_to_response
 from benchmarks.posts.models import Post, PostForm, PostFile
 from benchmarks.posts.helpers import *
@@ -43,13 +45,27 @@ def editpost(request):
   return render_to_response('posts/new_post.html', { 'form': form }, context_instance=RequestContext(request))
 
 def index(request):
+  print request.GET
+
   if 'searchtxt' in request.GET:
     searchtxt = request.GET['searchtxt']
+
+    # Advanced search
+    categories = []
+
+    for t in CATEGORY_CHOICES:
+      code, category = t
+
+      if category.lower() in request.GET:
+        categories.append(code)
+
     pposts = Post.objects.filter(
       Q(title__icontains=searchtxt) |
-      Q(body__icontains=searchtxt)
+      Q(body__icontains=searchtxt), 
+      category__in=categories
     ).distinct()
   else:
+    categories = []
     searchtxt = ''
     pposts = Post.objects.all()
 
@@ -65,5 +81,18 @@ def index(request):
   except (EmptyPage, InvalidPage):
     posts = paginator.page(paginator.num_pages)
 
-  return render_to_response('posts/index.html', { 'searchtxt' : searchtxt, 'posts' : posts },
+  if len(categories) > 0:
+    categories_submitted = True
+  else:
+    categories_submitted = False
+
+  return render_to_response('posts/index.html', {
+      'searchtxt' : searchtxt,
+      'posts' : posts,
+      'p' : 'P' in categories, 
+      'r' : 'R' in categories, 
+      'v' : 'V' in categories, 
+      'o' : 'O' in categories, 
+      'categories_submitted' : categories_submitted
+    },
     context_instance=RequestContext(request))
