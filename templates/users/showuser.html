@@ -33,7 +33,7 @@
     <tr><td><b>Last Seen:</b></td><td>{{ object.last_login }}</td></tr>
 
     {% if user.username == object.username %}
-    <tr><td><a href="{{ object.get_absolute_url }}edit/">Edit</a></td></tr>
+    <tr><td><a href="{{ object.get_absolute_url }}edit/">Edit Profile</a></td></tr>
     {% endif %}
   </table>
 </div>
