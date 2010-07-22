@@ -57,8 +57,8 @@ pre_delete.connect(clean_up_after_post, sender=Post)
 
 # PostForm
 class PostForm(ModelForm):
-  title = forms.CharField(widget=forms.TextInput(attrs = {'class' : 'required'}))
-  body = forms.CharField(widget=forms.TextInput(attrs = {'class' : 'required'}))
+  title = forms.CharField(widget=forms.TextInput(attrs = {'class' : 'validate[required]'}))
+  body = forms.CharField(widget=forms.TextInput(attrs = {'class' : 'validate[required]'}))
 
   class Meta():
     model = Post
