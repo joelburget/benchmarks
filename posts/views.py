@@ -48,7 +48,7 @@ def index(request):
   if 'searchtxt' in request.GET:
     searchtxt = request.GET['searchtxt']
 
-    # Advanced search
+    # Get categories
     categories = []
 
     for t in CATEGORY_CHOICES:
@@ -57,12 +57,34 @@ def index(request):
       if category.lower() in request.GET:
         categories.append(code)
 
+    # Get advanced text fields
+    title = request.GET.get('title', '')
+    body = request.GET.get('body', '')
+
+    if title != '' and body != '':
+      text = Q(title__icontains=title) & Q(body__icontains=body)
+    elif title != '' and body == '':
+      text = Q(title__icontains=title)
+    elif title == '' and body != '':
+      text = Q(body__icontains=body)
+    else:
+      text = Q(title__icontains=searchtxt) | Q(body__icontains=searchtxt)
+
+    # Check for advanced query
+    # i.e. textfield, bodyfield, or less than the 4 default checkboxes
+    print title + 'text'
+    print body + 'body'
+    advanced_submitted = len(categories) < 4 or title != '' or body != ''
+
+    # Advanced query
     pposts = Post.objects.filter(
-      Q(title__icontains=searchtxt) |
-      Q(body__icontains=searchtxt), 
+      text, 
       category__in=categories
     ).distinct()
   else:
+    advanced_submitted = False
+    title = ''
+    body = ''
     categories = []
     searchtxt = ''
     pposts = Post.objects.all()
@@ -78,19 +100,17 @@ def index(request):
     posts = paginator.page(page)
   except (EmptyPage, InvalidPage):
     posts = paginator.page(paginator.num_pages)
-
-  if len(categories) > 0:
-    categories_submitted = True
-  else:
-    categories_submitted = False
-
+  print 'len '+ str(len(categories))
+  print 'advanced? ' + str(advanced_submitted)
   return render_to_response('posts/index.html', {
       'searchtxt' : searchtxt,
       'posts' : posts,
+      'title' : title,
+      'body' : body,
       'p' : 'P' in categories, 
       'r' : 'R' in categories, 
       'v' : 'V' in categories, 
       'o' : 'O' in categories, 
-      'categories_submitted' : categories_submitted
+      'advanced_submitted' : advanced_submitted,
     },
     context_instance=RequestContext(request))
