@@ -72,8 +72,6 @@ def index(request):
 
     # Check for advanced query
     # i.e. textfield, bodyfield, or less than the 4 default checkboxes
-    print title + 'text'
-    print body + 'body'
     advanced_submitted = len(categories) < 4 or title != '' or body != ''
 
     # Advanced query
@@ -100,8 +98,7 @@ def index(request):
     posts = paginator.page(page)
   except (EmptyPage, InvalidPage):
     posts = paginator.page(paginator.num_pages)
-  print 'len '+ str(len(categories))
-  print 'advanced? ' + str(advanced_submitted)
+
   return render_to_response('posts/index.html', {
       'searchtxt' : searchtxt,
       'posts' : posts,
