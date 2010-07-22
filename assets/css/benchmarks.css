@@ -230,3 +230,12 @@ form .button { padding: 9px; }
   text-align: right;
 }
 #advanced h3 { text-align: left; }
+#profile {
+  background-color: #eeeeee;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -opera-border-radius: 4px;
+  border-radius: 4px;
+  width: 400px;
+}
+#profile td { padding: 10px; }
