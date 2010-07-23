@@ -1,0 +1,25 @@
+- finish css forms
+* signal/js \n -> <br /> 
+* right hand menu
+- js upload
+- documentation
+* post searching
+* remove ugly from user profiles
+* favicon (change link later)
+- logo?
+- icons throughout website (famfamfam)
+- edit posts page
+* rss feeds
+- file management in edit posts
+- remove comment file upload (or get them working)
+* number comments (permalink link, stuff like that, highlight your comments)
+* error css not ugly (fix color)
+- new page js validation
+- Edit user page (talk about gravatar)
+- add requirement about javascript to welcome box
+- Add view all to homepage under recent posts
+- Add featured and username field to advanced search
+- Add link under posts to create a new realization,etc. to this post
+- Django minify inline JS/CSS tags
+- Minify external js files/combine into one
+- Latex math stuff
