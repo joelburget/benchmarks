@@ -38,7 +38,7 @@ def editpost(request):
     # Get a blank post form for editing
     form = PostForm()
 
-  return render_to_response('posts/new_post.html', { 'form': form }, context_instance=RequestContext(request))
+  return render_to_response('posts/new_post.html', { 'form': form, 'object_list': Post.objects.all() }, context_instance=RequestContext(request))
 
 
 def search(request):
