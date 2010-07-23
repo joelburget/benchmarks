@@ -22,7 +22,7 @@
 	<h2><a href="{{ object.get_absolute_url }}">{{ object.title|truncatesmart:40 }}</a></h2>
 	<p>{{ object.body|truncatesmart_html:250|striptags }}</p>
 	{% get_comment_count for object as comment_count %}
-  <p class="postInfo"><span class="postType"><a href="">{{ object.get_category_display }}</a></span> Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.get_profile.get_display_name }}</a>, on {{ object.published }}</p>
+  <p class="postInfo"><span class="postType"><a href="{{ object.get_absolute_category_url }}">{{ object.get_category_display }}</a></span> Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.get_profile.get_display_name }}</a>, on {{ object.published }}</p>
 	</div>
 {% endfor %}
 {% else %}
@@ -36,7 +36,7 @@
 	<h2><a href="{{ object.get_absolute_url }}">{{ object.title|truncatesmart:40 }}</a></h2>
 	<p>{{ object.body|truncatesmart_html:250|striptags }}</p>
 	{% get_comment_count for object as comment_count %}
-  <p class="postInfo"><span class="postType"><a href="">{{ object.get_category_display }}</a></span> Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.get_profile.get_display_name }}</a>, on {{ object.published }}</p>
+  <p class="postInfo"><span class="postType"><a href="{{ object.get_absolute_category_url }}">{{ object.get_category_display }}</a></span> Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.get_profile.get_display_name }}</a>, on {{ object.published }}</p>
   </div>
 {% endfor %}
 {% else %}
