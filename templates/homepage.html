@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load comments %}
 {% load gravatar %}
+{% load truncatesmart %}
+{% load truncatesmart_html %}
 {% block title %}Homepage{% endblock %}
 {% block content %}
 {% if not user.is_authenticated %}
@@ -17,8 +19,8 @@
 {% if featured_posts %}
 {% for object in featured_posts %}
 	<div class="block">
-	<h2><a href="{{ object.get_absolute_url }}">{{ object.title|truncatewords:"6" }}</a></h2>
-	<p>{{ object.body|truncatewords_html:"50"|striptags }}</p>
+	<h2><a href="{{ object.get_absolute_url }}">{{ object.title|truncatesmart:40 }}</a></h2>
+	<p>{{ object.body|truncatesmart_html:250|striptags }}</p>
 	{% get_comment_count for object as comment_count %}
   <p class="postInfo"><span class="postType"><a href="">{{ object.get_category_display }}</a></span> Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.get_profile.get_display_name }}</a>, on {{ object.published }}</p>
 	</div>
@@ -31,8 +33,8 @@
 {% if latest_posts %}
 {% for object in latest_posts %}
 	<div class="block">
-	<h2><a href="{{ object.get_absolute_url }}">{{ object.title|truncatewords:"6" }}</a></h2>
-	<p>{{ object.body|truncatewords_html:"50"|striptags }}</p>
+	<h2><a href="{{ object.get_absolute_url }}">{{ object.title|truncatesmart:40 }}</a></h2>
+	<p>{{ object.body|truncatesmart_html:250|striptags }}</p>
 	{% get_comment_count for object as comment_count %}
   <p class="postInfo"><span class="postType"><a href="">{{ object.get_category_display }}</a></span> Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.get_profile.get_display_name }}</a>, on {{ object.published }}</p>
   </div>

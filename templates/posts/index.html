@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load truncatesmart %}
+{% load truncatesmart_html %}
 
 {% block title %}Posts{% endblock %}
 
@@ -32,8 +34,8 @@
 {% if posts.object_list %}
 {% for post in posts.object_list %}
   <div class="block">
-    <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
-    <p>{{ post.body|truncatewords_html:"50"|striptags }}</p>
+    <h3><a href="{{ post.get_absolute_url }}">{{ post.title|truncatesmart:40 }}</a></h3>
+    <p>{{ post.body|truncatesmart_html|striptags }}</p>
     <p class="postInfo"><span class="postType"><a href="">{{ post.get_category_display }}</a></span> Posted by: <a href="{{ post.author.get_absolute_url }}">{{ post.author.first_name }} {{ post.author.last_name }}</a>, on {{ post.published }}</p>
   </div>
 {% endfor %}

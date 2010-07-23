@@ -78,14 +78,14 @@ def index(request):
     pposts = Post.objects.filter(
       text, 
       category__in=categories
-    ).distinct()
+    ).distinct().order_by('-published')
   else:
     advanced_submitted = False
     title = ''
     body = ''
     categories = []
     searchtxt = ''
-    pposts = Post.objects.all()
+    pposts = Post.objects.all().order_by('-published')
 
   paginator = Paginator(pposts, 10)
 
