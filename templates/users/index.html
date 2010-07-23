@@ -10,13 +10,17 @@
 </form>
 
 <h3>Results</h3>
+{% if users.object_list %}
 {% for user in users.object_list %}
   <div class="block">
-    <h3><a href="{{ user.get_absolute_url }}">{% if user.first_name %}{{ user.first_name }} {{ user.last_name }} ({{ user.username }}){% else %}{{ user.username }}{% endif %}</a></h3>
+    <h3><a href="{{ user.get_absolute_url }}">{{ user.get_profile.get_display_name}}{% if not user.get_profile.get_display_name == user.username %} ({{ user.username }}){% endif %}</a></h3>
 
     <p><b>Bio:</b> {% if user.get_profile.bio %}{{ user.get_profile.bio }}{% else %}This user hasn't entered a bio yet.{% endif %}</p>
   </div>
 {% endfor %}
+{% else %}
+<p>Sorry, no users exist that match your criteria.</p>
+{% endif %}
 
 <div class="block">
   <p>

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load comments %}
 {% load gravatar %}
-{% block title %}RSRG Benchmarks{% endblock %}
+{% block title %}Homepage{% endblock %}
 {% block content %}
 {% if not user.is_authenticated %}
 <div id="rss">
@@ -20,7 +20,7 @@
 	<h2><a href="{{ object.get_absolute_url }}">{{ object.title|truncatewords:"6" }}</a></h2>
 	<p>{{ object.body|truncatewords_html:"50"|striptags }}</p>
 	{% get_comment_count for object as comment_count %}
-  <p class="postInfo"><span class="postType"><a href="">{{ object.get_category_display }}</a></span> Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.first_name }} {{ object.author.last_name }}</a>, on {{ object.published }}</p>
+  <p class="postInfo"><span class="postType"><a href="">{{ object.get_category_display }}</a></span> Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.get_profile.get_display_name }}</a>, on {{ object.published }}</p>
 	</div>
 {% endfor %}
 {% else %}
@@ -34,7 +34,7 @@
 	<h2><a href="{{ object.get_absolute_url }}">{{ object.title|truncatewords:"6" }}</a></h2>
 	<p>{{ object.body|truncatewords_html:"50"|striptags }}</p>
 	{% get_comment_count for object as comment_count %}
-  <p class="postInfo"><span class="postType"><a href="">{{ object.get_category_display }}</a></span> Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.first_name }} {{ object.author.last_name }}</a>, on {{ object.published }}</p>
+  <p class="postInfo"><span class="postType"><a href="">{{ object.get_category_display }}</a></span> Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.get_profile.get_display_name }}</a>, on {{ object.published }}</p>
   </div>
 {% endfor %}
 {% else %}
@@ -47,7 +47,7 @@
 {% for comment in latest_discussion %}
   <li>
   <div id="c{{ comment.id }}">
-    <p class="commentBox">{{ comment.submit_date|date:"F j, Y" }} at {{ comment.submit_date|date:"P" }} - <a href="{{ comment.user.get_absolute_url }}">{{ comment.name|escape }}</a> on <a href="{{ comment.get_absolute_url }}">{{ comment.content_object.title }}</a></p> 
+    <p class="commentBox">{{ comment.submit_date|date:"F j, Y" }} at {{ comment.submit_date|date:"P" }} - <a href="{{ comment.user.get_absolute_url }}">{{ comment.user.get_profile.get_display_name }}</a> on <a href="{{ comment.get_absolute_url }}">{{ comment.content_object.title }}</a></p> 
     <div class="gravatar"><a href="{{ comment.user.get_absolute_url }}">{% gravatar comment.user.email 48 %}</a></div>
     <div class="comment">{{ comment.comment|safe|linebreaks }}</div>
   </div></li>

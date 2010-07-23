@@ -28,3 +28,6 @@
 - leave a comment h3, group with form
 - add requirement about javascript to welcome box
 - RSS/Atom link ([.\\] RSS / Atom)
+- Make all [Problem] etc. buttons link to url with those posts shown
+- Add view all to homepage under recent posts
+- Add featured to advanced search

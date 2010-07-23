@@ -4,7 +4,6 @@
 
 {% block title %}{{ object.title }}{% endblock %}
 
-
 {% block cssblock %}
 <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/jqueryFileTree/jqueryFileTree.css" />
 <!-->
@@ -104,7 +103,7 @@ $("select, input:checkbox, input:radio, input:file").uniform();
       script: '/dirlist'
     },
     function(file) {
-      window.location.href = ('{{ MEDIA_URL }}' + file);
+      window.location.href = ('{{ MEDIA_URL|escapejs }}' + file);
   });
 })(jQuery);
 </script>

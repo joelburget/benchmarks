@@ -121,4 +121,6 @@ LASTPAGE_SKIP = (
   r'^/dirlist.*$',
   r'^/favicon.ico$',
   r'^' + MEDIA_URL + '.*$',
+  r'^.*/atom/*$',
+  r'^.*/rss/*$'
 )

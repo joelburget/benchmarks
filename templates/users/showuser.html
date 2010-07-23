@@ -1,6 +1,8 @@
 {% extends "base.html" %}
+{% load comments %}
+{% load gravatar %}
 
-{% block title %}{{ object.first_name }} {{ object.last_name }} - Profile{% endblock %}
+{% block title %}{{ object.get_profile.get_display_name }}{% endblock %}
 
 {% block content %}
 <div id="rss">
@@ -8,40 +10,40 @@
   <span>Personal <a href="rss/">RSS</a> / <a href="atom/">Atom</a></span>
 </div>
 <div class="block">
-<h2>Profile</h2>
-<ul>
-  <li><b>Username:</b> {{ object.username }}</li>
-  <li><b>Real Name:</b> {{ object.first_name }} {{ object.last_name }}</li>
 
-  <li><b>Email:</b> 
-  {% if user.is_authenticated %}
-    {% if object.get_profile.showemail %}
-      {{ object.email }}
+<h2>{{ object.get_profile.get_display_name }}</h2>
+    <div class="gravatar" style="padding:20px;"><a href="{{ object.get_absolute_url }}">{% gravatar object.email 128 %}</a></div>
+
+  <table id="profile">
+    <tr><td><b>Username</b></td><td>{{ object.username }}</td></tr>
+    <tr><td><b>Real Name</b></td><td>{{ object.first_name }} {{ object.last_name }}</td></tr>
+    <tr><td><b>Email</b></td><td>
+    {% if user.is_authenticated %}
+      {% if object.get_profile.showemail %}
+        {{ object.email }}
+      {% else %}
+        {% if object.first_name %}{{ object.first_name }}{% else %}{{ object.username }}{% endif %} has opted out of showing this field.
+      {% endif %}
     {% else %}
-      {% if object.first_name %}{{ object.first_name }}{% else %}{{ object.username }}{% endif %} has opted out of showing this field.
+      <i>Please log in to see user email addresses.</i>
+    {% endif %}</td></tr>
+
+    <tr><td><b>Bio:</b></td><td>{% if object.get_profile.bio == '' %}This user hasn't entered a bio yet.{% else %}{{ object.get_profile.bio }}{% endif %}</td></tr>
+    <tr><td><b>Joined:</b></td><td>{{ object.date_joined }}</td></tr>
+    <tr><td><b>Last Seen:</b></td><td>{{ object.last_login }}</td></tr>
+
+    {% if user.username == object.username %}
+    <tr><td><a href="{{ object.get_absolute_url }}edit/">Edit Profile</a></td></tr>
     {% endif %}
-  {% else %}
-    <i>Please log in to see user email addresses.</i>
-  {% endif %}</li>
-
-  <li><b>Bio:</b> {% if object.get_profile.bio == '' %}This user hasn't entered a bio yet.{% else %}{{ object.get_profile.bio }}{% endif %}</li>
-  <li><b>Joined:</b> {{ object.date_joined }}</li>
-  <li><b>Last Seen:</b> {{ object.last_login }}</li>
-</ul>
-
-{% if user.username == object.username %}
-<p><a href="{{ object.get_absolute_url }}edit/">Edit</a></p>
-{% endif %}
+  </table>
 </div>
 
 <div class="block">
 <h2>Groups</h2>
 {% if object.groups.all %}
-<ul>
 {% for g in object.groups.all %}
-  <li><a href="/groups/{{ g.pk }}">{{ g.name }}</a></li>
+  <p><b><a href="/groups/{{ g.pk }}">{{ g.name }}</a></b></p>
 {% endfor %}
-</ul>
 {% else %}
 <p>This user hasn't joined any groups yet.</p>
 {% endif %}
@@ -49,11 +51,16 @@
 </div>
 
 <div class="block">
-<h2>Posts</h2>
+<h2>Latests Posts</h2>
 {% if posts %}
 <ul>
 {% for post in posts %}
-  <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+	<div class="block">
+	<h2><a href="{{ post.get_absolute_url }}">{{ post.title|truncatewords:"6" }}</a></h2>
+	<p>{{ post.body|truncatewords_html:"50"|striptags }}</p>
+	{% get_comment_count for post as comment_count %}
+  <p class="postInfo"><span class="postType"><a href="">{{ post.get_category_display }}</a></span> Posted by: <a href="{{ post.author.get_absolute_url }}">{{ post.author.get_profile.get_display_name }}</a>, on {{ post.published }}</p>
+	</div>
 {% endfor %}
 </ul>
 {% else %}
@@ -62,11 +69,15 @@
 </div>
 
 <div class="block">
-<h2>Comments</h2>
+<h2>Latest Discussion</h2>
 {% if comments_list %}
 <ul>
-{% for c in comments_list %}
-  <li>{{ c.comment }} on <a href="{{ c.get_absolute_url }}">{{ c.content_object.title }}</a></li>
+{% for comment in comments_list %}
+  <div id="c{{ comment.id }}">
+    <p class="commentBox">{{ comment.submit_date|date:"F j, Y" }} at {{ comment.submit_date|date:"P" }} - <a href="{{ comment.user.get_absolute_url }}">{{ comment.user.get_profile.get_display_name }}</a> on <a href="{{ comment.get_absolute_url }}">{{ comment.content_object.title }}</a></p> 
+    <div class="gravatar"><a href="{{ comment.user.get_absolute_url }}">{% gravatar comment.user.email 48 %}</a></div>
+    <div class="comment">{{ comment.comment|safe|linebreaks }}</div>
+  </div></li>
 {% endfor %}
 </ul>
 {% else %}

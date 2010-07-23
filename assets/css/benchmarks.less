@@ -248,7 +248,7 @@ p {
 	line-height: 150%;
 }
 
-//Pretty forms
+// Pretty forms
 input, textarea {
 	padding: 7px;
 	border: solid 1px @border-gray;
@@ -257,6 +257,11 @@ input, textarea {
 	width: 200px;
 	background: #fff;
   .rounded();
+  clear: both;
+}
+
+input[type=checkbox] {
+  width: auto;
 }
 
 textarea {
@@ -282,6 +287,7 @@ form {
     float: left;
     margin-right: 6px;
     line-height: 30px;
+    clear: both;
   }
 
   .button {
@@ -316,3 +322,42 @@ form {
 .textboxlist-bit-box-hover { background: #BBCEF1; border: 1px solid #6D95E0; }
 .textboxlist-bit-box-focus { border-color: #598BEC; background: #598BEC; color: #fff; }
 .textboxlist-bit-box-focus .textboxlist-bit-box-deletebutton { background-position: bottom; }
+
+/* Advanced search */
+#advanced {
+  background-color: #eee;
+  margin: 10px;
+  margin-top: 0px;
+  padding: 10px;
+  .rounded;
+  width: 300px;
+  text-align: right;
+
+  h3 {
+    text-align: left;
+  }
+}
+
+/* User profiles */
+#profile {
+  background-color: #eee;
+  .rounded;
+  width: 400px;
+  border: 1px solid #ccc;
+
+  tr {
+  }
+
+  td {
+    padding: 10px;
+  }
+
+  tr td a {
+    color: #fff;
+    font-weight: bold;
+    background-color: #999;
+    padding: 5px;
+    .rounded;
+    border: 1px solid #333;
+  }
+}

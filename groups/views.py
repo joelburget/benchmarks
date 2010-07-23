@@ -15,7 +15,7 @@ def index(request):
     pgroups = Group.objects.all()
 
   # Paginate
-  paginator = Paginator(pgroups, 20)
+  paginator = Paginator(pgroups, 10)
   
   try:
     page = int(request.GET.get('page', '1'))

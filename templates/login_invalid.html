@@ -1,15 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}Invalid login!{% endblock %}
+{% block title %}Uh-oh!{% endblock %}
 
 {% block content %}
-<p>There seems to be an error in logging you in.  More than likely,
-it is one of the two following problems:</p>
-
-<ol>
-  <li>Your username and password do not match.</li>
-  <li>OR your account has been disabled.</li>
-</ol>
+<h2>Error</h2>
+<p>There seems to be an error in logging you in.  More than likely, it is one of the two following problems: Your email and password combination was not found in our database, or your account has been disabled.</p>
 
 <p>Please try logging in again.</p>
 {% endblock %}

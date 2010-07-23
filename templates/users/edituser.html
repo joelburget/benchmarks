@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ user.username }} - Profile - Edit{% endblock %}
+{% block title %}Editing {{ user.username }}{% endblock %}
 
 {% block content %}
 <!-- Notice -->
@@ -10,25 +10,33 @@
 <form action="." method="post" id="editForm">
   {% csrf_token %}
 
-  {{ formset.first_name.label_tag }}: <input class="required" type="text" name="first_name" id="first_name" value="{{ user.first_name }}" /> {{ formset.first_name.errors }}<br />
+  {{ formset.first_name.label_tag }}: <input class="validate[required]" type="text" name="first_name" id="first_name" value="{{ user.first_name }}" /> {{ formset.first_name.errors }}<br />
 
-  {{ formset.last_name.label_tag }}: <input class="required" type="text" name="last_name" id="last_name" value= "{{ user.last_name }}" /> {{ formset.last_name.errors }}<br />
+  {{ formset.last_name.label_tag }}: <input class="validate[required]" type="text" name="last_name" id="last_name" value= "{{ user.last_name }}" /> {{ formset.last_name.errors }}<br />
 
-  {{ formset.email.label_tag }}: <input class="required email" type="text" name="email" id="email" value="{{ user.email }}" /> {{ formset.email.errors }}<br /> 
+  {{ formset.email.label_tag }}: <input class="validate[required, email]" type="text" name="email" id="email" value="{{ user.email }}" /> {{ formset.email.errors }}<br /> 
 
-  <label for="bio">Bio</label>: <textarea class="" name="bio" id="bio" value="{{ user.get_profile.bio }}"></textarea><br /> {{ bioerrors }}
+  <label for="bio">Bio</label>: <textarea class="validate[optional, length[0,200]]" name="bio" id="bio" value="{{ user.get_profile.bio }}"></textarea><br /> {{ bioerrors }}
 
   <label for="showemail">Show Email to other Users</label>: <input class="" type="checkbox" {% if user.get_profile.showemail %}checked="yes"{% endif %}" name="showemail" id="showemail" /><br />
 
   <input type="submit" value="Save Changes" />
 </form>
 
+{% block cssblock %}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/validationEngine.jquery.css" type="text/css" media="screen" charset="utf-8" />
+{% endblock %}
+
 {% block jsblock %}
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
+
+<script src="{{ MEDIA_URL }}js/jquery.validationEngine-en.js" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}js/jquery.validationEngine.js" type="text/javascript"></script>
+
 <script>
 $(document).ready(function() {
-  $('#editForm').validate();
+  $('#editForm').validationEngine();
 });
 </script>
 {% endblock %}

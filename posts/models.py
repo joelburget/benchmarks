@@ -37,7 +37,8 @@ class Post(models.Model):
     return '%s#comments' % (self.get_absolute_url(),)
 
 def newlines_to_brs(sender, instance, **kwargs):
-  print instance.body
+  # '\n' character sequences to smart <p> and <br>
+  # tags, depending on context
   instance.body = linebreaks(instance.body)
 
 pre_save.connect(newlines_to_brs, sender=Post)
@@ -51,14 +52,16 @@ def clean_up_after_post(sender, instance, **kwargs):
 
   # Clean up uploads directory
   path = os.path.join(SITE_ROOT, 'assets/uploads/%s/' % (instance.pk,))
-  shutil.rmtree(path)
+
+  if os.path.isdir(path):
+    shutil.rmtree(path)
 
 pre_delete.connect(clean_up_after_post, sender=Post)
 
 # PostForm
 class PostForm(ModelForm):
-  title = forms.CharField(widget=forms.TextInput(attrs = {'class' : 'required'}))
-  body = forms.CharField(widget=forms.TextInput(attrs = {'class' : 'required'}))
+  title = forms.CharField(widget=forms.TextInput(attrs = {'class' : 'validate[required]'}))
+  body = forms.CharField(widget=forms.widgets.Textarea(attrs = {'class' : 'validate[required]', 'cols' : '200', 'rows' : '20'}))
 
   class Meta():
     model = Post
