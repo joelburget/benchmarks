@@ -36,7 +36,7 @@
   <div class="block">
     <h3><a href="{{ post.get_absolute_url }}">{{ post.title|truncatesmart:40 }}</a></h3>
     <p>{{ post.body|truncatesmart_html|striptags }}</p>
-    <p class="postInfo"><span class="postType"><a href="">{{ post.get_category_display }}</a></span> Posted by: <a href="{{ post.author.get_absolute_url }}">{{ post.author.first_name }} {{ post.author.last_name }}</a>, on {{ post.published }}</p>
+    <p class="postInfo"><span class="postType"><a href="{{ post.get_absolute_category_url }}">{{ post.get_category_display }}</a></span> Posted by: <a href="{{ post.author.get_absolute_url }}">{{ post.author.first_name }} {{ post.author.last_name }}</a>, on {{ post.published }}</p>
   </div>
 {% endfor %}
 {% else %}

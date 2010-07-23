@@ -36,6 +36,10 @@ class Post(models.Model):
   def get_absolute_url_with_comments(self):
     return '%s#comments' % (self.get_absolute_url(),)
 
+  def get_absolute_category_url(self):
+    category = self.get_category_display().lower()
+    return "/posts/?title=&body=&%s=on&searchtxt=" % (category,)
+
 def newlines_to_brs(sender, instance, **kwargs):
   # '\n' character sequences to smart <p> and <br>
   # tags, depending on context
