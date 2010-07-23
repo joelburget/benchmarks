@@ -22,3 +22,4 @@
 - Add link under posts to create a new realization,etc. to this post
 - Django minify inline JS/CSS tags
 - Minify external js files/combine into one
+- Latex math stuff
