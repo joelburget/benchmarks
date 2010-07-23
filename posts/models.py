@@ -51,7 +51,9 @@ def clean_up_after_post(sender, instance, **kwargs):
 
   # Clean up uploads directory
   path = os.path.join(SITE_ROOT, 'assets/uploads/%s/' % (instance.pk,))
-  shutil.rmtree(path)
+
+  if os.path.isdir(path):
+    shutil.rmtree(path)
 
 pre_delete.connect(clean_up_after_post, sender=Post)
 
