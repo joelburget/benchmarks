@@ -1,5 +1,6 @@
 *.pyc
 assets/uploads/*
+assets/css/benchmarks.css
 db/*
 do/*
 *.swp
