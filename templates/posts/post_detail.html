@@ -103,7 +103,7 @@ $("select, input:checkbox, input:radio, input:file").uniform();
       script: '/dirlist'
     },
     function(file) {
-      window.location.href = ('{{ MEDIA_URL }}' + file);
+      window.location.href = ('{{ MEDIA_URL|escapejs }}' + file);
   });
 })(jQuery);
 </script>
