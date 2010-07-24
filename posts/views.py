@@ -12,7 +12,7 @@ from benchmarks.settings import SITE_ROOT
 from django.db.models import Q
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
-def editpost(request):
+def editpost(request, **kwargs):
   # Only authenticated users may post
   if not request.user.is_authenticated():
     return direct_to_template(request, 'posts/must_login.html')
@@ -39,8 +39,11 @@ def editpost(request):
       # Redirect to the submitted post
       return HttpResponseRedirect(post.get_absolute_url())
   else:
-    # Get a blank post form for editing
-    form = PostForm()
+    if "post_id" in kwargs:
+      form = PostForm(instance=Post.objects.get(id=kwargs["post_id"]))
+    else:
+      # Get a blank post form for editing
+      form = PostForm()
 
   return render_to_response('posts/new_post.html', { 'form': form, 'object_list': Post.objects.all() }, context_instance=RequestContext(request))
 

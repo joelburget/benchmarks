@@ -13,7 +13,10 @@
 
 {% block content %}
 <!-- Title -->
-<h2>{{ object.title }}</h2>
+<h2>{{ object.title }}
+{% if user.username == object.author.username %}
+<a href="{{ object.get_absolute_url }}edit/">Edit</a>
+{% endif %}</h2>
 {% if object.parent %}
 <h3>In response to <a href="{{ object.parent.get_absolute_url }}">{{ object.parent.title }}</a></h3>
 {% endif %}
