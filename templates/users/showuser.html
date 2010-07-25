@@ -12,7 +12,9 @@
 <div class="block">
 
 <h2>{{ object.get_profile.get_display_name }}</h2>
-    <div class="gravatar" style="padding:20px;"><a href="{{ object.get_absolute_url }}">{% gravatar object.email 128 %}</a></div>
+  <div class="gravatar">
+    <a href="{{ object.get_absolute_url }}">{% gravatar object.email 128 %}</a>
+  </div>
 
   <table id="profile">
     <tr><td><b>Username</b></td><td>{{ object.username }}</td></tr>
