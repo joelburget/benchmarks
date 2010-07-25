@@ -18,4 +18,5 @@ urlpatterns = patterns('',
 
   # Edit post
   (r'^new/$', 'benchmarks.posts.views.editpost'),
+  (r'^(?P<post_id>\d+)/edit/$', 'benchmarks.posts.views.editpost'),
 )
