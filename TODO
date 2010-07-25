@@ -16,10 +16,9 @@
 * error css not ugly (fix color)
 - new page js validation
 - Edit user page (talk about gravatar)
-- add requirement about javascript to welcome box
 - Add view all to homepage under recent posts
 - Add featured and username field to advanced search
 - Add link under posts to create a new realization,etc. to this post
-- Django minify inline JS/CSS tags
+* Django minify inline JS/CSS tags
 - Minify external js files/combine into one
 - Latex math stuff
