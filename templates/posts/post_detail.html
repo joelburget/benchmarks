@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load gravatar %}
 {% load comments %}
+{% load tex %}
 
 {% block title %}{{ object.title }}{% endblock %}
 
@@ -22,7 +23,7 @@
 {% endif %}
 
 <!-- Body -->
-<div id="post-content">{{ object.body|safe }}</div>
+<div id="post-content">{{ object.body|tex_to_images }}</div>
 
 <!-- Files -->
 {% if object.postfile_set.all %}
@@ -58,7 +59,7 @@
   <div id="c{{ comment.id }}">
     <p class="commentBox" {% if user == comment.user %}style="background-color:#ddd;"{% endif %}><a href="{{ comment.get_absolute_url }}">#{{ forloop.counter }}</a> &mdash; {{ comment.submit_date|date:"F j, Y" }} at {{ comment.submit_date|date:"P" }} by <a href="{{ comment.user.get_absolute_url }}">{{ comment.name|escape }}</a></p> 
     <div class="gravatar"><a href="{{ comment.user.get_absolute_url }}">{% gravatar comment.user.email 48 %}</a></div>
-    <div class="comment">{{ comment.comment|safe|linebreaks }}</div>
+    <div class="comment">{{ comment.comment|linebreaks|tex_to_images }}</div>
   </div>
 {% endfor %}
 
