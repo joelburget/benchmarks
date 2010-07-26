@@ -14,7 +14,7 @@ def __replace(m):
 @stringfilter
 def tex_to_images(value):
   svalue = re.sub(
-            '\$\$(.+)\$\$',
+            '\$\$(.[^$]+)\$\$',
             __replace,
             value,
             re.DOTALL
