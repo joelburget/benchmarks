@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load tex %}
 
 {% block title %}New Post{% endblock %}
 
@@ -26,36 +27,33 @@
     </li>
 
     <li><label>Files</label></li>
-    <li>
+    <li id="fileUploads">
       <input class="realupload" type="file" name="file1" id="file1" />
     </li>
+    <li><a href="#" id="addFile">Add another file...</a></li>
 
     <li><input class="button" type="submit" value="Submit" /></li>
 </ol>
 </form>
 
 <div id="help"> 
-    <h2>Help</h2>
-    <h3>Basic HTML Formatting</h3>
-    <p>We accept common HTML tags, such as <b>&lt;b&gt;</b>, <i>&lt;i&gt;</i>, and <code>&lt;code&gt;</code></p>
+  <h2>Help</h2>
+  <h3>Basic HTML Formatting</h3>
+  <p>We accept common HTML tags, such as <b>&lt;b&gt;</b>, <i>&lt;i&gt;</i>, and <code>&lt;code&gt;</code></p>
 
-    {% load tex %}
-    <h3>Mathematical Expressions with LaTeX</h3>
-    <p>Mathematical expressions can be made by enclosing LaTeX symbols inside of two pairs of dollar signs ($$1 + 1 = 2$$). We will automatically convert it to a professional looking image. See <a href="http://omega.albany.edu:8008/Symbols.html">here</a>, or the table below, for basic LaTeX syntax.</p>
+  <h3>Mathematical Expressions with LaTeX</h3>
+  <p>Mathematical expressions can be made by enclosing LaTeX symbols inside of two pairs of dollar signs ($$1 + 1 = 2$$). We will automatically convert it to a professional looking image. See <a href="http://omega.albany.edu:8008/Symbols.html">here</a>, or the table below, for basic LaTeX syntax.</p>
 
-    <table id="latexDoc">
-      <tr><td>$$3n^{n + 1}$$</td> <td class="tex">{{ "$$3n^{n + 1}$$"|tex_to_images }}</td></tr>
-      <tr><td>$$\frac{22}{7} \approx \pi$$</td> <td class="tex">{{ "$$\frac{22}{7} \approx \pi$$"|tex_to_images }}</td></tr>
-      <tr><td>$$\sum_{i=0}^n {i^2}$$</td> <td class="tex">{{ "$$\sum_{i=0}^n {i^2}$$"|tex_to_images }}</td></tr>
-      <tr><td>$$P \to Q$$</td> <td class="tex">{{ "$$P \to Q$$"|tex_to_images }}</td></tr>
-      <tr><td>$$\sqrt{x_i}$$</td> <td class="tex">{{ "$$\sqrt{x_i}$$"|tex_to_images }}</td></tr>
-      <tr><td>$$3 \in {1, 2, 3}$$</td> <td class="tex">{{ "$$3 \in {1, 2, 3}$$"|tex_to_images }}</td></tr>
-      <tr><td>$$\lim _{n \to \infty} x_n$$</td> <td class="tex">{{ "$$\lim _{n \to \infty} x_n$$"|tex_to_images }}</td></tr>
-    </table>
-  </div>
-
-
-
+  <table id="latexDoc">
+    <tr><td>$$3n^{n + 1}$$</td> <td class="tex">{{ "$$3n^{n + 1}$$"|tex_to_images }}</td></tr>
+    <tr><td>$$\frac{22}{7} \approx \pi$$</td> <td class="tex">{{ "$$\frac{22}{7} \approx \pi$$"|tex_to_images }}</td></tr>
+    <tr><td>$$\sum_{i=0}^n {i^2}$$</td> <td class="tex">{{ "$$\sum_{i=0}^n {i^2}$$"|tex_to_images }}</td></tr>
+    <tr><td>$$P \to Q$$</td> <td class="tex">{{ "$$P \to Q$$"|tex_to_images }}</td></tr>
+    <tr><td>$$\sqrt{x_i}$$</td> <td class="tex">{{ "$$\sqrt{x_i}$$"|tex_to_images }}</td></tr>
+    <tr><td>$$3 \in {1, 2, 3}$$</td> <td class="tex">{{ "$$3 \in {1, 2, 3}$$"|tex_to_images }}</td></tr>
+    <tr><td>$$\lim _{n \to \infty} x_n$$</td> <td class="tex">{{ "$$\lim _{n \to \infty} x_n$$"|tex_to_images }}</td></tr>
+  </table>
+</div>
 {% endblock %}
 
 {% block jsblock %}
@@ -66,13 +64,20 @@
 <script src="{{ MEDIA_URL }}js/jquery.uniform.js" type="text/javascript"></script>
 <script src="{{ MEDIA_URL }}codemirror/js/codemirror.js" type="text/javascript"></script>
 <script src="{{ MEDIA_URL }}codemirror/js/mirrorframe.js" type="text/javascript"></script>
-
 <script src="{{ MEDIA_URL }}js/jquery.validationEngine-en.js" type="text/javascript"></script>
 <script src="{{ MEDIA_URL }}js/jquery.validationEngine.js" type="text/javascript"></script>
 
 <script>
+var num_files = 1;
 (function($){
   $('#newPostForm').validationEngine();
+  $('#addFile').click(function() {
+    num_files++;
+    $('#fileUploads').append(
+      '<li><input class="realupload" type="file" name="file' + num_files + '" id="file' + num_files + '" /></li>'
+    );
+    $('input:file').uniform();
+  });
   $("#parent_stuff").hide();
   $("#optional").hide();
   $("#id_category").change(function(){
@@ -106,7 +111,6 @@
   {% endfor %}
   ]);
   $('.textboxlist-autocomplete').css({'width': '541px', 'margin-left': '50px'});
-
 
   (function(){
     var source = $("#id_category");
@@ -144,8 +148,7 @@
       
       var source = $("#id_category");
       source.val($(this).find("span.value").html());
-  });
-  
+  });  
 })(jQuery);
 </script>
 {% endblock %}
