@@ -1,7 +1,6 @@
 - finish css forms
 * signal/js \n -> <br /> 
 * right hand menu
-- js upload
 - documentation
 * post searching
 * remove ugly from user profiles
@@ -13,7 +12,6 @@
 - file management in edit posts
 * remove comment file upload (or get them working)
 - new page js validation
-- Add featured and username field to advanced search
-* Add link under posts to create a new realization,etc. to this post
+- Add featured and username field to advanced search (and fix homepage link to view all featured posts)
 * Django minify inline JS/CSS tags
 - Minify external js files/combine into one

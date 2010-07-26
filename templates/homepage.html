@@ -30,7 +30,7 @@
 <p>Sorry, we don't have any featured posts yet.</p>
 {% endif %}
 
-<h1>Latest Posts &mdash; <a href="/posts">View all</a></h1>
+<h1 class="section">Latest Posts &mdash; <a href="/posts">View all</a></h1>
 {% if latest_posts %}
 {% for object in latest_posts %}
 	<div class="block">
@@ -44,7 +44,7 @@
 <p>Sorry, we don't have any recent posts.</p>
 {% endif %}
 
-<h1>Latest Discussion</h1>
+<h1 class="section">Latest Discussion</h1>
 {% if latest_discussion %}
 <ul>
 {% for comment in latest_discussion %}
