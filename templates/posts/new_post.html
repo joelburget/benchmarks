@@ -139,6 +139,7 @@ var num_files = 1;
       var $clicked = $(e.target);
       if (! $clicked.parents().hasClass("dropdown"))
           $(".dropdown dd ul").hide();
+      return false;
   });
               
   $(".dropdown dd ul li a").click(function() {
@@ -148,6 +149,7 @@ var num_files = 1;
       
       var source = $("#id_category");
       source.val($(this).find("span.value").html());
+      return false;
   });  
 })(jQuery);
 </script>
