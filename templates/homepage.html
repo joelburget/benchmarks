@@ -3,6 +3,7 @@
 {% load gravatar %}
 {% load truncatesmart %}
 {% load truncatesmart_html %}
+{% load tex %}
 {% block title %}Homepage{% endblock %}
 {% block content %}
 {% if not user.is_authenticated %}
@@ -51,7 +52,7 @@
   <div id="c{{ comment.id }}">
     <p class="commentBox">{{ comment.submit_date|date:"F j, Y" }} at {{ comment.submit_date|date:"P" }} - <a href="{{ comment.user.get_absolute_url }}">{{ comment.user.get_profile.get_display_name }}</a> on <a href="{{ comment.get_absolute_url }}">{{ comment.content_object.title }}</a></p> 
     <div class="gravatar"><a href="{{ comment.user.get_absolute_url }}">{% gravatar comment.user.email 48 %}</a></div>
-    <div class="comment">{{ comment.comment|safe|linebreaks }}</div>
+    <div class="comment">{{ comment.comment|linebreaks|tex_to_images }}</div>
   </div></li>
 {% endfor %}
 </ul>

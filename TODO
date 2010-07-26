@@ -8,14 +8,12 @@
 * favicon (change link later)
 - logo?
 - icons throughout website (famfamfam)
-- edit posts page
+* edit posts page
 * rss feeds
 - file management in edit posts
-- remove comment file upload (or get them working)
-* number comments (permalink link, stuff like that, highlight your comments)
+* remove comment file upload (or get them working)
 - new page js validation
-- Edit user page (talk about gravatar)
 - Add featured and username field to advanced search
-- Add link under posts to create a new realization,etc. to this post
+* Add link under posts to create a new realization,etc. to this post
 * Django minify inline JS/CSS tags
 - Minify external js files/combine into one

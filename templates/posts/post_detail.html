@@ -25,6 +25,7 @@
 <!-- Body -->
 <div id="post-content">{{ object.body|tex_to_images }}</div>
 
+
 <!-- Files -->
 {% if object.postfile_set.all %}
 <h3>Files:</h3>
@@ -36,6 +37,28 @@
 </ul>
 </div>
 {% endif %}
+
+<div class="block">
+  <h3>Actions</h3>
+
+  <p>
+  {% if user.username == object.author.username %}
+  <a href="{{ object.get_absolute_url }}edit/">Edit and make changes to this post</a>
+  {% endif %}
+  </p>
+
+  <p>
+  {% if object.category == 'P' %}
+  <a href="/posts/new">Create a new realization for this problem</a>
+  {% endif %}
+
+  {% if object.category == 'R' %}
+  <a href="/posts/new">Create a new Verification condition for this realization</a>
+  {% endif %}
+</p>
+
+<p><a href="#leaveAComment">Comment on this post</a></p>
+</div>
 
 <!-- Poster info -->
 <p class="postInfo"><span class="postType"><a href="{{ object.get_absolute_category_url }}">{{ object.get_category_display }}</a></span> Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.first_name }} {{ object.author.last_name }}</a>, on {{ object.published }}</p> 
@@ -65,7 +88,7 @@
 
 <!-- Comment form -->
 {% if user.is_authenticated %}
-  <h3 style="clear:both;">Leave a comment</h3>
+  <h3 style="clear:both;" id="leaveAComment">Leave a comment</h3>
   {% get_comment_form for object as form %}
   <form action="{% comment_form_target %}" method="post" enctype="multipart/form-data"> 
     {% csrf_token %}
