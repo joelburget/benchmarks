@@ -133,15 +133,9 @@ var num_files = 1;
 
   $(".dropdown dt a").click(function() {
       $(".dropdown dd ul").slideToggle();
-  });
-
-  $(document).bind('click', function(e) {
-      var $clicked = $(e.target);
-      if (! $clicked.parents().hasClass("dropdown"))
-          $(".dropdown dd ul").hide();
       return false;
   });
-              
+
   $(".dropdown dd ul li a").click(function() {
       var text = $(this).html();
       $(".dropdown dt a").html(text);
