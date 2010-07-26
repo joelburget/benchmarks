@@ -4,25 +4,35 @@
 
 {% block content %}
 <!-- Notice -->
-<p><b>We will not share email addresses with the public.</b> Addresses are only displayed to other users, provided you allow it. Providing your address will make it even easier to collaborate with other users, and as such, is highly recommended.</p>
-
-<p><b>Profile pictures can be added through Gravatar.</b> To set up your profile picture, visit <a href="http://gravatar.com/site/signup">gravatar.com</a>, and register there with the same email address you used here. Once you upload your picture at Gravatar, we will automatically link up and display it here for you.</p>
+<div class="notice">
+  <h2>Notice</h2>
+  <p><b>We will not share email addresses with the public.</b> Addresses are only displayed to other users, provided you allow it. Providing your address will make it even easier to collaborate with other users, and as such, is highly recommended.</p>
+  <p><b>Profile pictures can be added through Gravatar.</b> To set up your profile picture, visit <a href="http://gravatar.com/site/signup">gravatar.com</a>, and register there with the same email address you used here. Once you upload your picture at Gravatar, we will automatically link up and display it here for you.</p>
+</div>
 
 <!-- Form -->
+<h2>Edit Profile</h2>
 <form action="." method="post" id="editForm">
+<ol>
   {% csrf_token %}
 
-  {{ formset.first_name.label_tag }}: <input class="validate[required]" type="text" name="first_name" id="first_name" value="{{ user.first_name }}" /> {{ formset.first_name.errors }}<br />
+  <li>{{ formset.first_name.label_tag }}</li>
+  <li><input class="validate[required]" type="text" name="first_name" id="first_name" value="{{ user.first_name }}" /> {{ formset.first_name.errors }}<br /></li>
 
-  {{ formset.last_name.label_tag }}: <input class="validate[required]" type="text" name="last_name" id="last_name" value= "{{ user.last_name }}" /> {{ formset.last_name.errors }}<br />
+  <li>{{ formset.last_name.label_tag }}</li>
+  <li><input class="validate[required]" type="text" name="last_name" id="last_name" value= "{{ user.last_name }}" /> {{ formset.last_name.errors }}<br /></li>
 
-  {{ formset.email.label_tag }}: <input class="validate[required, email]" type="text" name="email" id="email" value="{{ user.email }}" /> {{ formset.email.errors }}<br /> 
+  <li>{{ formset.email.label_tag }}</li>
+  <li><input class="validate[required, email]" type="text" name="email" id="email" value="{{ user.email }}" /> {{ formset.email.errors }}</li>
 
-  <label for="bio">Bio</label>: <textarea class="validate[optional, length[0,200]]" name="bio" id="bio" value="{{ user.get_profile.bio }}"></textarea><br /> {{ bioerrors }}
+  <li><label for="showemail">Show Email to other users?</label>
+  <input class="" type="checkbox" {% if user.get_profile.showemail %}checked="yes"{% endif %}" name="showemail" id="showemail" /></li>
 
-  <label for="showemail">Show Email to other Users</label>: <input class="" type="checkbox" {% if user.get_profile.showemail %}checked="yes"{% endif %}" name="showemail" id="showemail" /><br />
+  <li><label for="bio">Bio</label></li>
+  <li><textarea class="validate[optional, length[0,200]]" name="bio" id="bio" value="{{ user.get_profile.bio }}"></textarea> {{ bioerrors }}</li>
 
-  <input type="submit" value="Save Changes" />
+  <li><input type="submit" value="Save Changes" /></li>
+</ol>
 </form>
 
 {% block cssblock %}
