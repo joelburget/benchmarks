@@ -15,7 +15,7 @@ body {
 /* Layout */
 #content {
   font-size: 0.88em;
-  margin-right: 440px;
+  margin-right: 300px;
   padding: 20px;
 }
 
@@ -254,5 +254,39 @@ p {
 #profile {
   td {
     padding: 5px;
+  }
+}
+
+/* New Post/Help */
+#help {
+  border-left: 1px dotted #ccc;
+  padding: 5px;
+  float: left;
+  margin-left: 10px;
+  width: 300px;
+  
+  #latexDoc {
+    border:1px solid #aaa;
+    border-bottom: none;
+    margin: 5px;
+    font-family: monospace;
+
+    td.tex {
+      border-left: 1px solid #aaa;
+    }
+
+    td {
+      padding: 3px;
+      border-bottom: 1px solid #aaa;
+      vertical-align: middle;
+      margin: auto;
+    }
+
+    td img {
+      display: table-cell;
+      vertical-align: middle;  
+      margin: auto;
+      text-align: center;
+    }
   }
 }
