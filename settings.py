@@ -112,7 +112,7 @@ INSTALLED_APPS = (
     'benchmarks.flup',
     'benchmarks.south',
     'benchmarks.templatetags',
-    'benchmarks.compress',
+    'benchmarks.compressor',
 )
 
 COMMENTS_APP = 'benchmarks.extended_comments'
@@ -126,3 +126,5 @@ LASTPAGE_SKIP = (
   r'^.*/atom/*$',
   r'^.*/rss/*$'
 )
+
+COMPRESS = True
