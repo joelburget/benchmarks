@@ -68,8 +68,12 @@
 <script src="{{ MEDIA_URL }}js/jquery.validationEngine.js" type="text/javascript"></script>
 
 <script>
-var num_files = 1;
+  {% load minifyjs %}
+  {% comment %}
+  {% minifyjs %}
+  {% endcomment %}
 (function($){
+  var num_files = 1;
   $('#newPostForm').validationEngine();
   $('#addFile').click(function() {
     num_files++;
@@ -81,8 +85,10 @@ var num_files = 1;
   });
   $("#parent_stuff").hide();
   $("#optional").hide();
-  $("#id_category").change(function(){
-    var val = $(this).val();
+
+  function toggleParent(){
+    console.log("here");
+    var val = $("#id_category").val();
     if (val === "O") {
       $("#optional").fadeIn();
     }
@@ -95,7 +101,8 @@ var num_files = 1;
     else {
       $("#parent_stuff").slideUp();
     }
-  });
+  }
+
   $("input:checkbox, input:radio, input:file").uniform();
   var editor = new CodeMirror.fromTextArea('id_body', {
        parserfile: "parsexml.js",
@@ -144,8 +151,12 @@ var num_files = 1;
       
       var source = $("#id_category");
       source.val($(this).find("span.value").html());
+      toggleParent();
       return false;
   });  
 })(jQuery);
+  {% comment %}
+  {% endminifyjs %}
+  {% endcomment %}
 </script>
 {% endblock %}
