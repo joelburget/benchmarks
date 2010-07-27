@@ -94,10 +94,10 @@
       $("#optional").fadeOut();
     }
     if ((val !== "") && (val !== "P")){
-      $("#parent_stuff").slideDown();
+      $("#parent_stuff").fadeIn();
     }
     else {
-      $("#parent_stuff").slideUp();
+      $("#parent_stuff").hide();
     }
   }
 
@@ -138,7 +138,7 @@
   })();
 
   $(".dropdown dt a").click(function() {
-      $(".dropdown dd ul").slideToggle();
+      $(".dropdown dd ul").toggle();
       return false;
   });
 
