@@ -126,3 +126,5 @@ LASTPAGE_SKIP = (
   r'^.*/atom/*$',
   r'^.*/rss/*$'
 )
+
+COMPRESS = True
