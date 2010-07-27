@@ -5,7 +5,7 @@ input, textarea {
 	border: solid 1px @border-gray;
 	outline: 0;
 	font: normal 13px/100% Verdana, Tahoma, sans-serif;
-	width: 200px;
+	width: 150px;
 	background: #fff;
   .rounded();
   clear: both;
@@ -18,8 +18,13 @@ input[type=checkbox] {
 }
 
 textarea {
-  height: 400px;
-  width: 500px;
+  height: 300px;
+  width: 400px;
+}
+
+.editbox {
+  height: 300px;
+  width: 400px;
 }
 
 input:hover, textarea:hover,
@@ -56,6 +61,8 @@ form {
   border: 1px solid @border-gray;
   margin: 20px 0px;
   .rounded();
+  height: 300px;
+  width: 400px;
 }
 
 //Everything within this .dropdown is used to style the replacement select box. Modified version of http://www.jankoatwarpspeed.com/post/2009/07/28/reinventing-drop-down-with-css-jquery.aspx

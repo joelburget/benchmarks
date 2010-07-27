@@ -40,13 +40,6 @@ class Post(models.Model):
     category = self.get_category_display().lower()
     return "/posts/?title=&body=&%s=on&searchtxt=" % (category,)
 
-def newlines_to_brs(sender, instance, **kwargs):
-  # '\n' character sequences to smart <p> and <br>
-  # tags, depending on context
-  instance.body = linebreaks(instance.body)
-
-pre_save.connect(newlines_to_brs, sender=Post)
-
 def clean_up_after_post(sender, instance, **kwargs):
   # Delete all postfiles
   for postfile in instance.postfile_set.all():

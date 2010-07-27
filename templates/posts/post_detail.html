@@ -2,6 +2,7 @@
 {% load gravatar %}
 {% load comments %}
 {% load tex %}
+{% load linebreaks_smart %}
 
 {% block title %}{{ object.title }}{% endblock %}
 
@@ -23,7 +24,7 @@
 {% endif %}
 
 <!-- Body -->
-<div id="post-content">{{ object.body|tex_to_images }}</div>
+<div id="post-content">{{ object.body|tex_to_images|linebreaks_smart }}</div>
 
 
 <!-- Files -->
