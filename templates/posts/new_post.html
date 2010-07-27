@@ -67,11 +67,9 @@
 <script src="{{ MEDIA_URL }}js/jquery.validationEngine-en.js" type="text/javascript"></script>
 <script src="{{ MEDIA_URL }}js/jquery.validationEngine.js" type="text/javascript"></script>
 
+{% load compress %}
+{% compress js %}
 <script>
-  {% load minifyjs %}
-  {% comment %}
-  {% minifyjs %}
-  {% endcomment %}
 (function($){
   var num_files = 1;
   $('#newPostForm').validationEngine();
@@ -161,8 +159,6 @@
       $(".dropdown dd ul").hide();
   });
 })(jQuery);
-  {% comment %}
-  {% endminifyjs %}
-  {% endcomment %}
 </script>
+{% endcompress %}
 {% endblock %}
