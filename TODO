@@ -15,3 +15,6 @@
 - Add featured and username field to advanced search (and fix homepage link to view all featured posts)
 * Django minify inline JS/CSS tags
 - Minify external js files/combine into one
+- remove js dependency from new posts page (remove warning)
+  - files
+  - parent selector width

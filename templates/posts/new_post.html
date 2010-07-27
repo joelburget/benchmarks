@@ -9,9 +9,18 @@
 {% endblock %}
 
 {% block content %}
-<h2>Edit Post</h2>
+<noscript>
+  <h3 id="nojs">This page works best with Javascript enabled&hellip;</h3>
+</noscript>
+
+<h2>{% if post_id == None %}New{% else %}Edit{% endif %} Post</h2>
 <form id="newPostForm" action="." method="post" enctype="multipart/form-data" style="float:left;">
   {% csrf_token %}
+
+  {% if not post_id == None %}
+  <input type="hidden" style="display:none;" name="post_id" id="post_id" value="{{ post_id }}" />
+  {% endif %}
+
   <ol>
     <li>{{ form.title.label_tag }}</li>
     <li>{{ form.title }}</li>
