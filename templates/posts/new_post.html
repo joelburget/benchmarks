@@ -145,15 +145,21 @@
   });
 
   $(".dropdown dd ul li a").click(function() {
-      var text = $(this).html();
-      $(".dropdown dt a").html(text);
+    var text = $(this).html();
+    $(".dropdown dt a").html(text);
+    $(".dropdown dd ul").hide();
+    
+    var source = $("#id_category");
+    source.val($(this).find("span.value").html());
+    toggleParent();
+    return false;
+  });
+
+  $(document).bind('click', function(e) {
+    var $clicked = $(e.target);
+    if (! $clicked.parents().hasClass("dropdown"))
       $(".dropdown dd ul").hide();
-      
-      var source = $("#id_category");
-      source.val($(this).find("span.value").html());
-      toggleParent();
-      return false;
-  });  
+  });
 })(jQuery);
   {% comment %}
   {% endminifyjs %}
