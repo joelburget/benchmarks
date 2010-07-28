@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load truncatesmart %}
 {% load truncatesmart_html %}
+{% load namelist %}
 
 {% block title %}Posts{% endblock %}
 
@@ -62,10 +63,23 @@
 </div>
 {% endblock %}
 
+{% block cssblock %}
+<link rel="stylesheet" href="http://dev.jquery.com/view/trunk/plugins/autocomplete/jquery.autocomplete.css" type="text/css" />
+{% endblock %}
+
 {% block jsblock %}
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/autocomplete/lib/jquery.bgiframe.min.js"></script>
+<script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/autocomplete/lib/jquery.dimensions.js"></script>
+<script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/autocomplete/jquery.autocomplete.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+  /* User autocomplete */
+  var users = "{{ userlist|namelist|safe }}".split(" ");
+  $('#user').autocomplete(users);
+
+  /* Advanced search field toggling */
   {% if not advanced_submitted %}
   $('#advanced').hide();
   {% endif %}

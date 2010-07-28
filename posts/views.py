@@ -51,6 +51,8 @@ def editpost(request, **kwargs):
   return render_to_response('posts/new_post.html', { 'form': form, 'object_list': Post.objects.all(), 'post_id' : post_id }, context_instance=RequestContext(request))
 
 def index(request):
+  userlist = User.objects.all()
+
   if 'searchtxt' in request.GET:
     searchtxt = request.GET['searchtxt']
 
@@ -83,7 +85,7 @@ def index(request):
       # Ugly hack
       userq = ~Q(pk=0)
     else:
-      u = User.objects.filter(username=user)
+      u = userlist.filter(username=user)
       userq = Q(author=u)
 
     # Check for advanced query
@@ -123,6 +125,7 @@ def index(request):
       'title' : title,
       'body' : body,
       'u' : user,
+      'userlist' : userlist,
       'p' : 'P' in categories, 
       'r' : 'R' in categories, 
       'v' : 'V' in categories, 
