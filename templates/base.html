@@ -26,9 +26,11 @@
           {% else %}
         <form class="block" action="/login/" method="post" accept-charset="utf-8">
           {% csrf_token %}
-          <label for="username">Username:</label><br /><input type="text" name="username" id="username" value="" /><br />
-          <label for="password">Password:</label><br /><input type="password" name="password" id="password" value="" /><br />
-          <input id="navlogin" type="submit" value="Login" />
+          <ol>
+          <li><label for="username">Username:</label><br /><input type="text" name="username" id="username" value="" /></li>
+          <li><label for="password">Password:</label><br /><input type="password" name="password" id="password" value="" /></li>
+          <li><input id="navlogin" type="submit" value="Login" /></li>
+          </ol>
         </form>
       {% endif %}
     </div>
