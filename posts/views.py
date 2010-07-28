@@ -11,6 +11,7 @@ from django.template import RequestContext
 from benchmarks.settings import SITE_ROOT
 from django.db.models import Q
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.contrib.auth.models import User
 
 def editpost(request, **kwargs):
   # Only authenticated users may post
@@ -66,6 +67,9 @@ def index(request):
     title = request.GET.get('title', '')
     body = request.GET.get('body', '')
 
+    user = request.GET.get('user', '')
+    featured = request.GET.get('featured', '')
+
     if title != '' and body != '':
       text = Q(title__icontains=title) & Q(body__icontains=body)
     elif title != '' and body == '':
@@ -75,17 +79,26 @@ def index(request):
     else:
       text = Q(title__icontains=searchtxt) | Q(body__icontains=searchtxt)
 
+    if user == '':
+      # Ugly hack
+      userq = ~Q(pk=0)
+    else:
+      u = User.objects.filter(username=user)
+      userq = Q(author=u)
+
     # Check for advanced query
     # i.e. textfield, bodyfield, or less than the 4 default checkboxes
-    advanced_submitted = len(categories) < 4 or title != '' or body != ''
+    advanced_submitted = len(categories) < 4 or title != '' or body != '' or user != ''
 
     # Advanced query
     pposts = Post.objects.filter(
       text, 
+      userq,
       category__in=categories
     ).distinct().order_by('-published')
   else:
     advanced_submitted = False
+    user = ''
     title = ''
     body = ''
     categories = []
@@ -109,6 +122,7 @@ def index(request):
       'posts' : posts,
       'title' : title,
       'body' : body,
+      'u' : user,
       'p' : 'P' in categories, 
       'r' : 'R' in categories, 
       'v' : 'V' in categories, 
