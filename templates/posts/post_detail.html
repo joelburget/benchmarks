@@ -62,11 +62,11 @@
 </div>
 
 <!-- Poster info -->
-<p class="postInfo"><span class="postType"><a href="{{ object.get_absolute_category_url }}">{{ object.get_category_display }}</a></span> Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.first_name }} {{ object.author.last_name }}</a>, on {{ object.published }}</p> 
+<p class="postInfo"><span class="postType"><a href="{{ object.get_absolute_category_url }}">{{ object.get_category_display }}</a></span> Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.get_profile.get_display_name }}</a>, on {{ object.published }}</p> 
 
 {% if object.post_set.all %}
   <h3>Responses:</h3>
-  <ul>
+  <ul id="relist">
   {% for response in object.post_set.all %}
     <li><a href="{{ response.get_absolute_url }}">{{ response.title }}</a></li>
   {% endfor %}

@@ -7,7 +7,11 @@ from django.utils.safestring import mark_safe, SafeData
 from django.utils.encoding import force_unicode
 from django.utils.html import escape
 from html5lib import sanitizer
+
 register = template.Library()
+
+def pre_code_fix(s):
+  return s
 
 def linebreaks_smart_function_util(value, autoescape=False):
   BLOCK_ELEMENTS = sanitizer.HTMLSanitizerMixin.acceptable_elements
@@ -16,17 +20,17 @@ def linebreaks_smart_function_util(value, autoescape=False):
   parsedParas = []
   if autoescape:
    for p in paras:
-    if re.match("<"+">|<".join(BLOCK_ELEMENTS) + ">", p):
+    if re.match("<"+">|<".join(BLOCK_ELEMENTS) + ">", p, re.DOTALL):
       parsedParas.append(escape(p.strip()).replace('\n', '<br>'))
     else:
       parsedParas.append(u'<p>%s' % escape(p.strip()).replace('\n', '<br>'))
   else:
     for p in paras:
-      if re.match("<"+">|<".join(BLOCK_ELEMENTS) + ">", p):
+      if re.match("<"+">|<".join(BLOCK_ELEMENTS) + ">", p, re.DOTALL):
         parsedParas.append(p.replace('\n', '<br>'))
       else:
         parsedParas.append(u'<p>%s' % p.strip().replace('\n', '<br>'))
-  return u'\n\n'.join(parsedParas)
+  return pre_code_fix(u'\n\n'.join(parsedParas))
 linebreaks_smart_function = allow_lazy(linebreaks_smart_function_util, unicode)
 
 @register.filter
