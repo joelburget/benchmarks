@@ -36,12 +36,10 @@
     </li>
 
     <li><label>Files</label></li>
-    <li id="fileUploads">
-      <li><input class="realupload" type="file" name="file1" id="file1" /></li>
-      <li><input class="realupload" type="file" name="file2" id="file2" /></li>
-      <li><input class="realupload" type="file" name="file3" id="file3" /></li>
-      <li><input class="realupload" type="file" name="file4" id="file4" /></li>
-      <li><input class="realupload" type="file" name="file5" id="file5" /></li>
+    <li> 
+      <ul id="fileUploads">
+        <li><input class="realupload" type="file" name="file1" id="file1" /></li>
+      </ul>
     </li>
     <li><a href="#" id="addFile">Add another file...</a></li>
 
@@ -86,9 +84,6 @@
 (function($){
   var num_files = 1;
   $('#newPostForm').validationEngine();
-  $('#fileUploads').html(
-    '<li><input class="realupload" type="file" name="file1" id="file1" /></li>'
-  );
   $('#addFile').click(function() {
     num_files++;
     $('#fileUploads').append(
