@@ -20,6 +20,7 @@ urlpatterns = patterns('',
   # About/Getting started templates
   (r'^about/$', 'django.views.generic.simple.direct_to_template', {'template': 'about.html'}),
   (r'^getting-started/$', 'django.views.generic.simple.direct_to_template', {'template': 'getting-started.html'}),
+  (r'^sanitizing/$', 'django.views.generic.simple.direct_to_template', {'template' : 'sanitizing.html'}),
 
   # Redirects
   (r'^admin/', include(admin.site.urls)),
