@@ -31,9 +31,15 @@
     <li>{{ form.category.label_tag }}</li>
     <li>{{ form.category }}</li>
 
+    <div id="parent_stuff">
+    <li>{{ form.parent.label_tag }}<span id="optional"> (Optional)</span></li>
+    <li>{{ form.parent }}</li>
+    </div>
+    <!-->
     <li>
       <div id="parent_stuff">{{ form.parent.label_tag }}<span id="optional"> (Optional)</span> {{ form.parent }}</div>
     </li>
+    </!-->
 
     <li><label>Files</label></li>
     <li> 
@@ -135,8 +141,8 @@ $(document).ready(function(){
   $(".dropdown dt a").click(function() {
       $(".dropdown dd ul").toggle();
       $('.textboxlist-autocomplete').css({
-        'width': (/*$('.textboxlist-bits').width()*/450 + 'px'),
-        'margin-left': '50px'});
+        'width': (/*$('.textboxlist-bits').width()*/500 + 'px')});
+      //  'margin-left': '50px'});
       return false;
   });
 
