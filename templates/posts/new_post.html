@@ -64,7 +64,8 @@
 <script src="{{ MEDIA_URL }}js/jquery.validationEngine.js" type="text/javascript"></script>
 
 <script>
-(function($){
+//(function($){
+$(document).ready(function(){
   var num_files = 1;
   $('#newPostForm').validationEngine();
   $('#addFile').click(function() {
@@ -109,8 +110,8 @@
   [{{ object.id }}, '{{ object.author.get_profile.get_display_name }} - {{ object.title }} [{{ object.get_category_display }}]', '{{ object.title }}'],
   {% endfor %}
   ]);
-  $('.textboxlist-autocomplete').css({'width': '541px', 'margin-left': '50px'});
 
+  //Dropdown setup
   (function(){
     var source = $("#id_category");
     var selected = source.find("option[selected]");
@@ -130,11 +131,16 @@
     source.hide();
   })();
 
+  //Open the dropdown if someone clicks the box
   $(".dropdown dt a").click(function() {
       $(".dropdown dd ul").toggle();
+      $('.textboxlist-autocomplete').css({
+        'width': (/*$('.textboxlist-bits').width()*/450 + 'px'),
+        'margin-left': '50px'});
       return false;
   });
 
+  //If someone makes their selection, close the dropdown and update
   $(".dropdown dd ul li a").click(function() {
     var text = $(this).html();
     $(".dropdown dt a").html(text);
@@ -146,11 +152,13 @@
     return false;
   });
 
+  //Close the category dropdown if someone clicks outside of it
   $(document).bind('click', function(e) {
     var $clicked = $(e.target);
     if (! $clicked.parents().hasClass("dropdown"))
       $(".dropdown dd ul").hide();
   });
-})(jQuery);
+//})(jQuery);
+});
 </script>
 {% endblock %}
