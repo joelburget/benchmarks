@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load gravatar %}
 {% block title %}Users{% endblock %}
 {% block content %}
 <h2>Users</h2> 
@@ -13,6 +14,7 @@
 {% if users.object_list %}
 {% for user in users.object_list %}
   <div class="block">
+    <a href="{{ user.get_absolute_url }}">{% gravatar user.email 48 %}</a>
     <h3><a href="{{ user.get_absolute_url }}">{{ user.get_profile.get_display_name}}{% if not user.get_profile.get_display_name == user.username %} ({{ user.username }}){% endif %}</a></h3>
 
     <p><b>Bio:</b> {% if user.get_profile.bio %}{{ user.get_profile.bio }}{% else %}This user hasn't entered a bio yet.{% endif %}</p>
