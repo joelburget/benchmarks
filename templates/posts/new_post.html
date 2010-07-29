@@ -126,7 +126,7 @@
   var autocomplete = t.plugins.autocomplete;
   autocomplete.setValues([
   {% for object in object_list %}
-  [{{ object.id }}, '{{ object.author.first_name }} {{ object.author.last_name }} - {{ object.title }}', '{{ object.title }}'],
+  [{{ object.id }}, '{{ object.author.get_profile.get_display_name }} - {{ object.title }}', '{{ object.title }}'],
   {% endfor %}
   ]);
   $('.textboxlist-autocomplete').css({'width': '541px', 'margin-left': '50px'});
