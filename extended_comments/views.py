@@ -12,6 +12,8 @@ from django.http import HttpResponseRedirect
 #because that is not covered by the sanitization in comment-sanitizer/__init__.py
 #(We want them to see what will actually show up)
 def post(request):
+  print request
+
   if request.FILES:
     form = ExtendedCommentForm(request.POST, request.FILES)
     if form.is_valid():
