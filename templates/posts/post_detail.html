@@ -39,6 +39,7 @@
 </div>
 {% endif %}
 
+{% if user.is_authenticated %}
 <div class="block">
   <h3>Actions</h3>
 
@@ -60,6 +61,7 @@
 
 <p><a href="#leaveAComment">Comment on this post</a></p>
 </div>
+{% endif %}
 
 <!-- Poster info -->
 <p class="postInfo"><span class="postType"><a href="{{ object.get_absolute_category_url }}">{{ object.get_category_display }}</a></span> Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.get_profile.get_display_name }}</a>, on {{ object.published }}</p> 
