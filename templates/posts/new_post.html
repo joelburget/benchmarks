@@ -15,7 +15,7 @@
 
 <h2>{% if post_id == None %}New{% else %}Edit{% endif %} Post</h2>
 <form id="newPostForm" action="." method="post" enctype="multipart/form-data" style="float:left;">
-  {% csrf_token %}
+  {% comment %}I don't know how or why Django inserts the csrfmiddlewaretoken here, but it does{% endcomment %}
 
   {% if not post_id == None %}
   <input type="hidden" style="display:none;" name="post_id" id="post_id" value="{{ post_id }}" />
