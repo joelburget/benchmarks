@@ -99,9 +99,9 @@
     {{ form.timestamp }} 
     {{ form.security_hash }} 
     <br />
-    <!-->
+    {% comment %}
       {{ form.file }}
-    </!-->
+    {% endcomment %}
     <p style="display:none;"> {{ form.honeypot }}</p>
     <input type="submit" name="preview" class="submit-preview" value="Preview" />
     <input type="submit" value="Add comment" class="submit-post" id="id_submit" />
