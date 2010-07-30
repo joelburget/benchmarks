@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load gravatar %}
+{% load partials %}
 
 {% block title %}{{ group.name }}{% endblock %}
 
@@ -23,11 +23,7 @@
 <h3>Members</h3>
 {% if group.user_set.all %}
 {% for member in group.user_set.all %}
-  <div class="block">
-    <a href="{{ member.get_absolute_url }}">{% gravatar member.email 48 %}</a>
-    <h3><a href="{{ member.get_absolute_url }}">{{ member.get_profile.get_display_name }}{% if not user.get_profile.get_display_name == user.username %} ({{ user.username}}){% endif %}</a></h3>
-    <p><b>Bio:</b> {% if member.get_profile.bio %}{{ member.get_profile.bio }}{% else %}This user hasn't entered a bio yet.{% endif %}</p>
-  </div>
+{% render_partial user member %}
 {% endfor %}
 {% else %}
 <p>No users have joined this group yet.</p>

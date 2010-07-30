@@ -4,6 +4,7 @@
 {% load truncatesmart %}
 {% load truncatesmart_html %}
 {% load tex %}
+{% load partials %}
 {% block title %}Homepage{% endblock %}
 {% block content %}
 {% if not user.is_authenticated %}
@@ -11,20 +12,17 @@
   <img src="{{ MEDIA_URL }}img/feed-icon16x16.png" height="16px" width="16px" />
   <span><a href="/rss/">RSS</a> / <a href="/atom/">Atom</a></span>
 </div>
+
 <div class="notice">
 <h1>Welcome!</h1>
 <p>Hello, and welcome to the OSU Reusable Software Research Group's online Benchmarks web application! Before joining, there are a few useful resources you might want to read. The <a href="/about/">About</a> page discusses the purpose and mission of the RSRG and Benchmarks application. The <a href="/getting-started">Getting Started</a> page will help you start creating, submitting, and posting your ideas.<p>
 </div>
 {% endif %}
+
 <h1>Featured Posts &mdash; <a href="/posts">View all</a></h1>
 {% if featured_posts %}
 {% for object in featured_posts %}
-	<div class="block">
-	<h2><a href="{{ object.get_absolute_url }}">{{ object.title|truncatesmart:40 }}</a></h2>
-	<p>{{ object.body|truncatesmart_html:250|striptags }}</p>
-	{% get_comment_count for object as comment_count %}
-  <p class="postInfo"><span class="postType"><a href="{{ object.get_absolute_category_url }}">{{ object.get_category_display }}</a></span> Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.get_profile.get_display_name }}</a>, on {{ object.published }}</p>
-	</div>
+{% render_partial post_preview object %}
 {% endfor %}
 {% else %}
 <p>Sorry, we don't have any featured posts yet.</p>
@@ -33,12 +31,7 @@
 <h1>Latest Posts &mdash; <a href="/posts">View all</a></h1>
 {% if latest_posts %}
 {% for object in latest_posts %}
-	<div class="block">
-	<h2><a href="{{ object.get_absolute_url }}">{{ object.title|truncatesmart:40 }}</a></h2>
-	<p>{{ object.body|truncatesmart_html:250|striptags }}</p>
-	{% get_comment_count for object as comment_count %}
-  <p class="postInfo"><span class="postType"><a href="{{ object.get_absolute_category_url }}">{{ object.get_category_display }}</a></span> Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.get_profile.get_display_name }}</a>, on {{ object.published }}</p>
-  </div>
+{% render_partial post_preview object %}
 {% endfor %}
 {% else %}
 <p>Sorry, we don't have any recent posts.</p>
