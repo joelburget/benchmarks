@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load gravatar %}
+{% load partials %}
 {% block title %}Users{% endblock %}
 {% block content %}
 <h2>Users</h2> 
@@ -12,13 +12,8 @@
 
 <h3>Results</h3>
 {% if users.object_list %}
-{% for user in users.object_list %}
-  <div class="block">
-    <a href="{{ user.get_absolute_url }}">{% gravatar user.email 48 %}</a>
-    <h3><a href="{{ user.get_absolute_url }}">{{ user.get_profile.get_display_name}}{% if not user.get_profile.get_display_name == user.username %} ({{ user.username }}){% endif %}</a></h3>
-
-    <p><b>Bio:</b> {% if user.get_profile.bio %}{{ user.get_profile.bio }}{% else %}This user hasn't entered a bio yet.{% endif %}</p>
-  </div>
+{% for member in users.object_list %}
+{% render_partial user member %}
 {% endfor %}
 {% else %}
 <p>Sorry, no users exist that match your criteria.</p>

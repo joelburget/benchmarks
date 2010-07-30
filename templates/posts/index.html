@@ -1,7 +1,6 @@
 {% extends "base.html" %}
-{% load truncatesmart %}
-{% load truncatesmart_html %}
 {% load namelist %}
+{% load partials %}
 
 {% block title %}Posts{% endblock %}
 
@@ -38,11 +37,7 @@
 <h3>Results</h3>
 {% if posts.object_list %}
 {% for post in posts.object_list %}
-  <div class="block">
-    <h3><a href="{{ post.get_absolute_url }}">{{ post.title|truncatesmart:40 }}</a></h3>
-    <p>{{ post.body|truncatesmart_html|striptags }}</p>
-    <p class="postInfo"><span class="postType"><a href="{{ post.get_absolute_category_url }}">{{ post.get_category_display }}</a></span> Posted by: <a href="{{ post.author.get_absolute_url }}">{{ post.author.get_profile.get_display_name }}</a>, on {{ post.published }}</p>
-  </div>
+{% render_partial post_preview post %}
 {% endfor %}
 {% else %}
 <p>Sorry, no posts exist that match your criteria!</p>

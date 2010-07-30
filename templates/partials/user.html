@@ -1,0 +1,7 @@
+{% load gravatar %}
+<div class="block">
+  <a href="{{ item.get_absolute_url }}">{% gravatar item.email 48 %}</a>
+  <h3><a href="{{ item.get_absolute_url }}">{{ item.get_profile.get_display_name}}{% if not item.get_profile.get_display_name == item.username %} ({{ item.username }}){% endif %}</a></h3>
+
+  <p><b>Bio:</b> {% if item.get_profile.bio %}{{ item.get_profile.bio }}{% else %}This user hasn't entered a bio yet.{% endif %}</p>
+</div>
