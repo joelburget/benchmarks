@@ -26,6 +26,7 @@ class Post(models.Model):
   author = models.ForeignKey(User)
   category = models.CharField(max_length=1, choices=CATEGORY_CHOICES)
   parent = models.ForeignKey('self', null=True, blank=True)
+  files = models.ManyToManyField('PostFile', null=True, blank=True)
 
   def __unicode__(self):
     return self.title
@@ -59,10 +60,22 @@ pre_delete.connect(clean_up_after_post, sender=Post)
 class PostForm(ModelForm):
   title = forms.CharField(widget=forms.TextInput(attrs = {'class' : 'validate[required]'}))
   body = forms.CharField(widget=forms.widgets.Textarea(attrs = {'class' : 'validate[required]', 'cols' : '200', 'rows' : '20'}))
+  category = forms.Select(attrs={'class': 'validate[required]'})
 
   class Meta():
     model = Post
     fields = ('title', 'body', 'category', 'parent')
+
+class PostRevision(models.Model):
+  files = models.ManyToManyField('PostFile', null=True, blank=True)
+  published = models.DateTimeField('Date Published', auto_now_add=True)
+  body = models.TextField()
+  author = models.ForeignKey(User)
+  previous = models.ForeignKey('self')
+  number = models.IntegerField(default=1)
+
+  def __unicode__(self):
+    return "revision %s - %s" % (number, published)
 
 # PostFile
 def get_upload_path(instance, filename):
@@ -70,7 +83,7 @@ def get_upload_path(instance, filename):
 
 class PostFile(models.Model):
   file = models.FileField(upload_to=get_upload_path, null=True, blank=True)
-  post = models.ForeignKey(Post)
 
   def __unicode__(self):
     return basename('%s' % (self.file,))
+
