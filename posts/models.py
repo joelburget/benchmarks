@@ -22,7 +22,6 @@ class Post(models.Model):
   title = models.CharField(max_length=200)
   published = models.DateTimeField('Date Published', auto_now_add=True)
   body = models.TextField()
-  sticky = models.BooleanField('Show on Frontpage?', default=False)
   author = models.ForeignKey(User)
   category = models.CharField(max_length=1, choices=CATEGORY_CHOICES)
   parent = models.ForeignKey('self', null=True, blank=True)
@@ -86,4 +85,3 @@ class PostFile(models.Model):
 
   def __unicode__(self):
     return basename('%s' % (self.file,))
-
