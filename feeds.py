@@ -39,17 +39,12 @@ class RssPersonalizedFeed(Feed):
     #here we want to return the post objects which obj authored
     #or commented on that have updates,
     #as well as any new posts
-    #unfortunately I don't know how to do that
 
-    #lst = []
-    #for comment in ExtendedComment.objects.filter(user=obj):
-    #  lst.append(Post.objects.get(pk=comment.object_pk))
-    #lst += list(Post.objects.filter(author=obj))
-    #print lst
+    lst = Post.objects.filter(author=obj)
+    for comment in ExtendedComment.objects.filter(user=obj):
+      lst = lst | Post.objects.filter(pk=comment.object_pk)
 
-    #return Post.objects.filter(Q(author=obj) | Q()).order_by('-published')[:20]
-
-    return Post.objects.order_by('-published')[:20]
+    return lst.order_by('-published')[:20]
 
   def item_title(self, item):
     return item.title
