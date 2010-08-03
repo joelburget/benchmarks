@@ -6,8 +6,7 @@ class PostAdmin(admin.ModelAdmin):
   ordering = ('-published', )
 
   # Display multiple fields in the list view
-  list_display = ('title', 'body', 'sticky')
-  list_editable = ['sticky']
+  list_display = ('title', 'body')
 
   # Filter and search capabilites
   list_filter = ['published']

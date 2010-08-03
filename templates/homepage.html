@@ -19,9 +19,9 @@
 </div>
 {% endif %}
 
-<h1>Featured Posts &mdash; <a href="/posts">View all</a></h1>
-{% if featured_posts %}
-{% for object in featured_posts %}
+<h1>Latest Problems &mdash; <a href="/posts/?title=&body=&user=&problem=on&searchtxt=">View all</a></h1>
+{% if problem_posts %}
+{% for object in problem_posts %}
 {% render_partial post_preview object %}
 {% endfor %}
 {% else %}
