@@ -142,3 +142,4 @@ EMAIL_PORT = 587
 host = socket.gethostbyaddr(socket.gethostname()) 
 if host == 'syrus.cse.ohio-state.edu':
   FORCE_SCRIPT_NAME = ''
+  DEBUG = False
