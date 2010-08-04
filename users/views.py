@@ -72,6 +72,25 @@ def edituser(request, uname):
           profile.showemail = True
         else:
           profile.showemail = False  # By HTML spec, nonchecked boxes don't go thru POST
+        if 'commentResponseSubscribe' in request.POST:
+          profile.commentResponseSubscribe = True
+        else:
+          profile.commentResponseSubscribe = False
+
+        if 'ownPostCommentSubscribe' in request.POST:
+          profile.ownPostCommentSubscribe = True
+        else:
+          profile.ownPostCommentSubscribe = False
+
+        if 'groupPostSubscribe' in request.POST:
+          profile.groupPostSubscribe = True
+        else:
+          profile.groupPostSubscribe = False
+
+        if 'allProblemSubscribe' in request.POST:
+          profile.allProblemSubscribe = True
+        else:
+          profile.allProblemSubscribe = False
 
         profile.save()
 

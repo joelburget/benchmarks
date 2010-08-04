@@ -40,7 +40,14 @@ class RssPersonalizedFeed(Feed):
     #or commented on that have updates,
     #as well as any new posts
 
+    profile = obj.get_profile()
+
     lst = Post.objects.filter(author=obj)
+
+    if profile.commentResponseSubscribe:
+      pass
+      #lst = lst | 
+
     for comment in ExtendedComment.objects.filter(user=obj):
       lst = lst | Post.objects.filter(pk=comment.object_pk)
 
