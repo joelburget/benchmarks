@@ -46,8 +46,6 @@ class RssPersonalizedFeed(Feed):
 
     lst = Post.objects.filter(author=obj)
 
-    lst = QuerySetSequence(lst, Comment.objects.filter(pk=1))
-
     if profile.commentResponseSubscribe:
       for comment in ExtendedComment.objects.filter(user=obj):
         post = Post.objects.get(pk=comment.object_pk)
