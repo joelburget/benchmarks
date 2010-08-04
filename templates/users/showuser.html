@@ -42,7 +42,7 @@
 </div>
 
 <div class="block">
-<h2>Groups</h2>
+<h2>Member of</h2>
 {% if object.groups.all %}
 {% for g in object.groups.all %}
   <p><b><a href="/groups/{{ g.pk }}">{{ g.name }}</a></b></p>
@@ -50,7 +50,6 @@
 {% else %}
 <p>This user hasn't joined any groups yet.</p>
 {% endif %}
-<p><a href="/groups/">View all Groups</a></p>
 </div>
 
 <div class="block">
