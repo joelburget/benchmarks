@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load namelist %}
 {% load partials %}
 
 {% block title %}Posts{% endblock %}
@@ -71,7 +70,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
   /* User autocomplete */
-  var users = "{{ userlist|namelist|safe }}".split(" ");
+  var users = "{% for u in userlist %}{{ u.username }}${% endfor %}".split("$");
   $('#user').autocomplete(users);
 
   /* Advanced search field toggling */

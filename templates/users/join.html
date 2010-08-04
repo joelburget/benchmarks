@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Join{% endblock %}
+
+{% block cssblock %}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/uniform.default.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/validationEngine.jquery.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="http://dev.jquery.com/view/trunk/plugins/autocomplete/jquery.autocomplete.css" type="txt/css" />
+{% endblock %}
+
+{% block content %}
+<div class="notice">
+  <h1>Notes on Joining</h1>
+  <p>For reasons of academic integrity, only users accepted by the RSRG will be allowed an account. However, all of the content on this website is available openly to the public. Accounts merely enable participation via submitting content and published online discussion.</p>
+
+  <p>Please enter your full <b>real name</b>, <b>email address</b>, <b>research organization</b>, and a short <b>rationale</b> demonstrating that you are actually a researcher in this field.</p>
+</div>
+
+<h1>Request an Account</h1>
+
+<form id="joinForm" method="post" action="/joined/">
+  <ol>
+    <li><label>Real Name</label></li>
+    <li><input class="validate[required]" id="name" name="name"/></li>
+
+    <li><label>Research Organization</label></li>
+    <li><input class="validate[required]" id="group" name="group" /></li>
+
+    <li><label>Email Address</label></li>
+    <li><input class="validate[required, email]" id="email" name="email" /></li>
+
+    <li><label>Rationale</label></li>
+    <li><textarea class="validate[required,email]" id="reason" name="reason"></textarea></li>
+
+    <li><input type="submit" value="Submit Request" /></li>
+  </ol>
+</form>
+{% endblock %}
+
+{% block jsblock %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="{{ MEDIA_URL }}js/jquery.validationEngine-en.js" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}js/jquery.validationEngine.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/autocomplete/lib/jquery.bgiframe.min.js"></script>
+<script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/autocomplete/lib/jquery.dimensions.js"></script>
+<script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/autocomplete/jquery.autocomplete.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#joinForm').validationEngine();
+
+  /* Group autocomplete */
+  var groups = "{% for group in grouplist %}{{ group }}${% endfor %}".split("$");
+  $('#group').autocomplete(groups);
+});
+</script>
+{% endblock %}

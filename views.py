@@ -11,12 +11,13 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic.simple import direct_to_template 
 from django.http import Http404
 from benchmarks.feeds import RssPostsFeed, AtomPostsFeed
+from django.core.mail import EmailMessage
 
 def homepage(request):
   # featured posts always stay on the homepage
-  problem_posts = Post.objects.filter(category='P')[:5]
-  latest_posts = Post.objects.exclude(category='P').order_by('-published')[:5]
-  latest_discussion = ExtendedComment.objects.all().order_by('-submit_date')[:5]
+  problem_posts = Post.objects.filter(category='P')[:3]
+  latest_posts = Post.objects.exclude(category='P').order_by('-published')[:3]
+  latest_discussion = ExtendedComment.objects.all().order_by('-submit_date')[:3]
   return render_to_response('homepage.html', {
                                               'problem_posts': problem_posts,
                                               'latest_posts': latest_posts, 
@@ -103,3 +104,32 @@ def rss(request):
 
 def atom(request):
   return AtomPostsFeed().__call__(request)
+
+def joined(request):
+  if request.method == 'POST':
+    # Generate email message from post params
+    name = request.POST['name']
+    email = request.POST['email']
+    group = request.POST['group']
+    reason = request.POST['reason']
+
+    email = EmailMessage('Intent to Join ',
+"""
+==========================================
+Intent to Join Software Benchmarks Website
+==========================================
+
+Real Name: %s
+Email Address: %s
+Research Organization: %s
+Rationale: %s
+
+To allow this user to join, click here:
+http://fixme.com
+""" % (name, email, group, reason),
+      to=['weide.1@osu.edu'])
+
+    # Send message
+    email.send()
+
+  return render_to_response('users/joined.html')

@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
+from django.contrib.auth.models import Group
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -36,6 +37,10 @@ urlpatterns = patterns('',
   # Login/logout
   (r'^login/$', 'benchmarks.views.loginuser'),
   (r'^logout/$', 'benchmarks.views.logoutuser'),
+
+  # Join
+  (r'^join/$', 'django.views.generic.simple.direct_to_template', {'template':'users/join.html', 'extra_context' : {'grouplist' : Group.objects.all() }}),
+  (r'^joined/$', 'benchmarks.views.joined'),
 
   # AJAX/API actions
   (r'^dirlist.*$', 'benchmarks.views.dirlist'),

@@ -1,5 +1,6 @@
 import os
 import django
+import socket
 
 # Django settings for benchmarks project.
 AUTH_PROFILE_MODULE = 'users.UserProfile'
@@ -128,3 +129,17 @@ LASTPAGE_SKIP = (
 )
 
 COMPRESS = True
+
+# django.core.mail Setup
+# Used for registration purposes
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'user@gmail.com'
+EMAIL_HOST_PASSWORD = 'password'
+EMAIL_PORT = 587
+
+# Server-specific lines
+host = socket.gethostbyaddr(socket.gethostname()) 
+if host == 'syrus.cse.ohio-state.edu':
+  FORCE_SCRIPT_NAME = ''
+  DEBUG = False

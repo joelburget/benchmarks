@@ -38,7 +38,7 @@ def join(request):
     # Join this group, if authenticated
     groupid = request.POST['groupid']
     group = Group.objects.get(pk=groupid)
-    request.user.groups.add(group)
+    request.user.groups = [group]
     request.user.save()
     return HttpResponseRedirect('/groups/' + groupid)
   else:
