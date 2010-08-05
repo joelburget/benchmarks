@@ -12,6 +12,7 @@ from django.views.generic.simple import direct_to_template
 from django.http import Http404
 from benchmarks.feeds import RssPostsFeed, AtomPostsFeed
 from django.core.mail import EmailMessage
+from benchmarks import settings
 
 def homepage(request):
   # featured posts always stay on the homepage
@@ -106,7 +107,7 @@ def atom(request):
   return AtomPostsFeed().__call__(request)
 
 def joined(request):
-  if request.method == 'POST':
+  if request.method == 'POST' and settings.EMAIL_ENABLED:
     # Generate email message from post params
     name = request.POST['name']
     email = request.POST['email']
@@ -131,5 +132,7 @@ http://fixme.com
 
     # Send message
     email.send()
+  else:
+    print 'Emailing disabled! Not sending account registration!'
 
   return render_to_response('users/joined.html')

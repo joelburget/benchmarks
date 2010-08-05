@@ -132,11 +132,20 @@ COMPRESS = True
 
 # django.core.mail Setup
 # Used for registration purposes
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'user@gmail.com'
-EMAIL_HOST_PASSWORD = 'password'
-EMAIL_PORT = 587
+EMAIL_ENABLED = False
+
+try:
+  import email_settings
+except ImportError:
+  # This is okay, eg. if we are in the development environment
+  pass
+else:
+  EMAIL_USE_TLS = email_settings.EMAIL_USE_TLS
+  EMAIL_HOST = email_settings.EMAIL_HOST
+  EMAIL_HOST_USER = email_settings.EMAIL_HOST_USER
+  EMAIL_HOST_PASSWORD = email_settings.EMAIL_HOST_PASSWORD
+  EMAIL_PORT = email_settings.EMAIL_PORT
+  EMAIL_ENABLED = True
 
 # Server-specific lines
 host = socket.gethostbyaddr(socket.gethostname()) 
