@@ -11,11 +11,16 @@
 <p>{{ group.groupprofile.about }}</p>
 
 {% if user.is_authenticated %}
-<form action="/groups/{% if group in user.groups.all %}leave{% else %}join{% endif %}/" method="post">
-{% csrf_token %}
-  <input type="hidden" value="{{ group.pk }}" name="groupid" value="groupid" />
-  <input type="submit" value="{% if group in user.groups.all %}Leave this Group{% else %}Join this Group{% endif %}" />
-</form>
+  {% if not group in user.groups.all %}
+
+    <form action="/groups/{% if group in user.groups.all %}leave{% else %}join{% endif %}/" method="post">
+      {% csrf_token %}
+      <input type="hidden" value="{{ group.pk }}" name="groupid" value="groupid" />
+      <input type="submit" value="Join this Group" />
+    </form>
+  {% else %}
+    <p style="color:#999;"><i>Note: To leave this group, just join another.</i></p>
+  {% endif %}
 {% endif %}
 </div>
 
