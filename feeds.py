@@ -5,6 +5,8 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from benchmarks.extended_comments.models import ExtendedComment
 from django.db.models import Q
+from benchmarks.qsseq import QuerySetSequence
+from django.contrib.comments.models import Comment
 
 class RssPostsFeed(Feed):
   title = "RSRG Benchmarks Feed"
@@ -45,20 +47,35 @@ class RssPersonalizedFeed(Feed):
     lst = Post.objects.filter(author=obj)
 
     if profile.commentResponseSubscribe:
+      for comment in ExtendedComment.objects.filter(user=obj):
+        post = Post.objects.get(pk=comment.object_pk)
+        lst = QuerySetSequence(lst, Comment.objects.for_model(post))
+
+    if profile.ownPostCommentSubscribe:
+      for post in Post.objects.filter(author=obj):
+        lst = QuerySetSequence(lst, Comment.objects.for_model(post))
+
+    #I think Colin is doing something with groups, I'll finish this
+    #after he's done
+    if profile.groupPostSubscribe:
       pass
-      #lst = lst | 
 
-    for comment in ExtendedComment.objects.filter(user=obj):
-      lst = lst | Post.objects.filter(pk=comment.object_pk)
+    if profile.allProblemSubscribe:
+      lst = QuerySetSequence(lst, Post.objects.filter(category='R'))
 
-    return lst.order_by('-published')[:20]
+    return lst.unique()[:20]#.order_by('-published')[:20]
 
   def item_title(self, item):
-    return item.title
+    if item.__class__ == Post:
+      return item.title
+    else:
+      return "Comment"
 
   def item_description(self, item):
-    #not 100% sure this is right
-    return item.body
+    if item.__class__ == Post:
+      return item.body
+    else:
+      return item.get_as_text()
 
 class AtomPersonalizedFeed(RssPersonalizedFeed):
   feed_type = Atom1Feed
