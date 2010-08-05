@@ -1,6 +1,6 @@
 {% load truncatesmart %}
 {% load truncatesmart_html %}
-{% load comments %}
+{% load extended_comments %}
 <div class="block">
   <h2><a href="{{ item.get_absolute_url }}">{{ item.title|truncatesmart:40 }}</a></h2>
   <p>{{ item.body|truncatesmart_html:250|striptags }}</p>

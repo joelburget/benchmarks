@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.views.generic.simple import direct_to_template
 from django.template import RequestContext
 from django.contrib.auth.models import User
-from django.contrib.comments.models import Comment
+from benchmarks.extended_comments.models import ExtendedComment
 from benchmarks.users.models import UserForm 
 from django.http import HttpResponseRedirect
 from django.db.models import Q
@@ -39,7 +39,7 @@ def index(request):
 def showuser(request, uname):
   u = get_object_or_404(User, username=uname)
   posts = u.post_set.all()[:5]
-  comments = Comment.objects.filter(user=u).order_by('-submit_date')[:5]
+  comments = ExtendedComment.objects.filter(user=u).order_by('-published')[:5]
   return render_to_response('users/showuser.html', 
     context_instance=RequestContext(request, {
                                               'object' : u, 

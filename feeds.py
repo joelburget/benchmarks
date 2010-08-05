@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 from benchmarks.extended_comments.models import ExtendedComment
 from django.db.models import Q
 from benchmarks.qsseq import QuerySetSequence
-from django.contrib.comments.models import Comment
 
 class RssPostsFeed(Feed):
   title = "RSRG Benchmarks Feed"
@@ -49,11 +48,11 @@ class RssPersonalizedFeed(Feed):
     if profile.commentResponseSubscribe:
       for comment in ExtendedComment.objects.filter(user=obj):
         post = Post.objects.get(pk=comment.object_pk)
-        lst = QuerySetSequence(lst, Comment.objects.for_model(post))
+        lst = QuerySetSequence(lst, ExtendedComment.objects.for_model(post))
 
     if profile.ownPostCommentSubscribe:
       for post in Post.objects.filter(author=obj):
-        lst = QuerySetSequence(lst, Comment.objects.for_model(post))
+        lst = QuerySetSequence(lst, ExtendedComment.objects.for_model(post))
 
     #I think Colin is doing something with groups, I'll finish this
     #after he's done
@@ -63,7 +62,7 @@ class RssPersonalizedFeed(Feed):
     if profile.allProblemSubscribe:
       lst = QuerySetSequence(lst, Post.objects.filter(category='R'))
 
-    return lst.unique()[:20]#.order_by('-published')[:20]
+    return lst.unique().order_by('-published')[:20]
 
   def item_title(self, item):
     if item.__class__ == Post:

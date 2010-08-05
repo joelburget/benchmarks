@@ -5,7 +5,7 @@
 {% block title %}Comment Preview{% endblock %}
 
 {% block content %}
-  {% load comments %}
+  {% load extended_comments %}
   <form action="{% comment_form_target %}" method="post">{% csrf_token %}
     {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
     <h1>{% trans "Preview your comment" %}</h1>
