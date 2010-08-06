@@ -1,36 +1,33 @@
-from django.conf.urls.defaults import *
 from django.conf import settings
+from django.conf.urls.defaults import *
 from django.contrib.auth.models import Group
 
-# Uncomment the next two lines to enable the admin:
+# Enable Admin
 from django.contrib import admin
 admin.autodiscover()
 
-# Custom 404
+# Enable Custom 404
 handler404 = 'benchmarks.views.our404'
 handler500 = 'benchmarks.views.our500'
 
 urlpatterns = patterns('',
-  # Example:
-  # (r'^benchmarks/', include('benchmarks.foo.urls')),
-
   # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
   # to INSTALLED_APPS to enable admin documentation:
   # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-  # About/Getting started templates
+  # About/Getting started/Sanitizing templates
   (r'^about/$', 'django.views.generic.simple.direct_to_template', {'template': 'about.html'}),
   (r'^getting-started/$', 'django.views.generic.simple.direct_to_template', {'template': 'getting-started.html'}),
   (r'^sanitizing/$', 'django.views.generic.simple.direct_to_template', {'template' : 'sanitizing.html'}),
 
-  # Redirects
+  # App Redirects
   (r'^admin/', include(admin.site.urls)),
   (r'^comments/', include('benchmarks.extended_comments.urls')),
   (r'^groups/', include('benchmarks.groups.urls')),
   (r'^posts/', include('benchmarks.posts.urls')),
   (r'^users/', include('benchmarks.users.urls')),
 
-  #Feeds
+  # Feeds
   (r'^rss/$', 'benchmarks.views.rss'),
   (r'^atom/$', 'benchmarks.views.atom'),
 

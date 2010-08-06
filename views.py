@@ -1,30 +1,32 @@
-import re
 import os
+import re
 import urllib
+
+from benchmarks import settings
+from benchmarks.extended_comments.models import ExtendedComment
+from benchmarks.feeds import RssPostsFeed, AtomPostsFeed
 from benchmarks.helpers import *
 from benchmarks.posts.models import Post
-from benchmarks.extended_comments.models import ExtendedComment
+
+from django.contrib.auth import authenticate, login, logout
+from django.core.mail import EmailMessage
+from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic.simple import direct_to_template 
-from django.http import Http404
-from benchmarks.feeds import RssPostsFeed, AtomPostsFeed
-from django.core.mail import EmailMessage
-from benchmarks import settings
 
 def homepage(request):
-  # featured posts always stay on the homepage
+  # Grab all problems, all non-problems, and all comments
   problem_posts = Post.objects.filter(category='P')[:3]
   latest_posts = Post.objects.exclude(category='P').order_by('-published')[:3]
   latest_discussion = ExtendedComment.objects.all().order_by('-submit_date')[:3]
-  return render_to_response('homepage.html', {
-                                              'problem_posts': problem_posts,
-                                              'latest_posts': latest_posts, 
-                                              'latest_discussion' : latest_discussion, 
-#                                              'less_style' : True,
-                                             }, context_instance = RequestContext(request))
+  return render_to_response('homepage.html',
+                            {
+                              'problem_posts': problem_posts,
+                              'latest_posts': latest_posts, 
+                              'latest_discussion' : latest_discussion, 
+                            },
+                            context_instance = RequestContext(request))
 
 def loginuser(request):
   if request.method == 'POST':
@@ -79,7 +81,6 @@ def our404(request, error='404'):
 
 def our500(request):
   return our404(request, error='500')
-
 
 def dirlist(request):
   response = '<ul class="jqueryFileTree" style="display:none;">\n'

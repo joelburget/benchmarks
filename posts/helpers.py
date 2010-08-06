@@ -1,9 +1,10 @@
+import commands
 import os
 import tarfile
 import zipfile
-import commands
-from benchmarks.settings import MEDIA_ROOT
+
 from benchmarks.posts.models import Post, PostFile
+from benchmarks.settings import MEDIA_ROOT
 
 def decompress(filepath, post):
   # Get output path

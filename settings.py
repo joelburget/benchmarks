@@ -1,5 +1,6 @@
 import os
 import django
+import platform
 import socket
 
 # Django settings for benchmarks project.
@@ -148,7 +149,8 @@ else:
   EMAIL_ENABLED = True
 
 # Server-specific lines
-host = socket.gethostbyaddr(socket.gethostname()) 
+host = platform.node()
+
 if host == 'syrus.cse.ohio-state.edu':
   FORCE_SCRIPT_NAME = ''
   DEBUG = False
