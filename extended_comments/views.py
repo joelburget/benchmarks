@@ -1,19 +1,21 @@
 from benchmarks.extended_comments.models import ExtendedComment
 from benchmarks.extended_comments.forms import ExtendedCommentForm
-from django.contrib.comments.views.comments import post_comment
 from django.http import HttpRequest
 import html5lib
 from html5lib import sanitizer
 import os
 from benchmarks.settings import MEDIA_ROOT
 from django.http import HttpResponseRedirect
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from benchmarks.posts.models import Post
+from django.views.decorators.http import require_POST
 
 #This sanitizes the input the user will see in the preview area for comments
 #because that is not covered by the sanitization in comment-sanitizer/__init__.py
 #(We want them to see what will actually show up)
+@require_POST
 def post(request):
-  print request
-
+  print request.POST
   if request.FILES:
     form = ExtendedCommentForm(request.POST, request.FILES)
     if form.is_valid():
@@ -43,9 +45,62 @@ def post(request):
     req.POST = request.POST.copy()
     req.POST.__setitem__('comment', comment)
     
-    return post_comment(req) 
+    #return post_comment(req) 
+    return comment_posted(request)
   else:
-    return post_comment(request)
+    data = request.POST.copy()
+    object_pk = data.get("object_pk")
+    if object_pk is None:
+      #Ideally this should be replaced
+      return HttpResponseNotFound("<h1>There was an error with your comment, please try again</h1>")
+    try:
+      target = Post.objects.get(pk=object_pk)
+    except (ObjectDoesNotExist, ValueError, ValidationError):
+      return HttpResponseNotFound("<h1>There was an error with your comment, please try again</h1>")
+
+    form = ExtendedCommentForm(target, data=data)
+    print "\n\nform incoming!!\n\n\n"
+    print form
+    if form.security_errors():
+      return HttpResponseNotFound("<h1>There was an error with your comment, please try again</h1>")
+    if form.is_valid():
+      print "valid"
+      form.save()
+    #return post_comment(request)
+    return comment_posted(request)
+
+@require_POST
+def post(request):
+  if not request.user.is_authenticated():
+    return HttpResponseRedirect('/')
+  else:
+    data = request.POST.copy()
+    object_pk = data.get("object_pk")
+    if object_pk is None:
+      #Ideally this should be replaced
+      return HttpResponseNotFound("<h1>There was an error with your comment, please try again</h1>")
+    try:
+      target = Post.objects.get(pk=object_pk)
+    except (ObjectDoesNotExist, ValueError, ValidationError):
+      return HttpResponseNotFound("<h1>There was an error with your comment, please try again</h1>")
+
+    preview = "preview" in data
+    
+    if request.FILES:
+      form = ExtendedCommentForm(target, request.FILES, data=data)
+      if form.is_valid():
+        handle_uploaded_file(request.FILES['file'])
+    else:
+      form = ExtendedCommentForm(target, data=data)
+    print "\n\nform incoming!!\n\n\n"
+    print form
+    if form.security_errors():
+      return HttpResponseNotFound("<h1>There was an error with your comment, please try again</h1>")
+    if form.is_valid():
+      print "valid"
+      form.save()
+    return comment_posted(request)
+
 
 def handle_uploaded_file(f):
   path = os.path.join(MEDIA_ROOT, 'uploads/') + f.name
@@ -55,7 +110,7 @@ def handle_uploaded_file(f):
   destination.close()
 
 def comment_posted(request):
-  if request.GET['c']:
+  if request.GET.__contains__('c'):
     comment_id = request.GET['c']
     comment = ExtendedComment.objects.get(pk=comment_id)
 

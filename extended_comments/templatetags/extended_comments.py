@@ -3,6 +3,7 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from benchmarks.extended_comments.models import ExtendedComment
+from benchmarks.extended_comments.forms import ExtendedCommentForm
 from django.utils.encoding import smart_unicode
 
 register = template.Library()
@@ -124,7 +125,7 @@ class CommentFormNode(BaseCommentNode):
     def get_form(self, context):
         ctype, object_pk = self.get_target_ctype_pk(context)
         if object_pk:
-            return comments.get_form()(ctype.get_object_for_this_type(pk=object_pk))
+            return ExtendedCommentForm(ctype.get_object_for_this_type(pk=object_pk))
         else:
             return None
 
@@ -308,7 +309,7 @@ def comment_form_target():
 
         <form action="{% comment_form_target %}" method="post">
     """
-    return comments.get_form_target()
+    return "/comments/post/" #comments.get_form_target()
 
 #@register.simple_tag
 def get_comment_permalink(comment, anchor_pattern=None):
