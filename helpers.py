@@ -1,32 +1,93 @@
-import os
-from benchmarks.settings import SITE_ROOT
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 
-def generate_dirs_list(d):
-  """Creates a list of <li> elements for usage in the AJAX file browser."""
-  foldersresult = ''
-  filesresult = ''
-  files = os.listdir(d)
+from benchmarks.extended_comments.models import ExtendedComment
+from benchmarks.posts.models import Post
+from benchmarks.qsseq import QuerySetSequence
 
-  # Loop through all files in this dir
-  for f in files:
-    # For output...
-    oldf = f
-    f = os.path.join(d, f)
+from django.contrib.auth.models import User
+from django.contrib.comments.models import Comment
+from django.contrib.syndication.views import Feed
+from django.db.models import Q
+from django.shortcuts import get_object_or_404
+from django.utils.feedgenerator import Atom1Feed
 
-    if os.path.isdir(f):
-      # Directory
-      relname = f.replace(SITE_ROOT, '') + '/'
-      foldername = os.path.basename(f)
-      foldersresult += '<li class="directory collapsed"><a href="#" rel="%s">%s</a></li>\n' %
-                       (relname, foldername,)
-    else:
-      # File
-      relname = f.replace(SITE_ROOT + '/assets/', '')
-      filename, fileext = os.path.splitext(f)
-      fileext = fileext[1:]
-      filename = os.path.basename(filename)
-      filesresult += '<li class=" file ext_%s"><a href="#" rel="%s">%s</a></li>\n' %
-                     (fileext, relname, filename)
 
-  # Return folders list w/files concatenated on
-  return foldersresult + filesresult
+class RssPostsFeed(Feed):
+
+    title = "RSRG Benchmarks Feed"
+    link = "/"
+    description = \
+        "Notification of new feeds posted to the Reusable Software Research Group Benchmarks website."
+
+    def items(self):
+        return Post.objects.order_by('-published')[:20]
+
+    def item_title(self, item):
+        return item.title
+
+    def item_description(self, item):
+
+        return item.body
+
+
+class AtomPostsFeed(RssPostsFeed):
+
+    feed_type = Atom1Feed
+    subtitle = RssPostsFeed.description
+
+
+class RssPersonalizedFeed(Feed):
+
+    link = "/"
+    description = \
+        "Personalized notification of new posts and responses on the Reusable Software Research Group Benchmarks website."
+
+    def get_object(self, request, uname):
+        return get_object_or_404(User, username=uname)
+
+    def title(self, obj):
+        return "RSRG Benchmarks Feed for %s %s" % (obj.first_name, obj.last_name)
+
+    def items(self, obj):
+
+        profile = obj.get_profile()
+
+        lst = Post.objects.filter(author=obj)
+
+        if profile.commentResponseSubscribe:
+            for comment in ExtendedComment.objects.filter(user=obj):
+                post = Post.objects.get(pk=comment.object_pk)
+                lst = QuerySetSequence(lst, Comment.objects.for_model(post))
+
+        if profile.ownPostCommentSubscribe:
+            for post in Post.objects.filter(author=obj):
+                lst = QuerySetSequence(lst, Comment.objects.for_model(post))
+
+        if profile.groupPostSubscribe:
+            pass
+
+        if profile.allProblemSubscribe:
+            lst = QuerySetSequence(lst, Post.objects.filter(category='R'))
+
+        return lst.unique()[:20]  #.order_by('-published')[:20]
+
+    def item_title(self, item):
+        if item.__class__ == Post:
+            return item.title
+        else:
+            return "Comment"
+
+    def item_description(self, item):
+        if item.__class__ == Post:
+            return item.body
+        else:
+            return item.get_as_text()
+
+
+class AtomPersonalizedFeed(RssPersonalizedFeed):
+
+    feed_type = Atom1Feed
+    subtitle = RssPostsFeed.description
+
+
