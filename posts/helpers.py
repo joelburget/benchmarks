@@ -10,9 +10,6 @@ def new_post(post, params):
   # Set content
   form = PostForm(params, instance = post)
 
-  for e in form.errors:
-    print ' error in modelform: %s' % (e,)
-  
   if form.is_valid():
     # Data is ok
     form.save()
@@ -22,8 +19,26 @@ def new_post(post, params):
     return False
 
 def update_post(post, params):
-  
-  return False
+  revision = PostRevision()
+  revision.author = post.author
+  revision.body = params.POST.get('body', None)
+  revision.previous = None
+
+  # Link up histories
+  if post.previous == None:
+    post.previous = revision
+    revision.previous = None
+  else:
+    old_previous = post.previous
+    post.previous = revision
+    revision.previous = old_previous
+
+  # Check for valid data
+  if revision.body != None:
+    revision.save()
+    return True
+  else:
+    return False
 
 def decompress(filepath, post):
   # Get output path

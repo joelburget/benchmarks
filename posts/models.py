@@ -60,7 +60,7 @@ pre_delete.connect(clean_up_after_post, sender=Post)
 class PostForm(ModelForm):
   title = forms.CharField(widget=forms.TextInput(attrs = {'class' : 'validate[required]'}))
   body = forms.CharField(widget=forms.widgets.Textarea(attrs = {'class' : 'validate[required]', 'cols' : '200', 'rows' : '20'}))
-  category = forms.Select(attrs={'class': 'validate[required]'})
+  category = forms.Select()
 
   class Meta():
     model = Post
@@ -75,6 +75,10 @@ class PostRevision(models.Model):
 
   def __unicode__(self):
     return "revision %s - %s" % (number, published)
+
+class PostRevisionForm(ModelForm):
+  class Meta():
+    model = PostRevision
 
 # PostFile
 def get_upload_path(instance, filename):
