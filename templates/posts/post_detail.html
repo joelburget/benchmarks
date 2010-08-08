@@ -51,11 +51,11 @@
 
   <p>
   {% if object.category == 'P' %}
-  <a href="/posts/new">Create a new realization for this problem</a>
+  <a href="/posts/new?parent={{ object.pk }}&category=R">Create a new realization for this problem</a>
   {% endif %}
 
   {% if object.category == 'R' %}
-  <a href="/posts/new">Create a new Verification condition for this realization</a>
+  <a href="/posts/new?parent={{ object.pk }}&category=V">Create a new Verification condition for this realization</a>
   {% endif %}
 </p>
 

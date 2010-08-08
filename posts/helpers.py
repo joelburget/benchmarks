@@ -21,6 +21,10 @@ def new_post(post, params):
     # Data is invalid
     return False
 
+def update_post(post, params):
+  
+  return False
+
 def decompress(filepath, post):
   # Get output path
   outputpath = os.path.split(filepath)[0]

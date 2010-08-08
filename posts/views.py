@@ -27,10 +27,9 @@ def editpost(request, **kwargs):
     status = False
 
     if request.POST.get('postid', None) != None:
-      # Note: change this to update_post
-      #post = Post.objects.get(pk=request.POST['postid'])
-      #status = savepost(post, request.POST)
       print 'Edit post'
+      post = Post.objects.get(pk=request.POST['postid'])
+      status = update_post(post, request.POST)
       pass
     else:
       print 'New post'
@@ -49,8 +48,15 @@ def editpost(request, **kwargs):
                                 context_instance=RequestContext(request))
   else:
     # GET request, just render page w/o processing params
+    parent = request.GET.get('parent', '')
+    category = request.GET.get('category', '')
     form = PostForm()
-    return render_to_response('posts/new_post.html', {'form' : form}, \
+    return render_to_response('posts/new_post.html', \
+                              {
+                                'form' : form,
+                                'parent' : parent,
+                                'category' : category,
+                              }, \
                               context_instance=RequestContext(request))
 
 def index(request):
