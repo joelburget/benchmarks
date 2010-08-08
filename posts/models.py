@@ -76,10 +76,6 @@ class PostRevision(models.Model):
   def __unicode__(self):
     return "revision %s - %s" % (number, published)
 
-class PostRevisionForm(ModelForm):
-  class Meta():
-    model = PostRevision
-
 # PostFile
 def get_upload_path(instance, filename):
   return 'uploads/%s/%s' % (instance.postrevision_set.all()[0].pk, filename,)
