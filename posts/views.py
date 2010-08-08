@@ -17,26 +17,27 @@ from django.views.generic.simple import direct_to_template
 
 def editpost(request, **kwargs):
   if not request.user.is_authenticated():
+    return direct_to_template(request, 'posts/must_login.html')
+
+  if request.method == 'POST':
+    pass
+  else:
+    form = PostForm(request.GET, instance = post)
+    return render_to_response('posts/new_post.html',
+                              {
+                                'form' : form,
+                              },
+                              context_instance=RequestContext(request))
+
+def newpost(request, **kwargs):
+  if not request.user.is_authenticated():
     # Require the user to be logged in
     return direct_to_template(request, 'posts/must_login.html')
 
   # Check to make sure this is a POST request
   if request.method == 'POST':
-    # Check for update or create
-    post = None
-    status = False
-
-    if request.POST.get('postid', None) != None:
-      print 'Edit post'
-      post = Post.objects.get(pk=request.POST['postid'])
-      status = update_post(post, request.POST)
-      pass
-    else:
-      print 'New post'
-      post = Post(author=request.user)
-      status = new_post(post, request.POST)
-
-    print 'Save status: ' + str(status)
+    post = Post(author=request.user)
+    status = new_post(post, request.POST)
 
     if status:
       # Success, render the post
