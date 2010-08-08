@@ -28,11 +28,11 @@
 
 
 <!-- Files -->
-{% if object.postfile_set.all %}
+{% if object.files.all %}
 <h3>Files:</h3>
 <div id="files">
 <ul>
-{% for f in object.postfile_set.all %}
+{% for f in object.files.all %}
   <li><a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a></li>
 {% endfor %}
 </ul>

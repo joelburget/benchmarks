@@ -3,8 +3,23 @@ import os
 import tarfile
 import zipfile
 
-from benchmarks.posts.models import Post, PostFile
+from benchmarks.posts.models import Post, PostFile, PostForm
 from benchmarks.settings import MEDIA_ROOT
+
+def new_post(post, params):
+  # Set content
+  form = PostForm(params, instance = post)
+
+  for e in form.errors:
+    print ' error in modelform: %s' % (e,)
+  
+  if form.is_valid():
+    # Data is ok
+    form.save()
+    return True
+  else:
+    # Data is invalid
+    return False
 
 def decompress(filepath, post):
   # Get output path

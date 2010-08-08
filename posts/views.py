@@ -16,41 +16,42 @@ from django.template import RequestContext
 from django.views.generic.simple import direct_to_template
 
 def editpost(request, **kwargs):
-  # Only authenticated users may post
   if not request.user.is_authenticated():
+    # Require the user to be logged in
     return direct_to_template(request, 'posts/must_login.html')
 
-  if request.method == 'POST': 
-    # Get POST data for new post
-    post = Post(author=request.user)
-    form = PostForm(request.POST, instance=post)
+  # Check to make sure this is a POST request
+  if request.method == 'POST':
+    # Check for update or create
+    post = None
+    status = False
 
-    if form.is_valid():
-      # Save post
-      form.save()
-      
-      # Save files in uploads/ and in db
-      for f in request.FILES:
-        thisfile = request.FILES[f]
-        pf = PostFile(file = thisfile, post = post)
-        pf.save()
-
-        # Check zips, tars, etc.
-        zippath = os.path.join(SITE_ROOT, 'assets/') + str(pf.file)
-        decompress(zippath, post)
-
-      # Redirect to the submitted post
-      return HttpResponseRedirect(post.get_absolute_url())
-  else:
-    if "post_id" in kwargs:
-      form = PostForm(instance=Post.objects.get(id=kwargs["post_id"]))
-      post_id = kwargs['post_id']
+    if request.POST.get('postid', None) != None:
+      # Note: change this to update_post
+      #post = Post.objects.get(pk=request.POST['postid'])
+      #status = savepost(post, request.POST)
+      print 'Edit post'
+      pass
     else:
-      # Get a blank post form for editing
-      form = PostForm()
-      post_id = None
+      print 'New post'
+      post = Post(author=request.user)
+      status = new_post(post, request.POST)
 
-  return render_to_response('posts/new_post.html', { 'form': form, 'object_list': Post.objects.all(), 'post_id' : post_id }, context_instance=RequestContext(request))
+    print 'Save status: ' + str(status)
+
+    if status:
+      # Success, render the post
+      return HttpResponseRedirect(post.get_absolute_url())
+    else:
+      # Failure, rerender the form page
+      form = PostForm(instance = post)
+      return render_to_response('posts/new_post.html', {'form' : form}, \
+                                context_instance=RequestContext(request))
+  else:
+    # GET request, just render page w/o processing params
+    form = PostForm()
+    return render_to_response('posts/new_post.html', {'form' : form}, \
+                              context_instance=RequestContext(request))
 
 def index(request):
   userlist = User.objects.all()

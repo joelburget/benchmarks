@@ -26,6 +26,7 @@ class Post(models.Model):
   category = models.CharField(max_length=1, choices=CATEGORY_CHOICES)
   parent = models.ForeignKey('self', null=True, blank=True)
   files = models.ManyToManyField('PostFile', null=True, blank=True)
+  previous = models.ForeignKey('PostRevision', null=True)
 
   def __unicode__(self):
     return self.title
@@ -66,11 +67,10 @@ class PostForm(ModelForm):
     fields = ('title', 'body', 'category', 'parent')
 
 class PostRevision(models.Model):
-  files = models.ManyToManyField('PostFile', null=True, blank=True)
   published = models.DateTimeField('Date Published', auto_now_add=True)
   body = models.TextField()
   author = models.ForeignKey(User)
-  previous = models.ForeignKey('self')
+  previous = models.ForeignKey('PostRevision', null=True)
   number = models.IntegerField(default=1)
 
   def __unicode__(self):
@@ -78,10 +78,11 @@ class PostRevision(models.Model):
 
 # PostFile
 def get_upload_path(instance, filename):
-  return 'uploads/%s/%s' % (instance.post.pk, filename,)
+  return 'uploads/%s/%s' % (instance.postrevision_set.all()[0].pk, filename,)
 
 class PostFile(models.Model):
   file = models.FileField(upload_to=get_upload_path, null=True, blank=True)
+  post_revision = models.ForeignKey(PostRevision, null=True)
 
   def __unicode__(self):
     return basename('%s' % (self.file,))
