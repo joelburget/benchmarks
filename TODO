@@ -13,10 +13,9 @@
 * Django minify inline JS/CSS tags
 - Minify external js files/combine into one
 - Finish revision views (AJAX, degraded view, etc)
-- TEST revisions
 - group editing (might need to edit author setting in revision)
 - port revisions to save signal, rather than in view code
-- New post page - validation requires double click on submit, jquery change event to fix this?
+- New post page - double tab on validation page
 - Fix HTML Soup (including removing b/i tags, nasty css hacks w/margins etc.)
 - More rigid post structures (as dr. weide said)
 - Advanced search (flash of hidden content? ask others if they get it)
