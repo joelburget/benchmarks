@@ -7,6 +7,9 @@ class GroupProfile(models.Model):
   about = models.CharField(max_length=500)
   link = models.URLField()
 
+  def get_absolute_url(self):
+    return '/groups/%s/' % (self.group.pk,)
+
 def new_profile(sender, instance, created, **kwargs):
   if created:
     profile, created = GroupProfile.objects.get_or_create(group=instance)
