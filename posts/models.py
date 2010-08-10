@@ -83,10 +83,9 @@ class PostRevision(models.Model):
   body = models.TextField()
   author = models.ForeignKey(User)
   previous = models.ForeignKey('PostRevision', null=True)
-  number = models.IntegerField(default=1)
 
   def __unicode__(self):
-    return "revision %s - %s" % (self.number, self.published)
+    return "Revision %s" % (self.published,)
 
 # PostFile
 def get_upload_path(instance, filename):

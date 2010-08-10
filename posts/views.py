@@ -10,7 +10,7 @@ from benchmarks.settings import SITE_ROOT
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Q
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.views.generic.simple import direct_to_template
@@ -157,3 +157,16 @@ def index(request):
       'advanced_submitted' : advanced_submitted,
     },
     context_instance=RequestContext(request))
+
+def posthistory(self, post_id, post_history_id, **kwargs):
+  # Get main post
+  post = Post.objects.get(pk=post_id)
+
+  # Get history
+  hist = post.history()
+ 
+  for revision in hist: 
+    if str(revision) == post_history_id:
+      return HttpResponse(revision.body)
+
+  return HttpResponse('ERROR: Bad history object.') 
