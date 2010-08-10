@@ -19,26 +19,32 @@ def new_post(post, params):
     return False
 
 def update_post(post, params):
-  revision = PostRevision()
-  revision.author = post.author
-  revision.body = params.get('body', None)
-  revision.previous = None
+  if params.get('body', ''):
+    # Move old content into a Revision
+    rev = PostRevision(author = post.author)
+    rev.body = post.body
+    rev.save()
 
-  # Link up histories
-  if post.previous == None:
-    post.previous = revision
-    print post.previous
-    revision.previous = None
-  else:
-    old_previous = post.previous
-    post.previous = revision
-    revision.previous = old_previous
+    # Fill post with new, edited data
+    post.body = params['body']
 
-  # Check for valid data
-  if revision.body != None:
-    revision.save()
+    # Link up histories
+    if post.previous != None:
+      # History already exists for this post
+      last_revision = post.previous
+      rev.previous = last_revision  # update chain
+      post.previous = rev
+
+      rev.save()
+      post.save()
+    else:
+      # No history yet, only 1 new history object
+      post.previous = rev
+      post.save()
+
     return True
   else:
+    # Invalid data, return false error code
     return False
 
 def decompress(filepath, post):
