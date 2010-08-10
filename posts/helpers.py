@@ -3,7 +3,7 @@ import os
 import tarfile
 import zipfile
 
-from benchmarks.posts.models import Post, PostFile, PostForm
+from benchmarks.posts.models import Post, PostFile, PostForm, PostRevision
 from benchmarks.settings import MEDIA_ROOT
 
 def new_post(post, params):
@@ -21,12 +21,13 @@ def new_post(post, params):
 def update_post(post, params):
   revision = PostRevision()
   revision.author = post.author
-  revision.body = params.POST.get('body', None)
+  revision.body = params.get('body', None)
   revision.previous = None
 
   # Link up histories
   if post.previous == None:
     post.previous = revision
+    print post.previous
     revision.previous = None
   else:
     old_previous = post.previous

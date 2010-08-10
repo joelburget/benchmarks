@@ -74,7 +74,7 @@ class PostRevision(models.Model):
   number = models.IntegerField(default=1)
 
   def __unicode__(self):
-    return "revision %s - %s" % (number, published)
+    return "revision %s - %s" % (self.number, self.published)
 
 # PostFile
 def get_upload_path(instance, filename):

@@ -1,4 +1,4 @@
-from benchmarks.posts.models import Post, PostFile
+from benchmarks.posts.models import Post, PostFile, PostRevision
 from django.contrib import admin
 
 class PostAdmin(admin.ModelAdmin):
@@ -14,3 +14,4 @@ class PostAdmin(admin.ModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(PostFile)
+admin.site.register(PostRevision)

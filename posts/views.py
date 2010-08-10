@@ -4,7 +4,7 @@ import zipfile
 
 from benchmarks.posts.helpers import *
 from benchmarks.posts.models import CATEGORY_CHOICES
-from benchmarks.posts.models import Post, PostForm, PostFile
+from benchmarks.posts.models import Post, PostForm, PostFile, PostRevision
 from benchmarks.settings import SITE_ROOT
 
 from django.contrib.auth.models import User
@@ -15,14 +15,28 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.views.generic.simple import direct_to_template
 
-def editpost(request, **kwargs):
+def editpost(request, post_id, **kwargs):
   if not request.user.is_authenticated():
     return direct_to_template(request, 'posts/must_login.html')
 
   if request.method == 'POST':
-    pass
+    # Update post
+    post = get_object_or_404(Post, pk=post_id)
+    status = update_post(post, request.POST)
+
+    # Check status
+    if status:
+      # Redirect to post
+      return HttpResponseRedirect(post.get_absolute_url())
+    else:
+      # Failure, rerender the form page
+      form = PostForm(instance = post)
+      return render_to_response('posts/new_post.html', {'form' : form}, \
+                                context_instance=RequestContext(request))
   else:
-    form = PostForm(request.GET, instance = post)
+    # Display edit form for post
+    post = get_object_or_404(Post, pk=post_id)
+    form = PostForm(instance = post)
     return render_to_response('posts/new_post.html',
                               {
                                 'form' : form,
