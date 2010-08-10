@@ -41,6 +41,18 @@ class Post(models.Model):
     category = self.get_category_display().lower()
     return "/posts/?title=&body=&%s=on&searchtxt=" % (category,)
 
+  def history(self):
+    """Returns revision history of this post as an ordered list."""
+    # Start list with current
+    hist = [self]
+
+    # Traverse linked list of history
+    cur = self
+    while cur.previous != None:
+      cur = cur.previous
+      hist.append(cur)
+    return hist
+
 def clean_up_after_post(sender, instance, **kwargs):
   # Delete all postfiles
   for postfile in instance.postfile_set.all():
