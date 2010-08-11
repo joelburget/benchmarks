@@ -13,7 +13,7 @@
 <body>
   <!-- Site header -->
   <nav>
-    <h1 style="text-align: center;"><a href="/">OSU RSRG Benchmarks</a></h1>
+    <h1 id="site-logo" style="text-align: center;"><a href="/">OSU RSRG Benchmarks</a></h1>
 
     <!-- Login form -->
     {% if user.is_authenticated %}
@@ -32,27 +32,27 @@
           <li><input id="navlogin" type="submit" value="Login" /></li>
           </ol>
         </form>
-        <p><a href="/join">Request an account</a></p>
+        <p><a href="/join">Request an account!</a></p>
       {% endif %}
     </div>
 
     {% if user.is_authenticated %}
     <ul class="block">
-      <li><a href="/logout/">Logout</a></li>
-      <li><a href="/posts/new/">New Problem</a></li>
+      <li id="logout-link"><a href="/logout/" >Logout</a></li>
+      <li id="new-problem-link"><a href="/posts/new/">New Problem</a></li>
       {% if user.is_staff %}
-      <li><a href="/admin/">Admin</a></li>
+      <li id="admin-link"><a href="/admin/">Admin</a></li>
       {% endif %}
     </ul>
     {% endif %}
 
     <h3>Navigation</h3>
     <ul class="block">
-      <li><a href="/posts/">Posts</a></li> 
-      <li><a href="/groups/">Groups</a></li> 
-      <li><a href="/users/">Users</a></li>
-      <li><a href="/getting-started/">Getting Started</a></li>  
-      <li><a href="/about/">About</a></li>
+      <li id="posts-link"><a href="/posts/">Posts</a></li> 
+      <li id="groups-link"><a href="/groups/">Groups</a></li> 
+      <li id="users-link"><a href="/users/">Users</a></li>
+      <li id="getting-started-link"><a href="/getting-started/">Getting Started</a></li>  
+      <li id="about-link"><a href="/about/">About</a></li>
    </ul>
   </nav>
 
