@@ -19,7 +19,7 @@ def homepage(request):
   # Grab all problems, all non-problems, and all comments
   problem_posts = Post.objects.filter(category='P')[:3]
   latest_posts = Post.objects.exclude(category='P').order_by('-published')[:3]
-  latest_discussion = ExtendedComment.objects.all().order_by('-submit_date')[:3]
+  latest_discussion = ExtendedComment.objects.all().order_by('-published')[:3]
   return render_to_response('homepage.html',
                             {
                               'problem_posts': problem_posts,
