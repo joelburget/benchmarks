@@ -29,7 +29,12 @@ textarea {
 
 input:hover, textarea:hover,
 input:focus, textarea:focus {
-	border-color: @border-focus;
+	//border-color: @border-focus;
+	border-color: #999;
+  //I'm really not sure about the shadows, it's just an experiment
+  -webkit-box-shadow: 0 0 3px #888;
+  -moz-box-shadow: 0 0 3px #888;
+  box-shadow: 0 0 3px #888;
 }
 
 form {
