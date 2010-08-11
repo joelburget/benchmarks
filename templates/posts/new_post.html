@@ -28,6 +28,9 @@
     <li>{{ form.body.label_tag }}</li>
     <li>{{ form.body }}</li>
 
+    <input type="hidden" style="display:none;" value="{% if category %}{{ category }}{% else %}P{% endif %}" name="category" id="category" />
+    <input type="hidden" style="display:none;" value="{{ parent }}" name="parent" id="parent" />
+
     <li><label>Files</label></li>
     <li> 
       <ul id="fileUploads">

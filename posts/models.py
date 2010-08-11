@@ -26,6 +26,7 @@ class Post(models.Model):
   category = models.CharField(max_length=1, choices=CATEGORY_CHOICES)
   parent = models.ForeignKey('self', null=True, blank=True)
   files = models.ManyToManyField('PostFile', null=True, blank=True)
+  previous = models.ForeignKey('PostRevision', null=True)
 
   def __unicode__(self):
     return self.title
@@ -39,6 +40,18 @@ class Post(models.Model):
   def get_absolute_category_url(self):
     category = self.get_category_display().lower()
     return "/posts/?title=&body=&%s=on&searchtxt=" % (category,)
+
+  def history(self):
+    """Returns revision history of this post as an ordered list."""
+    # Start list with current
+    hist = [self]
+
+    # Traverse linked list of history
+    cur = self
+    while cur.previous != None:
+      cur = cur.previous
+      hist.append(cur)
+    return hist
 
 def clean_up_after_post(sender, instance, **kwargs):
   # Delete all postfiles
@@ -59,29 +72,28 @@ pre_delete.connect(clean_up_after_post, sender=Post)
 class PostForm(ModelForm):
   title = forms.CharField(widget=forms.TextInput(attrs = {'class' : 'validate[required]'}))
   body = forms.CharField(widget=forms.widgets.Textarea(attrs = {'class' : 'validate[required]', 'cols' : '200', 'rows' : '20'}))
-  category = forms.Select(attrs={'class': 'validate[required]'})
+  category = forms.Select()
 
   class Meta():
     model = Post
     fields = ('title', 'body', 'category', 'parent')
 
 class PostRevision(models.Model):
-  files = models.ManyToManyField('PostFile', null=True, blank=True)
   published = models.DateTimeField('Date Published', auto_now_add=True)
   body = models.TextField()
   author = models.ForeignKey(User)
-  previous = models.ForeignKey('self')
-  number = models.IntegerField(default=1)
+  previous = models.ForeignKey('PostRevision', null=True)
 
   def __unicode__(self):
-    return "revision %s - %s" % (number, published)
+    return "Revision %s" % (self.published,)
 
 # PostFile
 def get_upload_path(instance, filename):
-  return 'uploads/%s/%s' % (instance.post.pk, filename,)
+  return 'uploads/%s/%s' % (instance.postrevision_set.all()[0].pk, filename,)
 
 class PostFile(models.Model):
   file = models.FileField(upload_to=get_upload_path, null=True, blank=True)
+  post_revision = models.ForeignKey(PostRevision, null=True)
 
   def __unicode__(self):
     return basename('%s' % (self.file,))

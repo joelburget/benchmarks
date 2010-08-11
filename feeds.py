@@ -1,11 +1,12 @@
-from django.contrib.syndication.views import Feed
-from benchmarks.posts.models import Post
-from django.utils.feedgenerator import Atom1Feed
-from django.shortcuts import get_object_or_404
-from django.contrib.auth.models import User
 from benchmarks.extended_comments.models import ExtendedComment
-from django.db.models import Q
+from benchmarks.posts.models import Post
 from benchmarks.qsseq import QuerySetSequence
+from django.contrib.auth.models import User
+from django.contrib.comments.models import Comment
+from django.contrib.syndication.views import Feed
+from django.db.models import Q
+from django.shortcuts import get_object_or_404
+from django.utils.feedgenerator import Atom1Feed
 
 class RssPostsFeed(Feed):
   title = "RSRG Benchmarks Feed"

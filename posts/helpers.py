@@ -1,9 +1,51 @@
+import commands
 import os
 import tarfile
 import zipfile
-import commands
+
+from benchmarks.posts.models import Post, PostFile, PostForm, PostRevision
 from benchmarks.settings import MEDIA_ROOT
-from benchmarks.posts.models import Post, PostFile
+
+def new_post(post, params):
+  # Set content
+  form = PostForm(params, instance = post)
+
+  if form.is_valid():
+    # Data is ok
+    form.save()
+    return True
+  else:
+    # Data is invalid
+    return False
+
+def update_post(post, params):
+  if params.get('body', ''):
+    # Move old content into a Revision
+    rev = PostRevision(author = post.author)
+    rev.body = post.body
+    rev.save()
+
+    # Fill post with new, edited data
+    post.body = params['body']
+
+    # Link up histories
+    if post.previous != None:
+      # History already exists for this post
+      last_revision = post.previous
+      rev.previous = last_revision  # update chain
+      post.previous = rev
+
+      rev.save()
+      post.save()
+    else:
+      # No history yet, only 1 new history object
+      post.previous = rev
+      post.save()
+
+    return True
+  else:
+    # Invalid data, return false error code
+    return False
 
 def decompress(filepath, post):
   # Get output path

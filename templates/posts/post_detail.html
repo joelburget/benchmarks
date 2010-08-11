@@ -15,6 +15,8 @@
 
 {% block content %}
 <!-- Title -->
+
+
 <h2>{{ object.title }}
 {% if user.username == object.author.username %}
 <a href="{{ object.get_absolute_url }}edit/">Edit</a>
@@ -26,17 +28,21 @@
 <!-- Body -->
 <div id="post-content">{{ object.body|tex_to_images|linebreaks_smart }}</div>
 
-
 <!-- Files -->
-{% if object.postfile_set.all %}
+{% if object.files.all %}
 <h3>Files:</h3>
 <div id="files">
-<ul>
-{% for f in object.postfile_set.all %}
+{% for f in object.files.all %}
   <li><a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a></li>
 {% endfor %}
-</ul>
 </div>
+{% endif %}
+
+{% if object.history %}
+<h3>Revision History</h3>
+{% for revision in object.history %}
+  <p><a href="/posts/{{ object.pk }}/history/{{ revision }}">{{ revision }}</a></p>
+{% endfor %}
 {% endif %}
 
 {% if user.is_authenticated %}
@@ -51,11 +57,11 @@
 
   <p>
   {% if object.category == 'P' %}
-  <a href="/posts/new">Create a new realization for this problem</a>
+  <a href="/posts/new?parent={{ object.pk }}&category=R">Create a new realization for this problem</a>
   {% endif %}
 
   {% if object.category == 'R' %}
-  <a href="/posts/new">Create a new Verification condition for this realization</a>
+  <a href="/posts/new?parent={{ object.pk }}&category=V">Create a new Verification condition for this realization</a>
   {% endif %}
 </p>
 

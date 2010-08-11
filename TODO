@@ -1,17 +1,23 @@
 - finish css forms
-* signal/js \n -> <br /> 
+* signal/js \n -> <br /> (Works with pre tags, not code?)
 * right hand menu
 - documentation
-* post searching
 * remove ugly from user profiles
 * favicon (change link later)
 - logo?
 - icons throughout website (famfamfam)
-* edit posts page
 * rss feeds
 - file management in edit posts
 * remove comment file upload (or get them working)
 - new page js validation
-- Add featured and username field to advanced search (and fix homepage link to view all featured posts)
 * Django minify inline JS/CSS tags
 - Minify external js files/combine into one
+- Finish revision views (AJAX, degraded view, etc)
+- TEST revisions
+- group editing (might need to edit author setting in revision)
+- port revisions to save signal, rather than in view code
+- New post page - validation requires double click on submit, jquery change event to fix this?
+- Fix HTML Soup (including removing b/i tags, nasty css hacks w/margins etc.)
+- More rigid post structures (as dr. weide said)
+- Advanced search (flash of hidden content? ask others if they get it)
+- user page design

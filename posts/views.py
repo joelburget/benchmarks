@@ -1,54 +1,78 @@
-import os
 from datetime import datetime
+import os
 import zipfile
-from benchmarks.posts.models import CATEGORY_CHOICES
-from django.shortcuts import get_object_or_404, render_to_response
-from benchmarks.posts.models import Post, PostForm, PostFile
-from benchmarks.posts.helpers import *
-from django.http import HttpResponseRedirect
-from django.views.generic.simple import direct_to_template
-from django.template import RequestContext
-from benchmarks.settings import SITE_ROOT
-from django.db.models import Q
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.contrib.auth.models import User
 
-def editpost(request, **kwargs):
-  # Only authenticated users may post
+from benchmarks.posts.helpers import *
+from benchmarks.posts.models import CATEGORY_CHOICES
+from benchmarks.posts.models import Post, PostForm, PostFile, PostRevision
+from benchmarks.settings import SITE_ROOT
+
+from django.contrib.auth.models import User
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.db.models import Q
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render_to_response
+from django.template import RequestContext
+from django.views.generic.simple import direct_to_template
+
+def editpost(request, post_id, **kwargs):
   if not request.user.is_authenticated():
     return direct_to_template(request, 'posts/must_login.html')
 
-  if request.method == 'POST': 
-    # Get POST data for new post
-    post = Post(author=request.user)
-    form = PostForm(request.POST, instance=post)
+  if request.method == 'POST':
+    # Update post
+    post = get_object_or_404(Post, pk=post_id)
+    status = update_post(post, request.POST)
 
-    if form.is_valid():
-      # Save post
-      form.save()
-      
-      # Save files in uploads/ and in db
-      for f in request.FILES:
-        thisfile = request.FILES[f]
-        pf = PostFile(file = thisfile, post = post)
-        pf.save()
-
-        # Check zips, tars, etc.
-        zippath = os.path.join(SITE_ROOT, 'assets/') + str(pf.file)
-        decompress(zippath, post)
-
-      # Redirect to the submitted post
+    # Check status
+    if status:
+      # Redirect to post
       return HttpResponseRedirect(post.get_absolute_url())
-  else:
-    if "post_id" in kwargs:
-      form = PostForm(instance=Post.objects.get(id=kwargs["post_id"]))
-      post_id = kwargs['post_id']
     else:
-      # Get a blank post form for editing
-      form = PostForm()
-      post_id = None
+      # Failure, rerender the form page
+      form = PostForm(instance = post)
+      return render_to_response('posts/new_post.html', {'form' : form}, \
+                                context_instance=RequestContext(request))
+  else:
+    # Display edit form for post
+    post = get_object_or_404(Post, pk=post_id)
+    form = PostForm(instance = post)
+    return render_to_response('posts/new_post.html',
+                              {
+                                'form' : form,
+                              },
+                              context_instance=RequestContext(request))
 
-  return render_to_response('posts/new_post.html', { 'form': form, 'object_list': Post.objects.all(), 'post_id' : post_id }, context_instance=RequestContext(request))
+def newpost(request, **kwargs):
+  if not request.user.is_authenticated():
+    # Require the user to be logged in
+    return direct_to_template(request, 'posts/must_login.html')
+
+  # Check to make sure this is a POST request
+  if request.method == 'POST':
+    post = Post(author=request.user)
+    status = new_post(post, request.POST)
+
+    if status:
+      # Success, render the post
+      return HttpResponseRedirect(post.get_absolute_url())
+    else:
+      # Failure, rerender the form page
+      form = PostForm(instance = post)
+      return render_to_response('posts/new_post.html', {'form' : form}, \
+                                context_instance=RequestContext(request))
+  else:
+    # GET request, just render page w/o processing params
+    parent = request.GET.get('parent', '')
+    category = request.GET.get('category', '')
+    form = PostForm()
+    return render_to_response('posts/new_post.html', \
+                              {
+                                'form' : form,
+                                'parent' : parent,
+                                'category' : category,
+                              }, \
+                              context_instance=RequestContext(request))
 
 def index(request):
   userlist = User.objects.all()
@@ -133,3 +157,16 @@ def index(request):
       'advanced_submitted' : advanced_submitted,
     },
     context_instance=RequestContext(request))
+
+def posthistory(self, post_id, post_history_id, **kwargs):
+  # Get main post
+  post = Post.objects.get(pk=post_id)
+
+  # Get history
+  hist = post.history()
+ 
+  for revision in hist: 
+    if str(revision) == post_history_id:
+      return HttpResponse(revision.body)
+
+  return HttpResponse('ERROR: Bad history object.') 
