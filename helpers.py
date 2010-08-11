@@ -10,7 +10,6 @@ def generate_dirs_list(d):
   # Loop through all files in this dir
   for f in files:
     # For output...
-    oldf = f
     f = os.path.join(d, f)
 
     if os.path.isdir(f):

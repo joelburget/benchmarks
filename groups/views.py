@@ -1,8 +1,7 @@
-from django.shortcuts import get_object_or_404, get_list_or_404, render_to_response
+from django.shortcuts import get_object_or_404, render_to_response
 from django.contrib.auth.models import Group
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
-from benchmarks.groups.models import GroupProfile
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 def index(request):
@@ -25,7 +24,7 @@ def index(request):
   try:
     groups = paginator.page(page)
   except (EmptyPage, InvalidPage):
-    groups = pageinator.page(paginator.num_pages)
+    groups = paginator.page(paginator.num_pages)
 
   return render_to_response('groups/index.html', { 'searchtxt' : searchtxt, 'groups' : groups }, context_instance=RequestContext(request))
 

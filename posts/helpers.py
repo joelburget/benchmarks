@@ -1,10 +1,8 @@
-import commands
 import os
 import tarfile
 import zipfile
 
-from benchmarks.posts.models import Post, PostFile, PostForm, PostRevision
-from benchmarks.settings import MEDIA_ROOT
+from benchmarks.posts.models import PostFile, PostForm, PostRevision
 
 def new_post(post, params):
   # Set content

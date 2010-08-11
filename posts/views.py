@@ -1,11 +1,6 @@
-from datetime import datetime
-import os
-import zipfile
-
 from benchmarks.posts.helpers import *
 from benchmarks.posts.models import CATEGORY_CHOICES
-from benchmarks.posts.models import Post, PostForm, PostFile, PostRevision
-from benchmarks.settings import SITE_ROOT
+from benchmarks.posts.models import Post, PostForm
 
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
@@ -94,7 +89,7 @@ def index(request):
     body = request.GET.get('body', '')
 
     user = request.GET.get('user', '')
-    featured = request.GET.get('featured', '')
+    #featured = request.GET.get('featured', '')
 
     if title != '' and body != '':
       text = Q(title__icontains=title) & Q(body__icontains=body)

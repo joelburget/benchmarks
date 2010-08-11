@@ -4,7 +4,6 @@ from benchmarks.qsseq import QuerySetSequence
 from django.contrib.auth.models import User
 from django.contrib.comments.models import Comment
 from django.contrib.syndication.views import Feed
-from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils.feedgenerator import Atom1Feed
 

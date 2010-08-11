@@ -3,7 +3,6 @@ import shutil
 from datetime import datetime
 from os.path import basename
 
-from benchmarks.posts.widgets import MultiFileInput
 from benchmarks.settings import SITE_ROOT
 
 from django import forms
@@ -11,7 +10,6 @@ from django.contrib.auth.models import User
 from django.db.models.signals import pre_delete, pre_save
 from django.db import models
 from django.forms import ModelForm
-from django.utils.html import linebreaks
 
 # Post
 CATEGORY_CHOICES = (

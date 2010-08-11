@@ -92,8 +92,18 @@
   <div id="c{{ comment.id }}">
     <p class="commentBox" {% if user == comment.user %}style="background-color:#ddd;"{% endif %}><a href="{{ comment.get_absolute_url }}">#{{ forloop.counter }}</a> &mdash; {{ comment.published|date:"F j, Y" }} at {{ comment.published|date:"P" }} by <a href="{{ comment.user.get_absolute_url }}">{{ comment.name|escape }}</a></p> 
     <div class="gravatar"><a href="{{ comment.user.get_absolute_url }}">{% gravatar comment.user.email 48 %}</a></div>
+    {% comment %}
     <div class="comment">{{ comment.comment|linebreaks|tex_to_images }}</div>
+    {% if comment.files.all %}
+      <h3>Files:</h3>
+      <div id="files">
+      {% for f in comment.files.all %}
+        <li><a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a></li>
+      {% endfor %}
+      </div>
+    {% endif %}
   </div>
+  {% endcomment %}
 {% endfor %}
 
 <!-- Comment form -->
