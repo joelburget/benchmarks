@@ -1,15 +1,14 @@
 from benchmarks.extended_comments.models import ExtendedComment
 from benchmarks.extended_comments.forms import ExtendedCommentForm
-from django.http import HttpRequest
+from benchmarks.posts.models import Post
+from benchmarks.settings import MEDIA_ROOT
 import html5lib
 from html5lib import sanitizer
+import datetime
 import os
-from benchmarks.settings import MEDIA_ROOT
 from django.http import HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from benchmarks.posts.models import Post
 from django.views.decorators.http import require_POST
-import datetime
 from django.http import HttpResponseNotFound
 from django.contrib.contenttypes.models import ContentType
 from django.conf import settings

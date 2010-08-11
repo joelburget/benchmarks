@@ -1,6 +1,5 @@
 import os
 import re
-import urllib
 
 from benchmarks import settings
 from benchmarks.extended_comments.models import ExtendedComment
@@ -10,7 +9,7 @@ from benchmarks.posts.models import Post
 
 from django.contrib.auth import authenticate, login, logout
 from django.core.mail import EmailMessage
-from django.http import Http404, HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.generic.simple import direct_to_template 

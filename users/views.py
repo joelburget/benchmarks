@@ -31,7 +31,7 @@ def index(request):
   try:
     users = paginator.page(page)
   except (EmptyPage, InvalidPage):
-    users = pageinator.page(paginator.num_pages)
+    users = paginator.page(paginator.num_pages)
 
   return render_to_response('users/index.html', 
     context_instance=RequestContext(request, { 'searchtxt' : searchtxt, 'users' : users}))
