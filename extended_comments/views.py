@@ -13,6 +13,8 @@ import datetime
 from django.http import HttpResponseNotFound
 from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 
 #This sanitizes the input the user will see in the preview area for comments
 #because that is not covered by the sanitization in comment-sanitizer/__init__.py
@@ -40,12 +42,10 @@ def post(request):
     preview = "preview" in data
     data.user = request.user
     
+    form = ExtendedCommentForm(target, data=data)
     if request.FILES:
-      form = ExtendedCommentForm(target, request.FILES, data=data)
       if form.is_valid():
         handle_uploaded_file(request.FILES['file'])
-    else:
-      form = ExtendedCommentForm(target, data=data)
     if form.security_errors():
       return HttpResponseNotFound("<h1>There was an error with your comment, please try again</h1>")
     if form.is_valid():
@@ -55,7 +55,17 @@ def post(request):
                                 user = request.user,
                                 comment = form.cleaned_data["comment"],
                                 published = datetime.datetime.now())
-      comment.save()
+      if preview:
+        return render_to_response(
+            'comments/preview.html', {
+              'comment': form.data.get('comment', ''),
+              'form'   : form,
+              },
+            RequestContext(request, {})
+        )
+
+      else:
+        comment.save()
     else:
       print form.errors
     return comment_posted(request)
