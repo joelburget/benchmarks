@@ -26,6 +26,9 @@
     <li>{{ form.title }}</li>
 
     <li>{{ form.body.label_tag }}</li>
+    <div id="minihelp">
+    	<p>We accept LaTeX like <span style="font-family:monospace;">$$x^2$$</span>, and HTML like <code>pre</code>, <i>i</i>, <b>b</b>, and <a href="/formatting" target="_blank">more.</a></p>
+    </div>    
     <li>{{ form.body }}</li>
 
     <input type="hidden" style="display:none;" value="{% if category %}{{ category }}{% else %}P{% endif %}" name="category" id="category" />
@@ -42,10 +45,6 @@
     <li><input class="button" type="submit" value="Submit" /></li>
 </ol>
 </form>
-
-<div id="help"> 
-{% include "_sanitizing.html" %}
-</div>
 {% endblock %}
 
 {% block jsblock %}

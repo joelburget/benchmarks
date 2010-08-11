@@ -3,6 +3,7 @@
 {% load extended_comments %}
 {% load tex %}
 {% load linebreaks_smart %}
+{% load partials %}
 
 {% block title %}{{ object.title }}{% endblock %}
 
@@ -70,7 +71,7 @@
 {% endif %}
 
 <!-- Poster info -->
-<p class="postInfo"><span class="postType"><a href="{{ object.get_absolute_category_url }}">{{ object.get_category_display }}</a></span> Posted by: <a href="{{ object.author.get_absolute_url }}">{{ object.author.get_profile.get_display_name }}</a>, on {{ object.published }}</p> 
+{% render_partial post_info object %}
 
 {% if object.post_set.all %}
   <h3>Responses:</h3>

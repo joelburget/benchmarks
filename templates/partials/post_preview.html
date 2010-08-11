@@ -4,5 +4,5 @@
 <div class="block">
   <h2><a href="{{ item.get_absolute_url }}">{{ item.title|truncatesmart:40 }}</a></h2>
   <p>{{ item.body|truncatesmart_html:250|striptags }}</p>
-  <p class="postInfo"><span class="postType"><a href="{{ item.get_absolute_category_url }}">{{ item.get_category_display }}</a></span> Posted by: <a href="{{ item.author.get_absolute_url }}">{{ item.author.get_profile.get_display_name }}</a>, on {{ item.published }}</p>
+  {% render_partial post_info item %}
 </div>
