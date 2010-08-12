@@ -46,7 +46,12 @@ class UserProfile(models.Model):
 
   def group(self):
     """Returns the primary group of a user."""
-    return self.user.groups.all()[0]
+    groups = self.user.groups.all()
+
+    if groups:
+      return groups[0]
+    else:
+      return False
 
   def __unicode__(self):
     return 'Profile for %s' % (self.user.username,)
