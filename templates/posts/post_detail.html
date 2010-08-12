@@ -13,6 +13,24 @@
 {% endblock %}
 
 {% block content %}
+<!-- Revisions -->
+{% if object.history %}
+<div id="revisions">
+  <h3>Revision History</h3>
+  <form id="revisions" class="block">
+    <ol>
+      <li><select id="revision" name="revision">
+      {% for revision in object.history %}
+        <option>{{ revision }}</option>
+      {% endfor %}
+      </select></li>
+
+      <li><input type="submit" value="Open this Revision" /></li>
+    </ol>
+  </form>
+</div>
+{% endif %}
+
 <!-- Title -->
 <h2>{{ object.title }}
 {% if user.username == object.author.username %}
@@ -35,21 +53,6 @@
 </div>
 {% endif %}
 
-<!-- History -->
-{% if object.history %}
-<h3>Revision History</h3>
-<form id="revisions" class="block">
-  <ol>
-    <li><select id="revision" name="revision">
-    {% for revision in object.history %}
-      <option>{{ revision }}</option>
-    {% endfor %}
-    </select></li>
-
-    <li><input type="submit" value="Open this Revision" /></li>
-  </ol>
-</form>
-{% endif %}
 
 <!-- Actions -->
 {% if user.is_authenticated %}
