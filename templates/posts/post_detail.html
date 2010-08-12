@@ -56,23 +56,21 @@
 <div class="block">
   <h3>Actions</h3>
 
-  <p>
-  {% if user.username == object.author.username %}
-  <a href="{{ object.get_absolute_url }}edit/">Edit and make changes to this post</a>
-  {% endif %}
-  </p>
+  <ul style="margin-left: 20px;">
+    {% if user.username == object.author.username %}
+    <li id="edit-link"><a href="{{ object.get_absolute_url }}edit/">Edit and make changes to this post</a></li>
+    {% endif %}
 
-  <p>
-  {% if object.category == 'P' %}
-  <a href="/posts/new?parent={{ object.pk }}&category=R">Create a new realization for this problem</a>
-  {% endif %}
+    {% if object.category == 'P' %}
+    <li id="create-link"><a href="/posts/new?parent={{ object.pk }}&category=R">Create a new realization for this problem</a></li>
+    {% endif %}
 
-  {% if object.category == 'R' %}
-  <a href="/posts/new?parent={{ object.pk }}&category=V">Create a new Verification condition for this realization</a>
-  {% endif %}
-</p>
+    {% if object.category == 'R' %}
+    <li id="create-link"><a href="/posts/new?parent={{ object.pk }}&category=V">Create a new Verification condition for this realization</a></li>
+    {% endif %}
 
-<p><a href="#leaveAComment">Comment on this post</a></p>
+    <li id="comment-link"><a href="#leaveAComment">Comment on this post</a></p></li>
+  </ul>
 </div>
 {% endif %}
 
