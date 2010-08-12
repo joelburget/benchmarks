@@ -151,10 +151,10 @@
   $('#revisions').submit(function() {
     // Revisions button is clicked, refresh content
     $('#post-content').queue(function() {
-      $(this).fadeOut(1000);
+      $(this).fadeOut(500);
       $(this).load(escape('/posts/{{ object.pk }}/history/' + $('#revision').val()));
-      $(this).fadeIn(1000);
-      $(this).effect('highlight', {}, 3000);
+      $(this).fadeIn(500);
+      $(this).effect('highlight', {}, 1000);
       $(this).dequeue();
     });
     return false;
