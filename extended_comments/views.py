@@ -14,60 +14,70 @@ from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
 
 #This sanitizes the input the user will see in the preview area for comments
 #because that is not covered by the sanitization in comment-sanitizer/__init__.py
 #(We want them to see what will actually show up)
 @require_POST
+@login_required
 def post(request):
-  if not request.user.is_authenticated():
-    return HttpResponseRedirect('/')
-  else:
-    data = request.POST.copy()
-    if not data.get('name', ''):
-      data['name'] = request.user.get_full_name() or request.user.username
-    if not data.get('email', ''):
-      data['email'] = request.user.email
+  data = request.POST.copy()
+  if not data.get('name', ''):
+    data['name'] = request.user.get_full_name() or request.user.username
+  if not data.get('email', ''):
+    data['email'] = request.user.email
 
-    object_pk = data.get("object_pk")
-    if object_pk is None:
-      #Ideally this should be replaced
-      return HttpResponseNotFound("<h1>There was an error with your comment, please try again</h1>")
-    try:
-      target = Post.objects.get(pk=object_pk)
-    except (ObjectDoesNotExist, ValueError, ValidationError):
-      return HttpResponseNotFound("<h1>There was an error with your comment, please try again</h1>")
+  object_pk = data.get("object_pk")
+  if object_pk is None:
+    return render_to_response('comments/error.html', {'msg' :'There was an problem with your comment.'}, context_instance=RequestContext(request))
+  try:
+    target = Post.objects.get(pk=object_pk)
+  except (ObjectDoesNotExist, ValueError, ValidationError):
+    return render_to_response('comments/error.html', {'msg' :'There was an problem with your comment.'}, context_instance=RequestContext(request))
 
-    preview = "preview" in data
-    data.user = request.user
-    
-    form = ExtendedCommentForm(target, data=data)
-    if request.FILES:
-      if form.is_valid():
-        handle_uploaded_file(request.FILES['file'])
-    if form.security_errors():
-      return HttpResponseNotFound("<h1>There was an error with your comment, please try again</h1>")
-    if form.is_valid():
-      comment = ExtendedComment(content_type = ContentType.objects.get(app_label='posts', model='post'),
-                                object_pk = object_pk,
-                                site_id = settings.SITE_ID,
-                                user = request.user,
-                                comment = form.cleaned_data["comment"],
-                                published = datetime.datetime.now())
-      if preview:
-        return render_to_response(
-            'comments/preview.html', {
-              'comment': form.data.get('comment', ''),
-              'form'   : form,
-              },
-            RequestContext(request, {})
-        )
+  preview = "preview" in data
+  data.user = request.user
+  
+  form = ExtendedCommentForm(target, data=data)
+  if request.FILES:
+    if (form.is_valid() and not preview):
+      handle_uploaded_file(request.FILES['file'])
+  if form.security_errors():
+    return render_to_response('comments/error.html', {'msg' :'There was an problem with your comment.'}, context_instance=RequestContext(request))
+  if form.is_valid():
+    comment = ExtendedComment(content_type = ContentType.objects.get(app_label='posts', model='post'),
+                              object_pk = object_pk,
+                              site_id = settings.SITE_ID,
+                              user = request.user,
+                              comment = form.cleaned_data["comment"],
+                              published = datetime.datetime.now())
+    if preview:
+      comment = request.POST.__getitem__('comment')
+      p = html5lib.HTMLParser(tokenizer=sanitizer.HTMLSanitizer)
+      comment = p.parse(comment).childNodes[0].childNodes[1].toxml()[6:-7]
+      
+      return render_to_response(
+          'comments/preview.html', {
+            'comment': comment,#form.data.get('comment', ''),
+            'form'   : form,
+            },
+          RequestContext(request)
+      )
 
-      else:
-        comment.save()
     else:
-      print form.errors
-    return comment_posted(request)
+      comment.save()
+  elif preview:
+    return render_to_response(
+      'comments/preview.html', {
+        'comment': form.data.get('comment', ''),
+        'form'   : form,
+        },
+      RequestContext(request)
+    )
+  else:
+    return render_to_response('comments/error.html', {'msg' :'There was an problem with your comment.'}, context_instance=RequestContext(request))
+  return comment_posted(request)
 
 def handle_uploaded_file(f):
   path = os.path.join(MEDIA_ROOT, 'uploads/') + f.name
