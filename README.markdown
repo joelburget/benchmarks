@@ -42,3 +42,8 @@ CSS development is done using [LessCSS](http://lesscss.org/index.html).  See the
     $ lessc benchmarks.less
     $ ls
     benchmarks.css benchmarks.less
+
+Credits
+-------
+
+The [Fugue](http://p.yusukekamiyamane.com) iconset was used in this project.
