@@ -76,7 +76,7 @@ pre_delete.connect(clean_up_after_post, sender=Post)
 # PostForm
 class PostForm(ModelForm):
   title = forms.CharField(widget=forms.TextInput(attrs = {'class' : 'validate[required]'}))
-  body = forms.CharField(widget=forms.widgets.Textarea(attrs = {'class' : 'validate[required]', 'cols' : '200', 'rows' : '20'}))
+  body = forms.CharField(widget=forms.widgets.Textarea())#attrs = {'class' : 'validate[required]', 'cols' : '200', 'rows' : '20'}))
   category = forms.Select()
 
   class Meta():
