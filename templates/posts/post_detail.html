@@ -9,9 +9,7 @@
 
 {% block cssblock %}
 <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/jqueryFileTree/jqueryFileTree.css" />
-<!-->
-  <link rel="stylesheet" href="{{ MEDIA_URL }}uniform.default.css" type="text/css" media="screen" charset="utf-8" />
-</!-->
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/uniform.custom.css" type="text/css" media="screen" charset="utf-8" />
 {% endblock %}
 
 {% block content %}
@@ -118,30 +116,24 @@
     {{ form.timestamp }} 
     {{ form.security_hash }} 
     <br />
-      {{ form.file }}
     <p style="display:none;"> {{ form.honeypot }}</p>
     <input type="submit" name="preview" class="submit-preview" value="Preview" />
     <input type="submit" value="Add comment" class="submit-post" id="id_submit" />
+    <br />
+    {{ form.file }}
   </form> 
 {% endif %}
 </div>
 {% endblock %}
 
-{% comment %}
-{% block jsblock %}
-<script src="{{ MEDIA_URL }}js/jquery.uniform.js" type="text/javascript"></script>
-<script>
-$("select, input:checkbox, input:radio, input:file").uniform();
-</script>
-{% endblock %}
-{% endcomment %}
-
 {% block jsblock %}
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/jqueryFileTree/jqueryFileTree.js"></script>
+<script src="{{ MEDIA_URL }}js/jquery.uniform.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 (function($){
+  $("input:file").uniform();
   $('#files').fileTree(
     {
       root: '/assets/uploads/{{ object.pk }}/',

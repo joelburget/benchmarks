@@ -4,7 +4,7 @@
 {% block title %}New Post{% endblock %}
 
 {% block cssblock %}
-<link rel="stylesheet" href="{{ MEDIA_URL }}css/uniform.default.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/uniform.custom.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/validationEngine.jquery.css" type="text/css" media="screen" charset="utf-8" />
 {% endblock %}
 
@@ -68,7 +68,7 @@ $(document).ready(function(){
     return false;
   });
 
-  $("input:checkbox, input:radio, input:file").uniform();
+  $("input:file").uniform();
   var editor = new CodeMirror.fromTextArea('id_body', {
        parserfile: "parsexml.js",
        path: "{{ MEDIA_URL }}codemirror/js/",

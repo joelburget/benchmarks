@@ -362,11 +362,12 @@ Enjoy!
 
       var divTag = $('<div />'),
           filenameTag = $('<span>'+options.fileDefaultText+'</span>'),
-          btnTag = $('<span>'+options.fileBtnText+'</span>');
+          //btnTag = $('<span>'+options.fileBtnText+'</span>');
+          btnTag = $('<span></span>');
 
       divTag.addClass(options.fileClass);
       filenameTag.addClass(options.filenameClass);
-      btnTag.addClass(options.fileBtnClass);
+      //btnTag.addClass(options.fileBtnClass);
 
       if(options.useID && $el.attr("id") != ""){
         divTag.attr("id", options.idPrefix+"-"+$el.attr("id"));
@@ -374,7 +375,7 @@ Enjoy!
 
       //wrap with the proper elements
       $el.wrap(divTag);
-      $el.after(btnTag);
+      //$el.after(btnTag);
       $el.after(filenameTag);
 
       //redefine variables
