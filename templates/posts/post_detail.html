@@ -151,12 +151,10 @@
   });
   $('#revisions').submit(function() {
     // Revisions button is clicked, refresh content
-    $('#post-content').queue(function() {
-      $(this).fadeOut(500);
-      $(this).load(escape('/posts/{{ object.pk }}/history/' + $('#revision').val()));
-      $(this).fadeIn(500);
-      $(this).effect('highlight', {}, 1000);
-      $(this).dequeue();
+    $.get(escape('/posts/{{ object.pk }}/history/' + $('#revision').val()), function(data) {
+      $('#post-content').fadeOut(500, function() {
+        $(this).html(data).fadeIn(500).effect('highlight', {}, 1000);
+      });
     });
     return false;
   });

@@ -125,7 +125,8 @@ LASTPAGE_SKIP = (
   r'^/favicon.ico$',
   r'^' + MEDIA_URL + '.*$',
   r'^.*/atom/*$',
-  r'^.*/rss/*$'
+  r'^.*/rss/*$',
+  r'^.*/history/.*$'
 )
 
 COMPRESS = True
