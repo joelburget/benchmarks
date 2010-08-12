@@ -148,12 +148,8 @@
   });
   $('#revisions').submit(function() {
     // Revisions button is clicked, refresh content
-    $('#post-content').queue(function() {
-      $(this).fadeOut(500);
-      $(this).load(escape('/posts/{{ object.pk }}/history/' + $('#revision').val()));
-      $(this).fadeIn(500);
-      $(this).effect('highlight', {}, 1000);
-      $(this).dequeue();
+    $('#post-content').fadeOut(500, function() {
+      $(this).load(escape('/posts/{{ object.pk }}/history/' + $('#revision').val())).fadeIn(500).effect('highlight', {}, 1000);
     });
     return false;
   });
