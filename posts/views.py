@@ -1,3 +1,5 @@
+from urllib import unquote
+
 from benchmarks.posts.helpers import *
 from benchmarks.posts.models import CATEGORY_CHOICES
 from benchmarks.posts.models import Post, PostForm
@@ -161,7 +163,7 @@ def posthistory(self, post_id, post_history_id, **kwargs):
   hist = post.history()
  
   for revision in hist: 
-    if str(revision) == post_history_id:
-      return HttpResponse(revision.body)
+    if str(revision) == unquote(post_history_id):
+      return render_to_response('posts/post.html', { 'object' : revision })
 
   return HttpResponse('ERROR: Bad history object.') 
