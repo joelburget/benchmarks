@@ -77,7 +77,7 @@ $(document).ready(function(){
        width: "500px",
        electricChars: false,
        //tabMode: "spaces",
-       content: "<h1>Title</h1>\n<p>body</p>"
+       content: "{% filter escapejs %}{% firstof form.instance.body '<h2>Section Title</h2>' %}{% endfilter %}"
   });
   $("div.CodeMirror-wrapping textarea").attr("tabindex", "1");
 });
