@@ -3,6 +3,7 @@ from urllib import unquote
 from benchmarks.posts.helpers import *
 from benchmarks.posts.models import CATEGORY_CHOICES
 from benchmarks.posts.models import Post, PostForm
+from benchmarks.templatetags.templatetags.date_diff import date_diff
 
 from django.contrib.auth.models import User
 from django.core import serializers
@@ -20,7 +21,7 @@ def editpost(request, post_id, **kwargs):
   if request.method == 'POST':
     # Update post
     post = get_object_or_404(Post, pk=post_id)
-    status = update_post(post, request.POST)
+    status = update_post(post, request.POST, request.user)
 
     # Check status
     if status:
@@ -177,16 +178,23 @@ def posthistory(request, post_id, post_history_id, **kwargs):
   # Return the post
   return render_to_response('posts/post.html', { 'object' : post })
 
-def revision_info(request, post_id, post_history):
-  if request.is_ajax():
-    # Get main post
+def revision_info(request, post_id, post_history_id, **kwargs):
+  post = None
+
+  if post_history_id == 'original':
+    # Grab original post
     post = Post.objects.get(pk=post_id)
+  else:
+    # Grab a post history object
+    rev_pk = 0
 
-    # Get history
-    hist = post.history()
-   
-    for revision in hist: 
-      if str(revision) == unquote(post_history_id):
-        return HttpResponse(serializers.serialize('json', revision))
+    try:
+      rev_pk = int(post_history_id)
+    except:
+      return HttpResponse('ERROR: Bad history object [info].')
 
-    return HttpResponse('ERROR: Bad history object.') 
+    post = PostRevision.objects.get(pk=post_history_id)
+
+  # Return the post
+  response = "<strong>by </strong> %s %s" % (post.author, date_diff(post.published),)
+  return HttpResponse(response)

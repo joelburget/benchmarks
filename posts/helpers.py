@@ -16,10 +16,10 @@ def new_post(post, params):
     # Data is invalid
     return False
 
-def update_post(post, params):
+def update_post(post, params, user):
   if params.get('body', ''):
     # Move old content into a Revision
-    rev = PostRevision(author = post.author)
+    rev = PostRevision(author = user)
     rev.body = post.body
     rev.save()
 

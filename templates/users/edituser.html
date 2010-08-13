@@ -27,7 +27,7 @@
   <li><input type="text" name="last_name" id="last_name" value= "{{ user.last_name }}" /> {{ formset.last_name.errors }}<br /></li>
 
   <li>{{ formset.email.label_tag }}</li>
-  <li><input class="validate[email, required]" type="text" name="email" id="email" value="{{ user.email }}" /> {{ formset.email.errors }}</li>
+  <li><input class="validate[required,email]" type="text" name="email" id="email" value="{{ user.email }}" /> {{ formset.email.errors }}</li>
 
   <li><label for="showemail">Show Email to other users?</label>
   <input class="" type="checkbox" {% if user.get_profile.showemail %}checked="yes"{% endif %}" name="showemail" id="showemail" /></li>

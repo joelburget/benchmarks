@@ -61,8 +61,8 @@ pre_save.connect(update_published, sender=Post)
 
 def clean_up_after_post(sender, instance, **kwargs):
   # Delete all postfiles
-  for postfile in instance.postfile_set.all():
-    postfile.delete()
+  #for postfile in instance.postfile_set.all():
+  #  postfile.delete()
 
   # Delete all comments
 

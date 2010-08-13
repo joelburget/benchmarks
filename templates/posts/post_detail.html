@@ -147,6 +147,7 @@
 <script type="text/javascript">
 (function($){
   $("input:file").uniform();
+
   $('#files').fileTree(
     {
       root: '/assets/uploads/{{ object.pk }}/',
@@ -155,10 +156,19 @@
     function(file) {
       window.location.href = ('{{ MEDIA_URL|escapejs }}' + file);
   });
-  $('#revisions select').change(function() { alert('change');});
+
+  $('#revisions select').change(function() {
+    $.get(escape('/posts/{{ object.pk }}/history/' + $('#revision').val()) + '/info/', function(data) {
+      $('#revision-info').fadeOut(500, function() {
+        $(this).html(data).fadeIn(500).effect('highlight', {}, 1000);
+      });
+    });
+    return false;
+  });
+
   $('#revisions').submit(function() {
     // Revisions button is clicked, refresh content
-    $.get(escape('/posts/{{ object.pk }}/history/' + $('#revision').val())), function(data) {
+    $.get(escape('/posts/{{ object.pk }}/history/' + $('#revision').val()), function(data) {
       $('#post-content').fadeOut(500, function() {
         $(this).html(data).fadeIn(500).effect('highlight', {}, 1000);
       });
