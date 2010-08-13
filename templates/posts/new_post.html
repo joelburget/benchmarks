@@ -69,13 +69,17 @@ $(document).ready(function(){
   });
 
   $("input:file").uniform();
-  var editor = new CodeMirror.fromTextArea('id_body', {
+  var editor = CodeMirror.fromTextArea('id_body', {
        parserfile: "parsexml.js",
        path: "{{ MEDIA_URL }}codemirror/js/",
        stylesheet: "{{ MEDIA_URL }}codemirror/css/xmlcolors.css",
        height: "400px",
-       width: "500px"
+       width: "500px",
+       electricChars: false,
+       //tabMode: "spaces",
+       content: "<h1>Title</h1>\n<p>body</p>"
   });
+  $("div.CodeMirror-wrapping textarea").attr("tabindex", "1");
 });
 </script>
 {% endblock %}
