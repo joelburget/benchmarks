@@ -15,17 +15,23 @@
 {% block content %}
 <!-- Revisions -->
 {% if object.history %}
-<div id="revisions">
+<div id="revisions-div">
   <h3>Revision History</h3>
-  <form id="revisions" class="block">
+  <form id="revisions">
     <ol>
       <li><select id="revision" name="revision">
       {% for revision in object.history %}
-        <option>{{ revision }}</option>
+        <option value="{% if revision.published == object.published %}original{% else %}{{ revision.pk }}{% endif %}">
+                Revision {{ forloop.counter }}:
+                {{ revision }} 
+                {% if forloop.first %}(Most recent){% endif %}
+        </option>
       {% endfor %}
       </select></li>
 
       <li><input type="submit" value="Open this Revision" /></li>
+
+      <div id="revision-info"></div>
     </ol>
   </form>
 </div>
@@ -149,9 +155,10 @@
     function(file) {
       window.location.href = ('{{ MEDIA_URL|escapejs }}' + file);
   });
+  $('#revisions select').change(function() { alert('change');});
   $('#revisions').submit(function() {
     // Revisions button is clicked, refresh content
-    $.get(escape('/posts/{{ object.pk }}/history/' + $('#revision').val()), function(data) {
+    $.get(escape('/posts/{{ object.pk }}/history/' + $('#revision').val())), function(data) {
       $('#post-content').fadeOut(500, function() {
         $(this).html(data).fadeIn(500).effect('highlight', {}, 1000);
       });

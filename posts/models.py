@@ -4,6 +4,7 @@ from datetime import datetime
 from os.path import basename
 
 from benchmarks.settings import SITE_ROOT
+from benchmarks.templatetags.templatetags.date_diff import date_diff
 
 from django import forms
 from django.contrib.auth.models import User
@@ -90,7 +91,7 @@ class PostRevision(models.Model):
   previous = models.ForeignKey('PostRevision', null=True)
 
   def __unicode__(self):
-    return "Revision %s" % (self.published,)
+    return "%s" % (date_diff(self.published),)
 
 # PostFile
 def get_upload_path(instance, filename):

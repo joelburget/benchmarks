@@ -5,6 +5,7 @@ from benchmarks.posts.models import CATEGORY_CHOICES
 from benchmarks.posts.models import Post, PostForm
 
 from django.contrib.auth.models import User
+from django.core import serializers
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
@@ -156,15 +157,36 @@ def index(request):
     },
     context_instance=RequestContext(request))
 
-def posthistory(self, post_id, post_history_id, **kwargs):
-  # Get main post
-  post = Post.objects.get(pk=post_id)
+def posthistory(request, post_id, post_history_id, **kwargs):
+  post = None
 
-  # Get history
-  hist = post.history()
- 
-  for revision in hist: 
-    if str(revision) == unquote(post_history_id):
-      return render_to_response('posts/post.html', { 'object' : revision })
+  if post_history_id == 'original':
+    # Grab original post
+    post = Post.objects.get(pk=post_id)
+  else:
+    # Grab a post history object
+    rev_pk = 0
 
-  return HttpResponse('ERROR: Bad history object.') 
+    try:
+      rev_pk = int(post_history_id)
+    except:
+      return HttpResponse('ERROR: Bad history object.')
+
+    post = PostRevision.objects.get(pk=post_history_id)
+
+  # Return the post
+  return render_to_response('posts/post.html', { 'object' : post })
+
+def revision_info(request, post_id, post_history):
+  if request.is_ajax():
+    # Get main post
+    post = Post.objects.get(pk=post_id)
+
+    # Get history
+    hist = post.history()
+   
+    for revision in hist: 
+      if str(revision) == unquote(post_history_id):
+        return HttpResponse(serializers.serialize('json', revision))
+
+    return HttpResponse('ERROR: Bad history object.') 
