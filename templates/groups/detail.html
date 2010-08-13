@@ -4,16 +4,15 @@
 {% block title %}{{ group.name }}{% endblock %}
 
 {% block content %}
-<h2>{{ group.name }} &mdash; {{ group.user_set.count }} Member{% if group.user_set.count == 1 %}{% else %}s{% endif %}</h2>
+<h2>{{ group.name }} &mdash; {{ group.userprofile_set.count }} Member{% if group.userprofile_set.count == 1 %}{% else %}s{% endif %}</h2>
 
 <div class="block">
 <h3>About</h3>
 <p>{{ group.groupprofile.about }}</p>
 
 {% if user.is_authenticated %}
-  {% if not group in user.groups.all %}
-
-    <form action="/groups/{% if group in user.groups.all %}leave{% else %}join{% endif %}/" method="post">
+  {% if not group == user.get_profile.group %}
+    <form action="/groups/{% if group == user.get_profile.group %}leave{% else %}join{% endif %}/" method="post">
       {% csrf_token %}
       <input type="hidden" value="{{ group.pk }}" name="groupid" value="groupid" />
       <input type="submit" value="Join this Group" />
@@ -26,9 +25,9 @@
 
 <div class="block">
 <h3>Members</h3>
-{% if group.user_set.all %}
-{% for member in group.user_set.all %}
-{% render_partial user member %}
+{% if group.userprofile_set.all %}
+{% for member in group.userprofile_set.all %}
+{% render_partial user member.user %}
 {% endfor %}
 {% else %}
 <p>No users have joined this group yet.</p>

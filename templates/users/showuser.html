@@ -2,6 +2,7 @@
 {% load extended_comments %}
 {% load gravatar %}
 {% load tex %}
+{% load date_diff %}
 
 {% block title %}{{ object.get_profile.get_display_name }}{% endblock %}
 
@@ -12,14 +13,13 @@
 </div>
 <div class="block">
 
-<h2>{{ object.get_profile.get_display_name }}</h2>
-  <div class="gravatar">
+<h2>Profile</h2>
+  <div class="gravatar" style="padding-right:10px;">
     <a href="{{ object.get_absolute_url }}">{% gravatar object.email 128 %}</a>
+    <p style="text-align:center;"><strong>{{ object.username }}</strong> {% if not object.get_profile.get_display_name == object.username %}aka <strong>{{ object.get_profile.get_display_name }}</strong>{% endif %}</p>
   </div>
 
   <table id="profile">
-    <tr><td><b>Username</b></td><td>{{ object.username }}</td></tr>
-    <tr><td><b>Real Name</b></td><td>{{ object.first_name }} {{ object.last_name }}</td></tr>
     <tr><td><b>Email</b></td><td>
     {% if user.is_authenticated %}
       {% if object.get_profile.showemail %}
@@ -31,25 +31,15 @@
       <i>Please log in to see user email addresses.</i>
     {% endif %}</td></tr>
 
-    <tr><td><b>Bio:</b></td><td>{% if object.get_profile.bio == '' %}This user hasn't entered a bio yet.{% else %}{{ object.get_profile.bio }}{% endif %}</td></tr>
-    <tr><td><b>Joined</b></td><td>{{ object.date_joined }}</td></tr>
-    <tr><td><b>Last Seen</b></td><td>{{ object.last_login }}</td></tr>
+    <tr><td><b>Group</b></td><td>{% if object.get_profile.group %}<a href="{{ object.get_profile.group.groupprofile.get_absolute_url }}">{{ object.get_profile.group }}</a>{% else %}This user ins't part of any groups.{% endif %}</td></tr>
+    <tr><td><b>Bio</b></td><td>{% if object.get_profile.bio == '' %}This user hasn't entered a bio yet.{% else %}{{ object.get_profile.bio }}{% endif %}</td></tr>
+    <tr><td><b>Joined</b></td><td>{{ object.date_joined|date_diff }}</td></tr>
+    <tr><td><b>Last Login</b></td><td>{{ object.last_login|date_diff }}</td></tr>
+
+    {% if user.username == object.username %}
+    <tr><td><a href="{{ object.get_absolute_url }}edit/">Edit Profile</a></td></tr>
+    {% endif %}
   </table>
-
-  {% if user.username == object.username %}
-  <p><a href="{{ object.get_absolute_url }}edit/">Edit Profile</a></p>
-  {% endif %}
-</div>
-
-<div class="block">
-<h2>Member of</h2>
-{% if object.groups.all %}
-{% for g in object.groups.all %}
-  <p><b><a href="/groups/{{ g.pk }}">{{ g.name }}</a></b></p>
-{% endfor %}
-{% else %}
-<p>This user hasn't joined any groups yet.</p>
-{% endif %}
 </div>
 
 <div class="block">

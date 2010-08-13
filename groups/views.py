@@ -37,8 +37,8 @@ def join(request):
     # Join this group, if authenticated
     groupid = request.POST['groupid']
     group = Group.objects.get(pk=groupid)
-    request.user.groups = [group]
-    request.user.save()
+    request.user.get_profile().group = group
+    request.user.get_profile().save()
     return HttpResponseRedirect('/groups/' + groupid)
   else:
     # Bad request
@@ -49,8 +49,8 @@ def leave(request):
     # Leave this group, if authenticated
     groupid = request.POST['groupid']
     group = Group.objects.get(pk=groupid)
-    request.user.groups.remove(group)
-    request.user.save()
+    request.user.get_profile().group = None
+    request.user.get_profile().save()
     return HttpResponseRedirect('/groups/' + groupid)
   else:
     # Bad request

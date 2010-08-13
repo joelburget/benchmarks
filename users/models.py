@@ -4,32 +4,12 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.forms import ModelForm
 
-# Assign users to groups by default, makes code 100% bulletproof
-def join_groups_on_create(sender, instance, created, **kwargs):
-  # Check to see if we have a generic Users group
-  g = Group.objects.get(name='Users')
-  if not g:
-   g = Group(name='Users')
-   g.save()
-
-  # Check to ensure we're making a new record, not updating one
-  if created:
-      instance.groups = [g]
-      instance.save()
-  else:
-    # Updating record, check to see if user has left all groups
-    if instance.groups.all() == []:
-      # Ensure users are always at least a part of one group
-      instance.groups = [g]
-      instance.save()
-      
-post_save.connect(join_groups_on_create, sender=User)
-
 # User Profiles
 class UserProfile(models.Model):
   user = models.ForeignKey(User, unique=True)
   bio = models.CharField(max_length=500)
   showemail = models.BooleanField(default=True)
+  group = models.ForeignKey(Group, null=True)
 
   # Personalized rss subscriptions
   # This may not be the right place to put these
@@ -44,24 +24,8 @@ class UserProfile(models.Model):
     else:
       return self.user.username
 
-  def group(self):
-    """Returns the primary group of a user."""
-    groups = self.user.groups.all()
-
-    if groups:
-      return groups[0]
-    else:
-      return False
-
   def __unicode__(self):
     return 'Profile for %s' % (self.user.username,)
-
-# Set up profiles for new users
-def new_profile(sender, instance, created, **kwargs):
-  if created:
-    profile, created = UserProfile.objects.get_or_create(user=instance)
-
-post_save.connect(new_profile, sender=User)
 
 # Form for user objects
 class UserForm(ModelForm):
@@ -72,3 +36,11 @@ class UserForm(ModelForm):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'class':'required', 'size':'30'}))
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'required', 'size':'30'}))
     email = forms.EmailField(widget=forms.TextInput(attrs={'class':'required email'}))
+
+# Set up profiles for new users
+def new_profile(sender, instance, created, **kwargs):
+  if created:
+    profile, created = UserProfile.objects.get_or_create(user=instance)
+
+post_save.connect(new_profile, sender=User)
+

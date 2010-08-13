@@ -28,7 +28,7 @@ def editpost(request, post_id, **kwargs):
     else:
       # Failure, rerender the form page
       form = PostForm(instance = post)
-      return render_to_response('posts/new_post.html', {'form' : form}, \
+      return render_to_response('posts/new_post.html', {'form' : form, 'edit': True }, \
                                 context_instance=RequestContext(request))
   else:
     # Display edit form for post
@@ -37,6 +37,7 @@ def editpost(request, post_id, **kwargs):
     return render_to_response('posts/new_post.html',
                               {
                                 'form' : form,
+                                'edit' : True,
                               },
                               context_instance=RequestContext(request))
 
