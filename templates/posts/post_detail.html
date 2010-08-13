@@ -38,6 +38,7 @@
 {% endif %}
 
 <!-- Title -->
+<div id="post-container">
 <h2>{{ object.title }}
 {% if user.get_profile.group == object.author.get_profile.group %}
 <a href="{{ object.get_absolute_url }}edit/">Edit</a>
@@ -59,10 +60,13 @@
 </div>
 {% endif %}
 
+<!-- Poster info -->
+{% render_partial post_info object %}
+</div>
 
 <!-- Actions -->
 {% if user.is_authenticated %}
-<div class="block">
+<div id="actions" class="block">
   <h3>Actions</h3>
 
   <ul style="margin-left: 20px;">
@@ -83,8 +87,6 @@
 </div>
 {% endif %}
 
-<!-- Poster info -->
-{% render_partial post_info object %}
 
 {% if object.post_set.all %}
   <h3>Responses:</h3>
