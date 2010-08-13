@@ -33,7 +33,7 @@
 
 <!-- Title -->
 <h2>{{ object.title }}
-{% if user.username == object.author.username %}
+{% if user.get_profile.group == object.author.get_profile.group %}
 <a href="{{ object.get_absolute_url }}edit/">Edit</a>
 {% endif %}</h2>
 {% if object.parent %}
