@@ -54,7 +54,7 @@
 <!-- Files -->
 {% if object.files.all %}
 <h3>Files:</h3>
-<div class="files">
+<div id="files" class="files">
 {% for f in object.files.all %}
   <li><a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a></li>
 {% endfor %}
@@ -109,10 +109,12 @@
     <p class="commentBox" {% if user == comment.user %}style="background-color:#ddd;"{% endif %}><a href="{{ comment.get_absolute_url }}">#{{ forloop.counter }}</a> &mdash; {{ comment.published|date:"F j, Y" }} at {{ comment.published|date:"P" }} by <a href="{{ comment.user.get_absolute_url }}">{{ comment.user.name|escape }}</a></p> 
     <div class="gravatar"><a href="{{ comment.user.get_absolute_url }}">{% gravatar comment.user.email 48 %}</a></div>
     <div class="comment">{{ comment.comment|linebreaks|tex_to_images }}</div>
-    {% if comment.file %}
+    {% if comment.extendedcommentfile_set.all %}
       <h3>Files:</h3>
-      <div class="files">
-      <li><a href="{{ MEDIA_URL }}{{ comment.file.file }}">{{ comment.file }}</a></li>
+      <div id="commentFiles{{ comment.id }}" class="files">
+      {% for f in comment.extendedcommentfiel_set.all %}
+        <li><a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a></li>
+      {% endfor %}
       </div>
     {% endif %}
 {% endfor %}
@@ -149,7 +151,7 @@
 (function($){
   $("input:file").uniform();
 
-  $('.files').fileTree(
+  $('#files').fileTree(
     {
       root: '/assets/uploads/{{ object.pk }}/',
       script: '/dirlist'
@@ -157,6 +159,20 @@
     function(file) {
       window.location.href = ('{{ MEDIA_URL|escapejs }}' + file);
   });
+
+{% get_comment_list for object as comment_list %}
+{% for comment in comment_list %}
+  {% if comment.extendedcommentfile_set.all %}
+  $('#commentFiles{{ comment.id }}').fileTree(
+    {
+      root: '/assets/uploads/comments/{{ comment.id }}',
+      script: '/dirlist'
+    },
+    function(file) {
+      window.location.href = ('{{ MEDIA_URL|escapejs }}' + file);
+  });
+  {% endif %}
+{% endfor %}
 
   $('#revisions').submit(function() {
     // Revisions button is clicked, refresh content

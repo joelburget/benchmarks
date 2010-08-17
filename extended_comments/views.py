@@ -81,10 +81,6 @@ def post(request):
         cf.file = thisFile
         cf.save()
 
-        #This too seems unnecessary
-        comment.file = cf
-        comment.save()
-
         zippath = os.path.join(SITE_ROOT, 'assets/') + str(cf.file)
         decompress(zippath, comment)
 

@@ -32,5 +32,7 @@ def decompress(filepath, comment):
     # Note, don't add directories, otherwise Django can't remove them without
     # complaining with error messages.
     if not os.path.isdir(unzippedfile):
-      filemod = ExtendedCommentFile(file=modelfile, comment=comment)
+      filemod = ExtendedCommentFile(file=modelfile, parent=comment)
+      #filemod = ExtendedCommentFile()
+      #filemod.parent = comment
       filemod.save()

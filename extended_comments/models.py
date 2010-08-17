@@ -11,7 +11,7 @@ class ExtendedComment(BaseCommentAbstractModel):
   user = models.ForeignKey(User)
   published = models.DateTimeField('Date Published', auto_now_add=True)
   comment = models.TextField('comment', max_length=COMMENT_MAX_LENGTH)
-  file = models.OneToOneField('ExtendedCommentFile', null=True, blank=True)
+  #file = models.ForeignKey('ExtendedCommentFile', null=True, blank=True)
 
   #I'm not sure if this class is really necessary, but the normal comment
   #model has it so better safe than sorry
@@ -23,7 +23,6 @@ class ExtendedComment(BaseCommentAbstractModel):
   def __unicode__(self):
     return "%s: %s..." % (self.user, self.comment[:50])
 
-  #Again, not sure if this is necessary
   def save(self, *args, **kwargs):
     if self.published is None:
       self.published = datetime.datetime.now()
@@ -47,7 +46,7 @@ class ExtendedCommentFile(models.Model):
     return 'uploads/comments/%s/%s' % (self.pk, filename)
   
   file = models.FileField(upload_to=get_upload_path, null=True, blank=True)
-  parent = models.OneToOneField(ExtendedComment, parent_link=True)
+  parent = models.ForeignKey(ExtendedComment)
 
   def __unicode__(self):
     return basename('%s' % (self.file,))
