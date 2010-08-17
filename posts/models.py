@@ -34,22 +34,29 @@ class Post(models.Model):
     return self.title
 
   def get_absolute_url(self):
+    """Returns a permalink to the Post."""
     return '/posts/%s/' % (self.pk,)
 
   def get_absolute_url_with_comments(self):
+    """Returns a permalink to the Post's comment section."""
     return '%s#comments' % (self.get_absolute_url(),)
 
   def get_absolute_category_url(self):
+    """Returns a permalink to the Posts's category."""
     category = self.get_category_display().lower()
     return "/posts/?title=&body=&%s=on&searchtxt=" % (category,)
 
-  def history(self):
-    """Returns revision history of this post as an ordered list."""
-    # Start list with current
-    hist = [self]
+  def revisions(self):
+    """Returns revisions of this post as an ordered list, or the 
+    post itself if it has never been edited."""
+    # Check for posts w/o revisions
+    if self.previous == None:
+      return [self]
 
-    # Traverse linked list of history
+    # Traverse linked list of revisions
+    hist = []
     cur = self
+
     while cur.previous != None:
       cur = cur.previous
       hist.append(cur)

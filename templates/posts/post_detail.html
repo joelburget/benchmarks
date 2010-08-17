@@ -14,17 +14,18 @@
 
 {% block content %}
 <!-- Revisions -->
-{% if object.history %}
+{% if object.revisions %}
 <div id="revisions-div">
   <h3>Revision History</h3>
   <form id="revisions">
     <ol>
       <li><select id="revision" name="revision">
-      {% for revision in object.history %}
+      {% for revision in object.revisions %}
         <option value="{% if revision.published == object.published %}original{% else %}{{ revision.pk }}{% endif %}">
-                Revision {{ forloop.counter }}:
-                {{ revision }} 
+                Version {{ forloop.revcounter }}: updated
+                {{ revision }} by {{ revision.author }}
                 {% if forloop.first %}(Most recent){% endif %}
+                {% if forloop.last %}(Original){% endif %}
         </option>
       {% endfor %}
       </select></li>
@@ -155,15 +156,6 @@
     },
     function(file) {
       window.location.href = ('{{ MEDIA_URL|escapejs }}' + file);
-  });
-
-  $('#revisions select').change(function() {
-    $.get(escape('/posts/{{ object.pk }}/history/' + $('#revision').val()) + '/info/', function(data) {
-      $('#revision-info').fadeOut(500, function() {
-        $(this).html(data).fadeIn(500).effect('highlight', {}, 1000);
-      });
-    });
-    return false;
   });
 
   $('#revisions').submit(function() {
