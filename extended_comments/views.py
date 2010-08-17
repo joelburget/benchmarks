@@ -1,7 +1,8 @@
-from benchmarks.extended_comments.models import ExtendedComment
+from benchmarks.extended_comments.models import ExtendedComment, ExtendedCommentFile
 from benchmarks.extended_comments.forms import ExtendedCommentForm
+from benchmarks.extended_comments.decompress import decompress
 from benchmarks.posts.models import Post
-from benchmarks.settings import MEDIA_ROOT
+from benchmarks.settings import MEDIA_ROOT, SITE_ROOT
 import html5lib
 from html5lib import sanitizer
 import datetime
@@ -40,9 +41,6 @@ def post(request):
   data.user = request.user
   
   form = ExtendedCommentForm(target, data=data)
-  if request.FILES:
-    if (form.is_valid() and not preview):
-      handle_uploaded_file(request.FILES['file'])
   if form.security_errors():
     return render_to_response('comments/error.html', {'msg' :'There was an problem with your comment.'}, context_instance=RequestContext(request))
   if form.is_valid():
@@ -67,6 +65,29 @@ def post(request):
 
     else:
       comment.save()
+
+      if request.FILES:
+        thisFile = request.FILES['file']
+        #This is obviously horrible. I would love for it to be written as:
+        #cf = ExtendedCommentFile(file=thisFile, parent=comment)
+        #cf.save()
+        #
+        #However, the comment doesn't have a pk yet so ever comment ends up
+        #being saved to the same folder, 'None.'
+        #Please fix!
+        cf = ExtendedCommentFile()
+        cf.parent = comment
+        cf.save()
+        cf.file = thisFile
+        cf.save()
+
+        #This too seems unnecessary
+        comment.file = cf
+        comment.save()
+
+        zippath = os.path.join(SITE_ROOT, 'assets/') + str(cf.file)
+        decompress(zippath, comment)
+
   elif preview:
     return render_to_response(
       'comments/preview.html', {
