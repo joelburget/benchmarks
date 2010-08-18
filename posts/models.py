@@ -1,11 +1,3 @@
-import os
-import shutil
-from datetime import datetime
-from os.path import basename
-
-from benchmarks.settings import SITE_ROOT
-from benchmarks.templatetags.templatetags.date_diff import date_diff
-
 from django import forms
 from django.contrib.auth.models import User, Group
 from django.db.models.signals import pre_delete, pre_save
@@ -77,13 +69,17 @@ class PostRevision(models.Model):
 FILETYPES = (
   ('S', 'SPECS'),
   ('C', 'CODE'),
-  ('V', 'VCS')
+  ('V', 'VCS'),
   ('O', 'OTHER'),
 )
+
+def get_upload_path(instance, filename):
+  return '%s/%s' % (instance.postrevision_set.all()[0].pk, filename)
 
 class PostFile(models.Model):
   file = models.FileField(upload_to=get_upload_path, null=True, blank=True)
   filetype = models.CharField(max_length=1, choices=FILETYPES)
+  post_revision = models.ForeignKey(PostRevision, null=True)
 
 #
 # Forms
@@ -94,7 +90,7 @@ class PostForm(ModelForm):
 
   class Meta():
     model = Post
-    fields = ('title', 'body', 'parent')
+    fields = ('title', 'body')
 
 class ProblemForm(PostForm):
   class Meta():
@@ -103,3 +99,5 @@ class ProblemForm(PostForm):
 class SolutionForm(PostForm):
   class Meta():
     model = Solution
+    fields = ('title', 'body', 'problem')
+
