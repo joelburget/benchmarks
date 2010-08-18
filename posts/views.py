@@ -1,7 +1,6 @@
 from urllib import unquote
 
 from benchmarks.posts.helpers import *
-from benchmarks.posts.models import CATEGORY_CHOICES
 from benchmarks.posts.models import Post, PostForm
 from benchmarks.templatetags.templatetags.date_diff import date_diff
 

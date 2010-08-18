@@ -1,4 +1,4 @@
-from benchmarks.posts.models import Post, PostFile, PostRevision
+from benchmarks.posts.models import *
 from django.contrib import admin
 
 class PostAdmin(admin.ModelAdmin):
@@ -12,6 +12,7 @@ class PostAdmin(admin.ModelAdmin):
   list_filter = ['published']
   search_fields = ['title']
 
-admin.site.register(Post, PostAdmin)
+admin.site.register(Problem, PostAdmin)
+admin.site.register(Solution, PostAdmin)
 admin.site.register(PostFile)
 admin.site.register(PostRevision)
