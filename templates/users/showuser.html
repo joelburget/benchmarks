@@ -28,7 +28,7 @@
         {% if object.first_name %}{{ object.first_name }}{% else %}{{ object.username }}{% endif %} has opted out of showing this field.
       {% endif %}
     {% else %}
-      <i>Please log in to see user email addresses.</i>
+      <span style="font-style:italic;">Please log in to see user email addresses.</span>
     {% endif %}</td></tr>
 
     <tr><td><strong>Group</strong></td><td>{% if object.get_profile.group %}<a href="{{ object.get_profile.group.groupprofile.get_absolute_url }}">{{ object.get_profile.group }}</a>{% else %}This user isn't part of any groups.{% endif %}</td></tr>
