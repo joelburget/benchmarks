@@ -48,7 +48,7 @@
     <a href="?page={{ posts.previous_page_number }}">Previous</a>
   {% endif %}
 
-  <b>Page {{ posts.number }} of {{ posts.paginator.num_pages }}</b>
+  <strong>Page {{ posts.number }} of {{ posts.paginator.num_pages }}</strong>
 
   {% if posts.has_next %}
     <a href="?page={{ posts.next_page_number }}">Next</a>

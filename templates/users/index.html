@@ -25,7 +25,7 @@
     <a href="?page={{ users.previous_page_number }}">Previous</a>
   {% endif %}
 
-  <b>Page {{ users.number }} of {{ users.paginator.num_pages }}</b>
+  <strong>Page {{ users.number }} of {{ users.paginator.num_pages }}</strong>
 
   {% if users.has_next %}
     <a href="?page={{ users.next_page_number }}">Next</a>

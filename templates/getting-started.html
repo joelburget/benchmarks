@@ -14,7 +14,7 @@
 </ul>
 
 <h3>Get a username</h3>
-<p>The rest of this guide assumes you have a username. If you don't have one yet please email Professor Bruce Weide at <a class="email">weide (dot) 1 (at) osu (dot) edu</a> to set up an account. Please include your name, organization (if any), and why you would like to participate.</p>
+<p>The rest of this guide assumes you have a username. If you don't have one yet please fill out the form under "Request an account" in the right sidebar. We will respond within a day or two with your new username and password.</p>
 
 <h3>Set your information</h3>
 <p>After you sign in for the first time, click on the link to your profile in the top right (it should either be your name, or your username). You can add a short bio about yourself, update your email, and set your email to be shown to other users, if desired. We will never show your email to visitors who aren't signed in</p>
@@ -39,11 +39,4 @@
 
 {% block jsblock %}
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script>
-(function($){
-  var a = "weide";
-  var b = "su.ed";
-  $('a.email').replaceWith('<a href=\"mailto:' + a + '.1\@o' + b + 'u' + "\">" + a + '.1\@o' + b + 'u' + '</a>');
-}(jQuery));
-</script>
 {% endblock %}

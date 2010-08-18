@@ -20,7 +20,7 @@
   </div>
 
   <table id="profile">
-    <tr><td><b>Email</b></td><td>
+    <tr><td><strong>Email</strong></td><td>
     {% if user.is_authenticated %}
       {% if object.get_profile.showemail %}
         {{ object.email }}
@@ -31,10 +31,10 @@
       <i>Please log in to see user email addresses.</i>
     {% endif %}</td></tr>
 
-    <tr><td><b>Group</b></td><td>{% if object.get_profile.group %}<a href="{{ object.get_profile.group.groupprofile.get_absolute_url }}">{{ object.get_profile.group }}</a>{% else %}This user isn't part of any groups.{% endif %}</td></tr>
-    <tr><td><b>Bio</b></td><td>{% if object.get_profile.bio == '' %}This user hasn't entered a bio yet.{% else %}{{ object.get_profile.bio }}{% endif %}</td></tr>
-    <tr><td><b>Joined</b></td><td>{{ object.date_joined|date_diff }}</td></tr>
-    <tr><td><b>Last Login</b></td><td>{{ object.last_login|date_diff }}</td></tr>
+    <tr><td><strong>Group</strong></td><td>{% if object.get_profile.group %}<a href="{{ object.get_profile.group.groupprofile.get_absolute_url }}">{{ object.get_profile.group }}</a>{% else %}This user isn't part of any groups.{% endif %}</td></tr>
+    <tr><td><strong>Bio</strong></td><td>{% if object.get_profile.bio == '' %}This user hasn't entered a bio yet.{% else %}{{ object.get_profile.bio }}{% endif %}</td></tr>
+    <tr><td><strong>Joined</strong></td><td>{{ object.date_joined|date_diff }}</td></tr>
+    <tr><td><strong>Last Login</strong></td><td>{{ object.last_login|date_diff }}</td></tr>
 
     {% if user.username == object.username %}
     <tr><td><a href="{{ object.get_absolute_url }}edit/">Edit Profile</a></td></tr>
