@@ -21,6 +21,8 @@ body {
   padding: 10px 10px 50px 20px;
 }
 
+/*The nav appears on the right side of the screen. The colors are defined
+in base.less.*/
 nav {
   font-size: 0.88em;
   background-color: @background-gray;
@@ -183,6 +185,7 @@ strong {
   }
 }
 
+//This is the colored box around e.g. Post
 .postType {
   color: #fff;
   //background-color: #600cac;
@@ -359,4 +362,10 @@ strong {
       width: 200px;
     }
   }
+}
+
+//This is for the posts search page. We don't want the advanced search to flash
+//on the screen before javascript kicks in
+#advanced {
+  display:none;
 }
