@@ -4,9 +4,16 @@ from django.db.models.signals import pre_delete, pre_save
 from django.db import models
 from django.forms import ModelForm
 
+from benchmarks.templatetags.templatetags.date_diff import date_diff
+
 #
 # Post types
 #
+POSTTYPES = (
+  ('P', 'Problem'),
+  ('S', 'Solution'),
+)
+
 class Post(models.Model):
   # Attributes
   title = models.CharField(max_length=200)
@@ -15,10 +22,12 @@ class Post(models.Model):
   group = models.ForeignKey(Group)
   previous = models.ForeignKey('PostRevision', blank=True, null=True)
   published = models.DateTimeField(auto_now_add=True)
+  category = models.CharField(max_length=1, choices=POSTTYPES)
+  problem = models.ForeignKey('self', blank=True, null=True)
 
   # Methods
   def __unicode__(self):
-    return '%s (%s, %s)' % (self.title, self.author, self.group)
+    return str(date_diff(self.published))
 
   def get_absolute_url(self):
     return '/posts/%s/' % (self.pk,)
@@ -30,23 +39,17 @@ class Post(models.Model):
     pass
 
   def get_revisions(self):
+    hist = [self]
+
     if self.previous == None:
-      return [self]
+      return hist
 
-    hist = []
     cur = self
-
     while cur.previous != None:
       cur = cur.previous
       hist.append(cur)
 
     return hist
-
-class Problem(Post):
-  pass
-
-class Solution(Post):
-  problem = models.ForeignKey(Problem)
 
 #
 # Revisions
@@ -61,7 +64,7 @@ class PostRevision(models.Model):
 
   # Method
   def __unicode__(self):
-    return 'Revision %s (%s, %s)' % (self.published, self.author, self.group)
+    return str(date_diff(self.published))
 
 #
 # Files
@@ -85,19 +88,5 @@ class PostFile(models.Model):
 # Forms
 #
 class PostForm(ModelForm):
-  title = forms.CharField(widget=forms.TextInput(attrs = {'class' : 'validate[required]'}))
-  body = forms.CharField(widget=forms.widgets.Textarea())
-
   class Meta():
     model = Post
-    fields = ('title', 'body')
-
-class ProblemForm(PostForm):
-  class Meta():
-    model = Problem
-
-class SolutionForm(PostForm):
-  class Meta():
-    model = Solution
-    fields = ('title', 'body', 'problem')
-

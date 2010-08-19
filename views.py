@@ -5,7 +5,7 @@ from benchmarks import settings
 from benchmarks.extended_comments.models import ExtendedComment
 from benchmarks.feeds import RssPostsFeed, AtomPostsFeed
 from benchmarks.helpers import *
-from benchmarks.posts.models import Problem, Solution
+from benchmarks.posts.models import Post
 
 from django.contrib.auth import authenticate, login, logout
 from django.core.mail import EmailMessage
@@ -16,8 +16,8 @@ from django.views.generic.simple import direct_to_template
 
 def homepage(request):
   # Grab all problems, all non-problems, and all comments
-  problem_posts = Problem.objects.all().order_by('-published')[:3]
-  latest_posts = Solution.objects.all().order_by('-published')[:3]
+  problem_posts = Post.objects.filter(category='P').order_by('-published')[:3]
+  latest_posts = Post.objects.filter(category='S').order_by('-published')[:3]
   latest_discussion = ExtendedComment.objects.all().order_by('-published')[:3]
   return render_to_response('homepage.html',
                             {

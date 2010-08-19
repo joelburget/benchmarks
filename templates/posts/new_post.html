@@ -14,6 +14,10 @@
 </noscript>
 
 <h2>{% if edit %}Edit{% else %}New{% endif %} Post</h2>
+
+{% if user.get_profile.group == None %}
+<p>Uh-oh! Please <a href="/groups">join a group</a> before posting content to the website!</p>
+{% else %}
 <form id="newPostForm" action="." method="post" enctype="multipart/form-data" style="float:left;">
   {% comment %}I don't know how or why Django inserts the csrfmiddlewaretoken here, but it does{% endcomment %}
 
@@ -32,7 +36,9 @@
     <li>{{ form.body }}</li>
 
     <input type="hidden" style="display:none;" value="{% if category %}{{ category }}{% else %}P{% endif %}" name="category" id="category" />
-    <input type="hidden" style="display:none;" value="{{ parent }}" name="parent" id="parent" />
+    <input type="hidden" style="display:none;" value="{{ problem }}" name="problem" id="problem" />
+    <input type="hidden" style="display:none;" value="{{ user.pk }}" name="author" id="author" />
+    <input type="hidden" style="display:none;" value="{{ user.get_profile.group.pk }}" name="group" id="group" />
 
     <li><label>Files</label></li>
     <li> 
@@ -45,6 +51,7 @@
     <li><input class="button" type="submit" value="Submit" /></li>
 </ol>
 </form>
+{% endif %}
 {% endblock %}
 
 {% block jsblock %}

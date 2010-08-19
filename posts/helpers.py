@@ -21,6 +21,7 @@ def update_post(post, params, user):
     # Move old content into a Revision
     rev = PostRevision(author = user)
     rev.body = post.body
+    rev.group = post.group
     rev.save()
 
     # Fill post with new, edited data
