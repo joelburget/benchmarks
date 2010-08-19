@@ -8,11 +8,10 @@
 
 <h3>Search</h3>
 <form action="." method="get" class="block">
-  <p><a id="advancedlink" href="#">Advanced Search &rarr;</a></p>
+  <p class="nshide"><a id="advancedlink" href="#">Advanced Search &rarr;</a></p>
 
   <div id="makeMeSpecial"></div>
-  <noscript>
-  <div id="advanced">
+  <div id="advanced" class="nsshow">
     <h3>Document Text Fields</h3>
     <label for="title">Title</label> <input name="title" id="title" type="text" value="{{ title }}" /><br />
     <label for="body">Body</label> <input name="body" id="body" type="text" value="{{ body }}" />
@@ -29,9 +28,8 @@
       <li><label for="other">Other</label><input type="checkbox" id="other" name="other" {% if o and advanced_submitted or not advanced_submitted %}checked{% endif %} /><br /></li>
     </ul>
   </div>
-  </noscript>
 
-  <input type="text" name="searchtxt" id="searchtxt" value="{{ searchtxt }}" />
+  <input type="text" name="searchtxt" id="searchtxt" value="{{ searchtxt }}" class="nshide" />
   
   <input type="submit" value="Search" />
 </form>
@@ -62,6 +60,15 @@
 
 {% block cssblock %}
 <link rel="stylesheet" href="http://dev.jquery.com/view/trunk/plugins/autocomplete/jquery.autocomplete.css" type="text/css" />
+<style>
+  .nsshow {display: none;}
+</style>
+<noscript>
+  <style>
+    .nshide {display: none;}
+    .nsshow {display: block !important;}
+  </style>
+</noscript>
 {% endblock %}
 
 {% block jsblock %}
@@ -75,8 +82,6 @@ $(document).ready(function() {
   /* User autocomplete */
   var users = "{% for u in userlist %}{{ u.username }}${% endfor %}".split("$");
   $('#user').autocomplete(users);
-
-  $('#makeMeSpecial').html('<div id="advanced"><h3>Document Text Fields</h3><label for="title">Title</label> <input name="title" id="title" type="text" value="{{ title }}" /><br /><label for="body">Body</label> <input name="body" id="body" type="text" value="{{ body }}" /><h3>Properties</h3><label for="user">User</label> <input name="user" id="user" type="text" value="{{ u }}" /><br /><!--label for="featured">Featured Post</label> <input type="checkbox" name="featured" id="featured" type="text" {% if featured and advanced_submitted or not advanced_submitted %}checked{% endif %} /><br /--><h3>Categories</h3><ul><li><label for="problem">Problem</label><input type="checkbox" id="problem" name="problem" {% if p and advanced_submitted or not advanced_submitted %}checked{% endif %} /><br /></li><li><label for="realization">Realization</label><input type="checkbox" id="realization" name="realization" {% if r and advanced_submitted or not advanced_submitted %}checked{% endif %} /><br /></li><li><label for="verification">Verification</label><input type="checkbox" id="verification" name="verification" {% if v and advanced_submitted or not advanced_submitted %}checked{% endif %} /><br /></li><li><label for="other">Other</label><input type="checkbox" id="other" name="other" {% if o and advanced_submitted or not advanced_submitted %}checked{% endif %} /><br /></li></ul></div>');
 
   /* Advanced search field toggling */
   {% if not advanced_submitted %}
