@@ -14,6 +14,7 @@ def new_post(post, params):
     return True
   else:
     # Data is invalid
+    print form.errors
     return False
 
 def update_post(post, params, user):
@@ -21,6 +22,7 @@ def update_post(post, params, user):
     # Move old content into a Revision
     rev = PostRevision(author = user)
     rev.body = post.body
+    rev.group = post.group
     rev.save()
 
     # Fill post with new, edited data

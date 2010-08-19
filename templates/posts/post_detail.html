@@ -14,13 +14,13 @@
 
 {% block content %}
 <!-- Revisions -->
-{% if object.revisions %}
+{% if object.get_revisions %}
 <div id="revisions-div">
   <h3>Revision History</h3>
   <form id="revisions">
     <ol>
       <li><select id="revision" name="revision">
-      {% for revision in object.revisions %}
+      {% for revision in object.get_revisions %}
         <option value="{% if revision.published == object.published %}original{% else %}{{ revision.pk }}{% endif %}">
                 Version {{ forloop.revcounter }}: updated
                 {{ revision }} by {{ revision.author }}
@@ -76,18 +76,13 @@
     {% endif %}
 
     {% if object.category == 'P' %}
-    <li id="create-link"><a href="/posts/new?parent={{ object.pk }}&category=R">Create a new realization for this problem</a></li>
-    {% endif %}
-
-    {% if object.category == 'R' %}
-    <li id="create-link"><a href="/posts/new?parent={{ object.pk }}&category=V">Create a new Verification condition for this realization</a></li>
+    <li id="create-link"><a href="/posts/new?problem={{ object.pk }}&category=S">Add a solution to this problem</a></li>
     {% endif %}
 
     <li id="comment-link"><a href="#leaveAComment">Comment on this post</a></li>
   </ul>
 </div>
 {% endif %}
-
 
 {% if object.post_set.all %}
   <h3>Responses:</h3>

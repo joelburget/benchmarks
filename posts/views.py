@@ -54,9 +54,11 @@ def newpost(request, **kwargs):
 
     if status:
       # Success, render the post
+      print 'success'
       return HttpResponseRedirect(post.get_absolute_url())
     else:
       # Failure, rerender the form page
+      print 'failure'
       form = PostForm(instance = post)
       return render_to_response('posts/new_post.html', {'form' : form}, \
                                 context_instance=RequestContext(request))
@@ -65,6 +67,7 @@ def newpost(request, **kwargs):
     parent = request.GET.get('parent', '')
     category = request.GET.get('category', '')
     form = PostForm()
+    print 'get req'
     return render_to_response('posts/new_post.html', \
                               {
                                 'form' : form,

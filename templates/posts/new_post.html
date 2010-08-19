@@ -32,7 +32,8 @@
     <li>{{ form.body }}</li>
 
     <input type="hidden" style="display:none;" value="{% if category %}{{ category }}{% else %}P{% endif %}" name="category" id="category" />
-    <input type="hidden" style="display:none;" value="{{ parent }}" name="parent" id="parent" />
+    <input type="hidden" style="display:none;" value="{{ user.pk }}" name="author" id="author" />
+    <input type="hidden" style="display:none;" value="{{ user.get_profile.group.pk }}" name="group" id="group" />
 
     <li><label>Files</label></li>
     <li> 

@@ -7,6 +7,11 @@ from django.forms import ModelForm
 #
 # Post types
 #
+POSTTYPES = (
+  ('P', 'Problem'),
+  ('S', 'Solution'),
+)
+
 class Post(models.Model):
   # Attributes
   title = models.CharField(max_length=200)
@@ -15,6 +20,7 @@ class Post(models.Model):
   group = models.ForeignKey(Group)
   previous = models.ForeignKey('PostRevision', blank=True, null=True)
   published = models.DateTimeField(auto_now_add=True)
+  category = models.CharField(max_length=1, choices=POSTTYPES)
 
   # Methods
   def __unicode__(self):
@@ -30,12 +36,12 @@ class Post(models.Model):
     pass
 
   def get_revisions(self):
+    hist = [self]
+
     if self.previous == None:
-      return [self]
+      return hist
 
-    hist = []
     cur = self
-
     while cur.previous != None:
       cur = cur.previous
       hist.append(cur)
@@ -46,6 +52,7 @@ class Problem(Post):
   pass
 
 class Solution(Post):
+  # Attributes
   problem = models.ForeignKey(Problem)
 
 #
@@ -85,12 +92,8 @@ class PostFile(models.Model):
 # Forms
 #
 class PostForm(ModelForm):
-  title = forms.CharField(widget=forms.TextInput(attrs = {'class' : 'validate[required]'}))
-  body = forms.CharField(widget=forms.widgets.Textarea())
-
   class Meta():
     model = Post
-    fields = ('title', 'body')
 
 class ProblemForm(PostForm):
   class Meta():
@@ -99,5 +102,3 @@ class ProblemForm(PostForm):
 class SolutionForm(PostForm):
   class Meta():
     model = Solution
-    fields = ('title', 'body', 'problem')
-
