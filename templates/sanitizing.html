@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 
+{% block title %}Sanitizing{% endblock %}
 {% block content %}
-Sanitizing!
+<h1>Sanitizing</h1>
+
+<h3>What We Do</h3>
+<p>Before we store any text on our server, we sanitize it to prevent attacks. We remove any Javascript or HTML that could potentially be used for an XSS attack.</p>
+
+<h3>How?</h3>
+<p>We use <a href="http://code.google.com/p/html5lib/">html5lib</a> to sanitize the input. We prefer using a well tested library to writing our own. You can see all the tags that html5lib will allow <a href="http://code.google.com/p/html5lib/source/browse/python/html5lib/sanitizer.py">at their repository.</a> Note that we do not allow mathml or svg.</p>
 {% endblock %}
