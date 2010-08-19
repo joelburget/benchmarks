@@ -14,7 +14,7 @@
 <div class="block">
 
 <h2>Profile</h2>
-  <div class="gravatar" style="padding-right:10px;">
+  <div class="gravatar" style="padding-right:20px;">
     <a href="{{ object.get_absolute_url }}">{% gravatar object.email 128 %}</a>
     <p style="text-align:center;"><strong>{{ object.username }}</strong> {% if not object.get_profile.get_display_name == object.username %}aka <strong>{{ object.get_profile.get_display_name }}</strong>{% endif %}</p>
   </div>
