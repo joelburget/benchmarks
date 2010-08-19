@@ -1,14 +1,24 @@
 @import "base.less";
 
+#navlogin {
+  margin-top: 5px;
+}
+
 input, textarea {
 	padding: 7px;
 	border: solid 1px @border-gray;
 	outline: 0;
-	font: normal 13px/100% Verdana, Tahoma, sans-serif;
+	font: normal 14px/100% Verdana, Tahoma, sans-serif;
 	width: 200px;
 	background: #fff;
   .rounded();
   clear: both;
+}
+
+//I can't get all browsers to agree on how this should look
+input[type=submit] {
+  padding-top: 7px;
+  padding-bottom: 7px;
 }
 
 input[type=checkbox] {
