@@ -109,7 +109,6 @@ INSTALLED_APPS = (
     'benchmarks.groups',
     'benchmarks.posts',
     'benchmarks.users',
-    'benchmarks.comment-sanitizer',
     'benchmarks.extended_comments',
     'benchmarks.flup',
     'benchmarks.templatetags',

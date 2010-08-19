@@ -37,7 +37,7 @@
     </div>
 
     {% if user.is_authenticated %}
-    <ul class="block">
+    <ul class="icons block">
       <li id="logout-link"><a href="/logout/" >Logout</a></li>
       <li id="new-problem-link"><a href="/posts/new/">New Problem</a></li>
       {% if user.is_staff %}
@@ -47,7 +47,7 @@
     {% endif %}
 
     <h3>Navigation</h3>
-    <ul class="block">
+    <ul class="icons block">
       <li id="posts-link"><a href="/posts/">Posts</a></li> 
       <li id="groups-link"><a href="/groups/">Groups</a></li> 
       <li id="users-link"><a href="/users/">Users</a></li>
