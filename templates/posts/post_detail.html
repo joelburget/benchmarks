@@ -79,7 +79,7 @@
 <div id="actions" class="block">
   <h3>Actions</h3>
 
-  <ul style="margin-left: 20px;">
+  <ul class="icons" style="margin-left: 20px;">
     {% if user.username == object.author.username %}
     <li id="edit-link"><a href="{{ object.get_absolute_url }}edit/">Edit and make changes to this post</a></li>
     {% endif %}
@@ -103,15 +103,19 @@
   <div id="c{{ comment.id }}">
     <p class="commentBox" {% if user == comment.user %}style="background-color:#ddd;"{% endif %}><a href="{{ comment.get_absolute_url }}">#{{ forloop.counter }}</a> &mdash; {{ comment.published|date:"F j, Y" }} at {{ comment.published|date:"P" }} by <a href="{{ comment.user.get_absolute_url }}">{{ comment.user.name|escape }}</a></p> 
     <div class="gravatar"><a href="{{ comment.user.get_absolute_url }}">{% gravatar comment.user.email 48 %}</a></div>
-    <div class="comment">{{ comment.comment|linebreaks|tex_to_images }}</div>
-    {% if comment.extendedcommentfile_set.all %}
-      <h3>Files:</h3>
-      <div id="commentFiles{{ comment.id }}" class="files">
-      {% for f in comment.extendedcommentfiel_set.all %}
-        <li><a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a></li>
-      {% endfor %}
-      </div>
-    {% endif %}
+    <div class="comment">
+      {{ comment.comment|linebreaks|tex_to_images }}
+
+      {% if comment.extendedcommentfile_set.all %}
+        <h4>Attached Files:</h4>
+        <ul class="icons">
+        {% for f in comment.extendedcommentfile_set.all %}
+          <li class="file-link"><a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a></li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  </div>
 {% endfor %}
 
 <!-- Comment form -->
