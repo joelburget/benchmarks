@@ -62,13 +62,13 @@ def newpost(request, **kwargs):
                                 context_instance=RequestContext(request))
   else:
     # GET request, just render page w/o processing params
-    parent = request.GET.get('parent', '')
+    problem = request.GET.get('problem', '')
     category = request.GET.get('category', '')
     form = PostForm()
     return render_to_response('posts/new_post.html', \
                               {
                                 'form' : form,
-                                'parent' : parent,
+                                'problem' : problem,
                                 'category' : category,
                               }, \
                               context_instance=RequestContext(request))

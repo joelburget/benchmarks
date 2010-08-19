@@ -21,6 +21,7 @@ class Post(models.Model):
   previous = models.ForeignKey('PostRevision', blank=True, null=True)
   published = models.DateTimeField(auto_now_add=True)
   category = models.CharField(max_length=1, choices=POSTTYPES)
+  problem = models.ForeignKey('Post', blank=True, null=True)
 
   # Methods
   def __unicode__(self):
@@ -47,13 +48,6 @@ class Post(models.Model):
       hist.append(cur)
 
     return hist
-
-class Problem(Post):
-  pass
-
-class Solution(Post):
-  # Attributes
-  problem = models.ForeignKey(Problem)
 
 #
 # Revisions
@@ -94,11 +88,3 @@ class PostFile(models.Model):
 class PostForm(ModelForm):
   class Meta():
     model = Post
-
-class ProblemForm(PostForm):
-  class Meta():
-    model = Problem
-
-class SolutionForm(PostForm):
-  class Meta():
-    model = Solution

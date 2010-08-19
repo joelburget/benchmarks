@@ -12,7 +12,6 @@ class PostAdmin(admin.ModelAdmin):
   list_filter = ['published']
   search_fields = ['title']
 
-admin.site.register(Problem, PostAdmin)
-admin.site.register(Solution, PostAdmin)
+admin.site.register(Post, PostAdmin)
 admin.site.register(PostFile)
 admin.site.register(PostRevision)
