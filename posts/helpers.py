@@ -14,7 +14,6 @@ def new_post(post, params):
     return True
   else:
     # Data is invalid
-    print form.errors
     return False
 
 def update_post(post, params, user):
