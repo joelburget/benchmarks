@@ -1,10 +1,13 @@
+from benchmarks.templatetags.templatetags.date_diff import date_diff
+
 from django import forms
 from django.contrib.auth.models import User, Group
-from django.db.models.signals import pre_delete, pre_save
+from django.db.models import signals
 from django.db import models
 from django.forms import ModelForm
 
-from benchmarks.templatetags.templatetags.date_diff import date_diff
+import html5lib
+from html5lib import sanitizer
 
 #
 # Post types
@@ -50,6 +53,12 @@ class Post(models.Model):
       hist.append(cur)
 
     return hist
+
+def sanitize_post(sender, instance, **kwargs):
+    p = html5lib.HTMLParser(tokenizer=sanitizer.HTMLSanitizer)
+    instance.body = p.parse(instance.body).childNodes[0].childNodes[1].toxml()[6:-7]
+
+signals.pre_save.connect(sanitize_post, sender=Post)
 
 #
 # Revisions

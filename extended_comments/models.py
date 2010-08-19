@@ -1,9 +1,18 @@
-from django.db import models
-from django.contrib.comments.models import BaseCommentAbstractModel
-from django.contrib.auth.models import User
-from django.conf import settings
 import datetime
 from os.path import basename
+
+from django.conf import settings
+from django.contrib.comments.models import BaseCommentAbstractModel
+from django.contrib.auth.models import User
+from django.db import models
+from django.db.models import signals
+
+import html5lib
+from html5lib import sanitizer
+
+#
+# Comments
+#
 
 COMMENT_MAX_LENGTH = getattr(settings,'COMMENT_MAX_LENGTH',3000)
 
@@ -41,6 +50,10 @@ class ExtendedComment(BaseCommentAbstractModel):
     }
     return 'Posted by %(user)s at %(date)s\n\n%(comment)s\n\nhttp://%(domain)s%(url)s' % d
 
+#
+# Comment Files
+#
+
 class ExtendedCommentFile(models.Model):
   def get_upload_path(self, filename):
     return 'uploads/comments/%s/%s' % (self.pk, filename)
@@ -50,3 +63,13 @@ class ExtendedCommentFile(models.Model):
 
   def __unicode__(self):
     return basename('%s' % (self.file,))
+
+#
+# Signals
+#
+
+def sanitize_comment(sender, instance, **kwargs):
+  p = html5lib.HTMLParser(tokenizer=sanitizer.HTMLSanitizer)
+  instance.comment = p.parse(instance.comment).childNodes[0].childNodes[1].toxml()[6:-7]
+
+signals.pre_save.connect(sanitize_comment, sender=ExtendedComment)

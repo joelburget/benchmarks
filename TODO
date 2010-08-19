@@ -65,7 +65,7 @@ of the view too
 - duplicate code in posthistory/revision_info - refactor
 - Naming - consistent_method_name_style and names (history/revision)
 x fix Post.history() to not include self in posts w/history included
-- post history stuff - add to lastpage middleware configuration
+x post history stuff - add to lastpage middleware configuration
 x pyflakes/lint/checker - remove unused imports
 - pre vs. code - make code just monospace font?
 - css refactoring - use variables etc.
