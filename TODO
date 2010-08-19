@@ -50,13 +50,12 @@ http://djangosnippets.org/snippets/3/
 - testmaker tests and model tests (test signals, etc. esp.)
 - better LaTeX help links:
  - pdf - http://www.ctan.org/tex-archive/info/symbols/comprehensive/
+ - this one might be good: http://www.csulb.edu/~fnewberg/Research/latexsymbols.pdf
 - too large?
  - draw - http://detexify.kirelabs.org/classify.html
 - remove clutter like models.py files for apps/stuff that don't use
 them (templatetags)
 - move stuff in comment-sanitizer into models
-- remove qsseq.py and QS usage from feeds.py
-- scripts folder not needed anymore
 - port revisions/etc into alternative save methods rather than in
 views (save_revision)
  - remember optional (..., files=[]) param, so you can keep files out

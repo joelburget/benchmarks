@@ -4,20 +4,38 @@
   list-style-type: square;
 }
 
-/* Note: this icons are from http://p.yusukekamiyamane.com */
-#logout-link {.icon("/static_media/img/icons/door-open-out.png");}
-#login-link {.icon("/static_media/img/icons/door-open-in.png");}
-#admin-link {.icon("/static_media/img/icons/lock.png");}
-#new-problem-link {.icon("/static_media/img/icons/newspaper--plus.png");}
-#posts-link {.icon("/static_media/img/icons/newspaper.png");}
-#groups-link {.icon("/static_media/img/icons/users.png");}
-#users-link {.icon("/static_media/img/icons/user.png");}
-#getting-started-link {.icon("/static_media/img/icons/book.png");}
-#about-link {.icon("/static_media/img/icons/question.png");}
+nav li {
+  list-style-type: none;
+  :before {
+    display: marker;
+    vertical-align: -5px;
+    padding-right: 12px;
+  }
+}
 
-#edit-link {.icon("/static_media/img/icons/newspaper--pencil.png");}
-#create-link {.icon("/static_media/img/icons/newspaper--plus.png");}
-#comment-link {.icon("/static_media/img/icons/balloons.png");}
+#actions li {
+  list-style-type: none;
+  :before {
+    display: marker;
+    vertical-align: -5px;
+    padding-right: 12px;
+  }
+}
+
+/* Note: this icons are from http://p.yusukekamiyamane.com */
+#logout-link :before{content: url("/static_media/img/icons/door-open-out.png");}
+#login-link :before{content: url("/static_media/img/icons/door-open-in.png");}
+#admin-link :before{content: url("/static_media/img/icons/lock.png");}
+#new-problem-link :before{content: url("/static_media/img/icons/newspaper--plus.png");}
+#posts-link :before{content: url("/static_media/img/icons/newspaper.png");}
+#groups-link :before{content: url("/static_media/img/icons/users.png");}
+#users-link :before{content: url("/static_media/img/icons/user.png");}
+#getting-started-link :before{content: url("/static_media/img/icons/book.png");}
+#about-link :before{content: url("/static_media/img/icons/question.png");}
+
+#edit-link :before{content: url("/static_media/img/icons/newspaper--pencil.png");}
+#create-link :before{content: url("/static_media/img/icons/newspaper--plus.png");}
+#comment-link :before{content: url("/static_media/img/icons/balloons.png");}
 
 /* Main logo */
 #site-logo {

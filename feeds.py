@@ -1,6 +1,6 @@
 from benchmarks.extended_comments.models import ExtendedComment
 from benchmarks.posts.models import Post
-#from benchmarks.qsseq import QuerySetSequence
+from benchmarks.qsseq import QuerySetSequence
 from django.contrib.auth.models import User
 from django.contrib.comments.models import Comment
 from django.contrib.syndication.views import Feed
@@ -49,7 +49,7 @@ class RssPersonalizedFeed(Feed):
     if profile.commentResponseSubscribe:
       for comment in ExtendedComment.objects.filter(user=obj):
         post = Post.objects.get(pk=comment.object_pk)
-        pass #lst = QuerySetSequence(lst, ExtendedComment.objects.for_model(post))
+        lst = QuerySetSequence(lst, ExtendedComment.objects.for_model(post))
 
     #Show comments on their posts?
     if profile.ownPostCommentSubscribe:
@@ -64,9 +64,9 @@ class RssPersonalizedFeed(Feed):
 
     #Show all new problems?
     if profile.allProblemSubscribe:
-      pass #lst = QuerySetSequence(lst, Post.objects.filter(category='R'))
+      pass#lst = QuerySetSequence(lst, Post.objects.filter(category='R'))
 
-    return lst.unique().order_by('-published')[:20]
+    return lst.order_by('-published')[:20]
 
   def item_title(self, item):
     if item.__class__ == Post:

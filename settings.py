@@ -113,6 +113,7 @@ INSTALLED_APPS = (
     'benchmarks.extended_comments',
     'benchmarks.flup',
     'benchmarks.templatetags',
+    'benchmarks.test_utils',
 )
 
 COMMENTS_APP = 'benchmarks.extended_comments'
