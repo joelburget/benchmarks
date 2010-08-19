@@ -65,6 +65,15 @@
 {% render_partial post_info object %}
 </div>
 
+{% if object.post_set.all %}
+  <h3>Solutions</h3>
+  <ul id="solutions-list">
+  {% for response in object.post_set.all %}
+    <li class="solution-link"><a href="{{ response.get_absolute_url }}">{{ response.title }}</a></li>
+  {% endfor %}
+  </ul>
+{% endif %}
+
 <!-- Actions -->
 {% if user.is_authenticated %}
 <div id="actions" class="block">
@@ -82,15 +91,6 @@
     <li id="comment-link"><a href="#leaveAComment">Comment on this post</a></li>
   </ul>
 </div>
-{% endif %}
-
-{% if object.post_set.all %}
-  <h3>Solutions:</h3>
-  <ul id="relist">
-  {% for response in object.post_set.all %}
-    <li><a href="{{ response.get_absolute_url }}">{{ response.title }}</a></li>
-  {% endfor %}
-  </ul>
 {% endif %}
 
 <!-- Comments -->

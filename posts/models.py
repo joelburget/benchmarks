@@ -4,6 +4,8 @@ from django.db.models.signals import pre_delete, pre_save
 from django.db import models
 from django.forms import ModelForm
 
+from benchmarks.templatetags.templatetags.date_diff import date_diff
+
 #
 # Post types
 #
@@ -21,11 +23,11 @@ class Post(models.Model):
   previous = models.ForeignKey('PostRevision', blank=True, null=True)
   published = models.DateTimeField(auto_now_add=True)
   category = models.CharField(max_length=1, choices=POSTTYPES)
-  problem = models.ForeignKey('Post', blank=True, null=True)
+  problem = models.ForeignKey('self', blank=True, null=True)
 
   # Methods
   def __unicode__(self):
-    return '%s (%s, %s)' % (self.title, self.author, self.group)
+    return str(date_diff(self.published))
 
   def get_absolute_url(self):
     return '/posts/%s/' % (self.pk,)
@@ -62,7 +64,7 @@ class PostRevision(models.Model):
 
   # Method
   def __unicode__(self):
-    return 'Revision %s (%s, %s)' % (self.published, self.author, self.group)
+    return str(date_diff(self.published))
 
 #
 # Files
