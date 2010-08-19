@@ -45,20 +45,24 @@ class RssPersonalizedFeed(Feed):
 
     lst = Post.objects.filter(author=obj)
 
+    #Show comments on posts that they commented on?
     if profile.commentResponseSubscribe:
       for comment in ExtendedComment.objects.filter(user=obj):
         post = Post.objects.get(pk=comment.object_pk)
         lst = QuerySetSequence(lst, ExtendedComment.objects.for_model(post))
 
+    #Show comments on their posts?
     if profile.ownPostCommentSubscribe:
       for post in Post.objects.filter(author=obj):
         pass #lst = QuerySetSequence(lst, ExtendedComment.objects.for_model(post))
 
     #I think Colin is doing something with groups, I'll finish this
     #after he's done
+    #Show new posts from their group?
     if profile.groupPostSubscribe:
       pass
 
+    #Show all new problems?
     if profile.allProblemSubscribe:
       pass#lst = QuerySetSequence(lst, Post.objects.filter(category='R'))
 
