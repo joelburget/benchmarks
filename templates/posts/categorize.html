@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Categorize Your Files{% endblock %}
+
+{% block content %}
+<noscript>
+  <h3 id="nojs">This page works best with Javascript enabled&hellip;</h3>
+</noscript>
+
+<p><button type="button" class="btn pill-l"><span><span><b>&nbsp;</b>Left</span></span></button>&nbsp;<button type="button" class="btn pill-c"><span><span><b>&nbsp;</b>Center</span></span></button>&nbsp;<button type="button" class="btn pill-r"><span><span><b>&nbsp;</b>Right</span></span></button></p> 
+
+<p><button type="button" class="btn"><span><span><b>&nbsp;</b>button</span></span></button>&nbsp;<button type="button" class="btn"><span><span><b>&nbsp;</b>button</span></span></button>&nbsp;<button type="button" class="btn"><span><span><b>&nbsp;</b>button</span></span></button></p>
+
+{% endblock %}
+
+{% block jsblock %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+  $(".btn").click(function(){
+    $(this).css('background-color', '#bbb').siblings().css('background-color', 'white');
+  });
+});
+</script>
+{% endblock %}

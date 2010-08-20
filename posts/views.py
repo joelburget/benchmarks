@@ -197,3 +197,7 @@ def revision_info(request, post_id, post_history_id, **kwargs):
   # Return the post
   response = "<strong>by </strong> %s %s" % (post.author, date_diff(post.published),)
   return HttpResponse(response)
+
+#This is nothing like how it will end up, just testing for now
+def categorize(request):
+  return render_to_response('posts/categorize.html', context_instance=RequestContext(request))
