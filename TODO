@@ -70,3 +70,5 @@ x pyflakes/lint/checker - remove unused imports
 - pre vs. code - make code just monospace font?
 - css refactoring - use variables etc.
 x move deprecated html elements like b/i out
+- substantial/not radioboxes for problem editing and say if solutions are old, etc.
+- move comments on frontpage etc. to generic veiws
