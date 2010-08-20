@@ -36,7 +36,7 @@ def loginuser(request):
 
     if user is not None and user.is_active:
       # Login, valid and active user
-      lastpage = request.session['lastpage']
+      lastpage = request.session.get('lastpage', '/')
       login(request, user)
       return HttpResponseRedirect(lastpage)
     else:
@@ -49,7 +49,7 @@ def loginuser(request):
 
 def logoutuser(request):
   # Logout user
-  lastpage = request.session['lastpage']
+  lastpage = request.session.get('lastpage', '/')
   logout(request)
   return HttpResponseRedirect(lastpage)
 

@@ -125,7 +125,8 @@ LASTPAGE_SKIP = (
   r'^' + MEDIA_URL + '.*$',
   r'^.*/atom/*$',
   r'^.*/rss/*$',
-  r'^.*/history/.*$'
+  r'^.*/history/.*$',
+  r'^/join/$',
 )
 
 COMPRESS = True
