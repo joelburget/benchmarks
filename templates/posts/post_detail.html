@@ -17,13 +17,13 @@
 {% if object.get_revisions %}
 <div id="revisions-div">
   <h3>Revision History</h3>
-  <form id="revisions">
+  <form method="get" action="." id="revisions">
     <ol>
-      <li><select id="revision" name="revision">
-      {% for revision in object.get_revisions %}
-        <option value="{% if revision.published == object.published %}original{% else %}{{ revision.pk }}{% endif %}">
+      <li><select id="revision" name="revision" value="{{ revision.pk }}">
+      {% for rev in object.get_revisions %}
+        <option value="{% if rev.published == object.published %}original{% else %}{{ rev.pk }}{% endif %}" {% if rev.pk == revision.pk %}selected="selected"{% endif %}>
                 Version {{ forloop.revcounter }}: updated
-                {{ revision }} by {{ revision.author }}
+                {{ rev }} by {{ rev.author }}
                 {% if forloop.first %}(Most recent){% endif %}
                 {% if forloop.last %}(Original){% endif %}
         </option>
@@ -40,16 +40,20 @@
 
 <!-- Title -->
 <div id="post-container">
-<h2>{{ object.title }}
+<h2>{{ object.title }} {% if revision %}<span class="old-revision">&mdash; Old version from {{ revision }}</span>{% endif %}
 {% if user.get_profile.group == object.author.get_profile.group %}
-<a href="{{ object.get_absolute_url }}edit/">Edit</a>
+<a href="{{ object.get_absolute_url }}edit/">Edit {% if revision %} current Version{% endif %}</a>
 {% endif %}</h2>
 {% if object.problem %}
 <h3>In response to <a href="{{ object.problem.get_absolute_url }}">{{ object.problem.title }}</a></h3>
 {% endif %}
 
 <!-- Body -->
+{% if revision %}
+<div id="post-content">{% render_partial post_full revision %}</div>
+{% else %}
 <div id="post-content">{% render_partial post_full object %}</div>
+{% endif %}
 
 <!-- Files -->
 {% if object.files.all %}

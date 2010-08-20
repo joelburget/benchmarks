@@ -207,3 +207,21 @@ def revision_info(request, post_id, post_history_id, **kwargs):
 #This is nothing like how it will end up, just testing for now
 def categorize(request):
   return render_to_response('posts/categorize.html', context_instance=RequestContext(request))
+
+def detail(request, object_id):
+  # Get object
+  object = Post.objects.get(pk=object_id)
+
+  # Get Revision
+  rev = None
+  if request.method == 'GET':
+    rev = request.GET.get('revision', None)
+
+  if rev != None and rev != 'original':
+    revision = PostRevision.objects.get(pk=rev)
+  else:
+    revision = None
+
+  # Render response
+  return render_to_response('posts/post_detail.html', {'object' : object, 'revision' : revision},
+    context_instance=RequestContext(request))
