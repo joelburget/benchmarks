@@ -56,7 +56,7 @@ class ExtendedComment(BaseCommentAbstractModel):
 
 class ExtendedCommentFile(models.Model):
   def get_upload_path(self, filename):
-    return 'uploads/comments/%s/%s' % (self.pk, filename)
+    return 'uploads/comments/%s/%s' % (self.parent.pk, filename)
   
   file = models.FileField(upload_to=get_upload_path, null=True, blank=True)
   parent = models.ForeignKey(ExtendedComment)

@@ -175,7 +175,13 @@ def posthistory(request, post_id, post_history_id, **kwargs):
     post = PostRevision.objects.get(pk=post_history_id)
 
   # Return the post
-  return render_to_response('posts/post.html', { 'object' : post })
+  if request.is_ajax():
+    return render_to_response('posts/post.html', { 'object' : post })
+  else:
+    print "here"
+    return render_to_response('posts/post_detail.html', 
+        { 'object' : post }, 
+        context_instance=RequestContext(request))
 
 def revision_info(request, post_id, post_history_id, **kwargs):
   post = None
