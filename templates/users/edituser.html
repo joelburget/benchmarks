@@ -45,7 +45,7 @@
   <input class="" type="checkbox" {% if user.get_profile.allProblemSubscribe %}checked="yes"{% endif %}" name="allProblemSubscribe" id="allProblemSubscribe" /></li>
 
   <li><label for="bio">Bio</label></li>
-  <li><textarea class="validate[optional, length[0,200]]" name="bio" id="bio" value="{{ user.get_profile.bio }}"></textarea> {{ bioerrors }}</li>
+  <li><textarea name="bio" id="bio">{{ user.get_profile.bio }}</textarea> {{ bioerrors }}</li>
 
   <li><input type="submit" value="Save Changes" /></li>
 </ol>

@@ -66,7 +66,7 @@ def edituser(request, uname):
 
         # Hack for profiles
         profile = me.get_profile()
-        profile.bio = request.POST['bio'][0:200] # truncated to 200 chars
+        profile.bio = request.POST.get('bio', '')
 
         if 'showemail' in request.POST:
           profile.showemail = True
