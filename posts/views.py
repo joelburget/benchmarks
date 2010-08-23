@@ -1,7 +1,7 @@
 from urllib import unquote
 
 from benchmarks.posts.helpers import *
-from benchmarks.posts.models import Post, PostForm
+from benchmarks.posts.models import Post, PostForm, POSTTYPES
 from benchmarks.templatetags.templatetags.date_diff import date_diff
 
 from django.contrib.auth.models import User
@@ -82,7 +82,7 @@ def index(request):
     # Get categories
     categories = []
 
-    for t in CATEGORY_CHOICES:
+    for t in POSTTYPES:
       code, category = t
 
       if category.lower() in request.GET:
@@ -91,9 +91,7 @@ def index(request):
     # Get advanced text fields
     title = request.GET.get('title', '')
     body = request.GET.get('body', '')
-
     user = request.GET.get('user', '')
-    #featured = request.GET.get('featured', '')
 
     if title != '' and body != '':
       text = Q(title__icontains=title) & Q(body__icontains=body)
@@ -112,8 +110,8 @@ def index(request):
       userq = Q(author=u)
 
     # Check for advanced query
-    # i.e. textfield, bodyfield, or less than the 4 default checkboxes
-    advanced_submitted = len(categories) < 4 or title != '' or body != '' or user != ''
+    # i.e. textfield, bodyfield, or less than the amount of post types we have
+    advanced_submitted = len(categories) < len(POSTTYPES) or title != '' or body != '' or user != ''
 
     # Advanced query
     pposts = Post.objects.filter(
@@ -150,8 +148,7 @@ def index(request):
       'u' : user,
       'userlist' : userlist,
       'p' : 'P' in categories, 
-      'r' : 'R' in categories, 
-      'v' : 'V' in categories, 
+      's' : 'S' in categories, 
       'o' : 'O' in categories, 
       'advanced_submitted' : advanced_submitted,
     },
