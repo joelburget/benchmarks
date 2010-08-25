@@ -5,33 +5,34 @@
 <h1>Getting Started</h1>
 
 <h3>Membership</h3>
+<h4>Why Join?</h4>
 <p>Anyone can view posts and comments but members enjoy these benefits:</p>
-<ul class="icons block">
+<ul class="icons">
   <li id="propose-link">Propose new benchmarks or solutions on this site.</li>
   <li id="comment-link">Comment on other posts.</li>
   <li id="collab-link">Collaborate with other researchers interested in software verification in a centralized location.</li>
-  <li id="contact-link">Allow other researchers to contact you more easily (we will share only the information you allow).</li>
+  <li id="contact-link">Allow other researchers to contact you easily (please note: we will share only the information you allow).</li>
 </ul>
 
-<h3>Get a username</h3>
-<p>The rest of this guide assumes you have a username. If you don't have one yet please fill out the form under "Request an account" in the right sidebar. We will respond within a day or two with your new username and password.</p>
+<h4>How to Join</h4>
+<p>If you don't have an account yet, please <a href="/join/">request</a> one now. We will respond within a day or two, providing you with a link in your email inbox to let you create your account.</p>
 
-<h3>Set your information</h3>
-<p>After you sign in for the first time, click on the link to your profile in the top right (it should either be your name, or your username). You can add a short bio about yourself, update your email, and set your email to be shown to other users, if desired. We will never show your email to visitors who aren't signed in</p>
+<h3>Your First Login</h3>
+<h4>Fill out your Profile</h4>
+<p>After you sign in for the first time, open your {% if user.is_authenticated %}<a href="{{ user.get_absolute_url }}">profile</a>{% else %}profile (see the top right corner of the page, where it says "Hello &lt;name&gt;!"){% endif %}. From there, click "Edit Profile" and fill out your personal information, if you desire to do so. Of course, we highly recommend not skipping this step! It will allow other researchers to easily get in touch with you!</p>
 
-<h3>Posts</h3>
+<h3>Posting Content</h3>
+<h4>Post Types</h4>
+<p>Each post can be classified as a Problem, a proposed Solution to a problem, or Other (used for interesting papers, for example). To create a new Problem, see the next section on <a href="#newpost">on adding new problems</a>. To propose a new Solution to a problem, scroll to the "Actions" section of a problem and click "Add a solution to this problem."</p>
 
-<h4>Adding New Posts</h4>
-<p>Once your account is set up the next step is to post something. Click on <a href="posts/new">New Post</a> in the right-hand toolbar. This will take you to an editor where you can input posts, formatted with basic HTML.
+<h4 id="newpost">Adding New Problems</h4>
+<p>Click on <a href="posts/new">New Problem</a> in the right-hand toolbar. This will take you to an editor where you can create benchmark problems for others to submit solutions to.</p>
 
-<h4>Formatting Posts</h4>
-<p>Most html tags, such as &lt;p&gt;, <b>&lt;b&gt;</b>, <i>&lt;i&gt;</i>, and <code>&lt;code&gt;</code> are allowed. CSS (in the form of a style attribute, such as style="font-weight:bold;") is also allowed but not recommended, and Javascript is of course not allowed. In addition, LaTeX formtting can be achieved by surrounding single line formulas in two pairs of dollar signs (example, $$x^2$$ will be displayed as {{ "$$x^2$$"|tex_to_images }}). For more information on how we sanitize posts, see our <a href="/sanitizing/">sanitizing information page</a>, although everything will usually just work as you would expect it to.</p> 
+<h4>Formatting Content</h4>
+<p>Most HTML tags, such as &lt;p&gt;, <b>&lt;b&gt;</b>, <i>&lt;i&gt;</i>, and <code>&lt;pre&gt;</code> are allowed. CSS such as <span style="font-family:monospace; font-size: 1.25em;">style="font-weight:bold;"</span> is also allowed, but not recommended. We have default stylings for all page elements. Javascript is not allowed for security reasons. Additionally, LaTeX formtting can be achieved by surrounding single line formulas in double-dollar signs (for example, $$x^2$$ will be displayed as {{ "$$x^2$$"|tex_to_images }}). For more information on how we format and sanitize content, see our <a href="/sanitizing/">sanitizing information page</a> for the gritty details.</p> 
 
 <h4>Uploading Attachments to Posts</h4>
-<p>Files can be included through HTML hyperlinks, or by using the file upload button below the text field.  You may upload as many files and filetypes as you like.  Zipped folders and tarballs (*.zip, *.tar.gz, *.tar.bz2, or similar) will automatically be decompressed. Users will be offered the choice of looking in a tree browser to download files one at a time, or downloading the entire archive.</p> 
-
-<h4>Linking to Other Posts</h4>
-<p>Each post can be classified as a Problem, Realization, Verification, or Other. Each type of post except Problem can be linked to the post it is in response to. For instance a verification would be linked to the realization it verifies. See other posts on the site for examples.</p>
+<p>Files can be included through HTML hyperlinks, or by using the file upload button below the text field.  You may upload as many files and filetypes as you like.  Zipped folders and tarballs (*.zip, *.tar.gz, *.tar.bz2, or similar) will automatically be decompressed. Users will be offered the choice of looking in a tree browser to preview files one at a time, or downloading the entire archive.</p> 
 
 <h3>Comments</h3>
 <p>Commenting is included for every post. Comments are numbered to aid discussion. The same HTML, CSS, and LaTeX that can be used in posts can be used in comments.</p>
