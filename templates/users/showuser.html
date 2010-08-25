@@ -3,6 +3,7 @@
 {% load gravatar %}
 {% load tex %}
 {% load date_diff %}
+{% load partials %}
 
 {% block title %}{{ object.get_profile.get_display_name }}{% endblock %}
 
@@ -47,12 +48,7 @@
 {% if posts %}
 <ul>
 {% for post in posts %}
-	<div class="block">
-	<h2><a href="{{ post.get_absolute_url }}">{{ post.title|truncatewords:"6" }}</a></h2>
-	<p>{{ post.body|truncatewords_html:"50"|striptags }}</p>
-	{% get_comment_count for post as comment_count %}
-  <p class="postInfo"><span class="postType"><a href="{{ post.get_absolute_category_url }}">{{ post.get_category_display }}</a></span> Posted by: <a href="{{ post.author.get_absolute_url }}">{{ post.author.get_profile.get_display_name }}</a>, on {{ post.published }}</p>
-	</div>
+{% render_partial post_info post %}
 {% endfor %}
 </ul>
 {% else %}
