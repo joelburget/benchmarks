@@ -71,3 +71,4 @@ x pyflakes/lint/checker - remove unused imports
 x move deprecated html elements like b/i out
 - substantial/unsubstantial changes - radioboxes for problem editing to say if solutions are old, etc.
 - move comments on frontpage etc. to partials
+- disabled account creation, etc.
