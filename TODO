@@ -57,10 +57,6 @@ them (templatetags)
 x move stuff in comment-sanitizer into models
 - port revisions/etc into alternative save methods rather than in
 views (save_revision)
- - remember optional (..., files=[]) param, so you can keep files out
-of the view too
-   when you implement them
- - or check out django_reversion
 - duplicate code in posthistory/revision_info - refactor
 - Naming - consistent_method_name_style and names (history/revision)
 x fix Post.history() to not include self in posts w/history included
