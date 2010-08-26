@@ -43,12 +43,7 @@
 {% if latest_discussion %}
 <ul>
 {% for comment in latest_discussion %}
-  <li>
-  <div id="c{{ comment.id }}">
-    <p class="commentBox">{{ comment.published|date:"F j, Y" }} at {{ comment.published|date:"P" }} - <a href="{{ comment.user.get_absolute_url }}">{{ comment.user.get_profile.get_display_name }}</a> on <a href="{{ comment.get_absolute_url }}">{{ comment.content_object.title }}</a></p> 
-    <div class="gravatar"><a href="{{ comment.user.get_absolute_url }}">{% gravatar comment.user.email 48 %}</a></div>
-    <div class="comment">{{ comment.comment|safe|linebreaks|tex_to_images }}</div>
-  </div></li>
+  <li>{% render_partial comment_preview comment %}</li>
 {% endfor %}
 </ul>
 {% else %}
