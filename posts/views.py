@@ -3,6 +3,7 @@ from urllib import unquote
 from benchmarks.posts.helpers import *
 from benchmarks.posts.models import Post, PostForm
 from benchmarks.templatetags.templatetags.date_diff import date_diff
+from benchmarks.settings import SITE_ROOT
 
 from django.contrib.auth.models import User
 from django.core import serializers
@@ -24,6 +25,23 @@ def editpost(request, post_id, **kwargs):
 
     # Check status
     if status:
+      # Check for files
+      if request.FILES:
+        for f in request.FILES:
+          thisfile = request.FILES[f]
+          pf = PostFile(file=thisfile)
+          pf.save()
+
+          # Associate it to the post
+          post.files.add(pf)
+          post.save()
+          pf.file = thisfile
+          pf.save()
+
+          # Unzip
+          zippath = os.path.join(SITE_ROOT, 'assets/') + str(pf.file)
+          decompress(zippath, post)
+
       # Redirect to post
       return HttpResponseRedirect(post.get_absolute_url())
     else:
@@ -53,6 +71,33 @@ def newpost(request, **kwargs):
     status = new_post(post, request.POST)
 
     if status:
+      post.save()
+
+      # Check for files
+      if request.FILES:
+        for f in request.FILES:
+          thisfile = request.FILES[f]
+          #pf = PostFile(file=thisfile, filetype='O')
+          pf = PostFile(filetype='O')
+          pf.save()
+
+          # Associate it to the post
+          post.files.add(pf)
+          post.save()
+          pf.file = thisfile
+          pf.save()
+
+          # Unzip
+          zippath = os.path.join(SITE_ROOT, 'assets/') + str(pf.file)
+          decompress(zippath, post)
+
+        # Possibly this save should move down a level? I'm not sure.
+        # It would result in less saves so less overhead but I'm not
+        # sure they're that expensive, or if something could go wrong.
+        # If we decide to change this, remember to change the one
+        # above as well
+        #post.save()
+
       # Success, render the post
       return HttpResponseRedirect(post.get_absolute_url())
     else:
@@ -72,6 +117,15 @@ def newpost(request, **kwargs):
                                 'category' : category,
                               }, \
                               context_instance=RequestContext(request))
+
+def manage_files(request, post_id):
+  try:
+    post = Post.objects.get(pk=post_id)
+    if request.user != post.author:
+      return HttpRespnseRedirect('/')
+    return render_to_response('posts/manage_files.html', {'files': post.files}, context_instance=RequestContext(request))
+  except Exception:
+    return HttpResponseRedirect('/')
 
 def index(request):
   userlist = User.objects.all()
@@ -106,7 +160,9 @@ def index(request):
 
     if user == '':
       # Ugly hack
-      userq = ~Q(pk=0)
+      #This throws a syntax error for me.
+      #userq = ~Q(pk=0))
+      pass
     else:
       u = userlist.filter(username=user)
       userq = Q(author=u)
@@ -203,7 +259,3 @@ def revision_info(request, post_id, post_history_id, **kwargs):
   # Return the post
   response = "<strong>by </strong> %s %s" % (post.author, date_diff(post.published),)
   return HttpResponse(response)
-
-#This is nothing like how it will end up, just testing for now
-def categorize(request):
-  return render_to_response('posts/categorize.html', context_instance=RequestContext(request))

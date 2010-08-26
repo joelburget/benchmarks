@@ -18,7 +18,7 @@ urlpatterns = patterns('',
 
   # Edit post
   (r'^new/$', 'benchmarks.posts.views.newpost'),
-  (r'^categorize/$', 'benchmarks.posts.views.categorize'),
+  (r'^(?P<post_id>\d+)/manage_files/$', 'benchmarks.posts.views.manage_files'),
   (r'^(?P<post_id>\d+)/edit/$', 'benchmarks.posts.views.editpost'),
 
   # AJAX post history

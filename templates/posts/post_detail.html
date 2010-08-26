@@ -19,7 +19,7 @@
   <h3>Revision History</h3>
   <form id="revisions">
     <ol>
-      <li><select id="revision" name="revision">
+      <li><select id="revision" name="revision"> 
       {% for revision in object.get_revisions %}
         <option value="{% if revision.published == object.published %}original{% else %}{{ revision.pk }}{% endif %}">
                 Version {{ forloop.revcounter }}: updated
@@ -65,7 +65,7 @@
 {% render_partial post_info object %}
 </div>
 
-{% if object.post_set.all %}
+{% if object.files.all %}
   <h3>Solutions</h3>
   <ul id="solutions-list">
   {% for response in object.post_set.all %}
@@ -108,11 +108,11 @@
 
       {% if comment.extendedcommentfile_set.all %}
         <h4>Attached Files:</h4>
-        <ul class="icons">
+        <div id="commentFiles{{ comment.id }}" class="files">
         {% for f in comment.extendedcommentfile_set.all %}
-          <li class="file-link"><a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a></li>
+          <li><a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a></li>
         {% endfor %}
-        </ul>
+        </div>
       {% endif %}
     </div>
   </div>
@@ -151,14 +151,16 @@
   $("input:file").uniform();
 
 {% if object.files.all %}
+  {% for file in object.files.all %}
   $('#files').fileTree(
     {
-      root: '/assets/uploads/{{ object.pk }}/',
+      root: '/assets/uploads/posts/{{ file.pk }}/',
       script: '/dirlist'
     },
     function(file) {
       window.location.href = ('{{ MEDIA_URL|escapejs }}' + file);
   });
+  {% endfor %}
 {% endif %}
 
 {% get_comment_list for object as comment_list %}

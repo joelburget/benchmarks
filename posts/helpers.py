@@ -14,6 +14,7 @@ def new_post(post, params):
     return True
   else:
     # Data is invalid
+    print form.errors
     return False
 
 def update_post(post, params, user):
@@ -73,5 +74,8 @@ def decompress(filepath, post):
     # Note, don't add directories, otherwise Django can't remove them without
     # complaining with error messages.
     if not os.path.isdir(unzippedfile):
-      filemod = PostFile(file=modelfile, post=post)
+      #filemod = PostFile(file=modelfile, post=post)
+      filemod = PostFile(file=modelfile)
       filemod.save()
+      post.files.add(filemod)
+      post.save()
