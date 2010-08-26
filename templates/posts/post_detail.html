@@ -79,10 +79,10 @@
 {% endif %}
 
 <!-- Actions -->
-{% if user.is_authenticated %}
 <div id="actions" class="block">
   <h3>Actions</h3>
 
+  {% if user.is_authenticated %}
   <ul class="icons" style="margin-left: 20px;">
     {% if user.username == object.author.username %}
     <li id="edit-link"><a href="{{ object.get_absolute_url }}edit/">Edit and make changes to this post</a></li>
@@ -94,8 +94,10 @@
 
     <li id="comment-link"><a href="#leaveAComment">Comment on this post</a></li>
   </ul>
+  {% else %}
+  <p>Please log in, or <a href="/join/">create an account</a> to participate!</p>
+  {% endif %}
 </div>
-{% endif %}
 
 <!-- Comments -->
 <div id="comments">
