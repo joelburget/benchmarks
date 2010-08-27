@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Categorize Your Files{% endblock %}
+
+{% block cssblock %}
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}js/jqueryFileTree/jqueryFileTree.css" />
+{% endblock %}
+
+{% block content %}
+<noscript>
+  <h3 id="nojs">This page works best with Javascript enabled&hellip;</h3>
+</noscript>
+
+<p><button type="button" class="btn pill-l"><span><span><b>&nbsp;</b>Specs</span></span></button>&nbsp;<button type="button" class="btn pill-c"><span><span><b>&nbsp;</b>Code</span></span></button>&nbsp;<button type="button" class="btn pill-c"><span><span><b>&nbsp;</b>VCs</span></span></button>&nbsp;<button type="button" class="btn pill-r"><span><span><b>&nbsp;</b>Other</span></span></button></p> 
+
+<p><span id="insertMe"><button type="button" class="btn"><span><span><b>&nbsp;</b>Specs</span></span></button>&nbsp;<button type="button" class="btn"><span><span><b>&nbsp;</b>VCs</span></span></button>&nbsp;<button type="button" class="btn"><span><span><b>&nbsp;</b>Code</span></span></button>&nbsp;<button type="button" class="btn"><span><span><b>&nbsp;</b>Other</span></span></button></span></p>
+
+{% if files.all %}
+<h3>Files:</h3>
+<div id="files" class="files">
+{% for f in files.all %}
+  <li><a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a></li>
+{% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block jsblock %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+  $(".btn").click(function(){
+    $(this).css('background-color', '#bbb').siblings().css('background-color', 'white');
+  });
+});
+
+$('li .file').append($('#insertMe'));
+</script>
+{% endblock %}
