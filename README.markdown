@@ -3,6 +3,23 @@ OSU RSRG Benchmarks Website
 
 This is the README for the OSU RSRG Benchmarks website.  See the TODO file for work-in-progress information.
 
+Deployment
+----------
+
+- Change the SECRET_KEY
+- ...
+
+Edit and place the following in email_settings.py to allow user registrations:
+
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_HOST_USER = 'USERNAME@gmail.com'
+    EMAIL_HOST_PASSWORD = 'PASSWORD'
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    ADMIN_EMAIL = 'USERNAME@DOMAIN.com'
+
+Note: Emails for manual confirmation of user accounts will be sent to ADMIN_EMAIL.
+
 CSS Workflow
 ------------
 

@@ -1,5 +1,6 @@
 import os
 import re
+import urllib
 
 from benchmarks import settings
 from benchmarks.extended_comments.models import ExtendedComment
@@ -110,29 +111,32 @@ def joined(request):
   if request.method == 'POST' and settings.EMAIL_ENABLED:
     # Generate email message from post params
     name = request.POST['name']
+    username = name.lower().replace(' ', '')
     email = request.POST['email']
     group = request.POST['group']
     reason = request.POST['reason']
 
-    email = EmailMessage('Intent to Join ',
-"""
-==========================================
-Intent to Join Software Benchmarks Website
-==========================================
-
-Real Name: %s
-Email Address: %s
-Research Organization: %s
-Rationale: %s
-
-To allow this user to join, click here:
-http://fixme.com
-""" % (name, email, group, reason),
-      to=['weide.1@osu.edu'])
+    # Send message
+    email = EmailMessage('Intent to Join - %s' % (name,),
+      "==========================================\n" \
+      "Intent to Join Software Benchmarks Website\n" \
+      "==========================================\n" \
+      "\n" \
+      "Username: %s\n" \
+      "Real Name: %s\n" \
+      "Email Address: %s\n" \
+      "Research Organization: %s\n" \
+      "Information: %s\n" \
+      "\n" \
+      "To allow this user to join, click here:\n" \
+      "http://%s/user-setup/?username=%s&realname=%s&email=%s\n" \
+        % ((username, name, email, group, reason, 'foobar.com') + \
+          tuple(map(urllib.quote_plus, (username, name, email)))), \
+      to=[settings.ADMIN_EMAIL])
 
     # Send message
     email.send()
   else:
     print 'Emailing disabled! Not sending account registration!'
 
-  return render_to_response('users/joined.html')
+  return render_to_response('users/joined.html', context_instance=RequestContext(request))
