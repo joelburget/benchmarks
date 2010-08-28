@@ -39,6 +39,7 @@ urlpatterns = patterns('',
   # Join
   (r'^join/$', 'django.views.generic.simple.direct_to_template', {'template':'users/join.html', 'extra_context' : {'grouplist' : Group.objects.all() }}),
   (r'^joined/$', 'benchmarks.views.joined'),
+  (r'^user-create/$', 'benchmarks.views.user_create'),
 
   # AJAX/API actions
   (r'^dirlist.*$', 'benchmarks.views.dirlist'),

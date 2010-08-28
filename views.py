@@ -1,4 +1,5 @@
 import os
+import random
 import re
 import urllib
 
@@ -9,6 +10,7 @@ from benchmarks.helpers import *
 from benchmarks.posts.models import Post
 
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
@@ -129,8 +131,8 @@ def joined(request):
       "Information: %s\n" \
       "\n" \
       "To allow this user to join, click here:\n" \
-      "http://%s/user-setup/?username=%s&realname=%s&email=%s\n" \
-        % ((username, name, email, group, reason, 'foobar.com') + \
+      "http://%s/user-create/?username=%s&realname=%s&email=%s\n" \
+        % ((username, name, email, group, reason, '127.0.0.1:8888') + \
           tuple(map(urllib.quote_plus, (username, name, email)))), \
       to=[settings.ADMIN_EMAIL])
 
@@ -140,3 +142,38 @@ def joined(request):
     print 'Emailing disabled! Not sending account registration!'
 
   return render_to_response('users/joined.html', context_instance=RequestContext(request))
+
+def user_create(request):
+  if request.user.is_authenticated() and request.user.is_staff:
+    # Generate random password
+    random.seed()
+    password = ''.join(random.sample(map(chr, \
+                 range(ord('A'), ord('Z') + 1) + \
+                 range(ord('a'), ord('z') + 1) + \
+                 range(ord('0'), ord('9') + 1)), 8)) 
+
+    # Create user object
+    username = request.GET.get('username', None)
+    email = request.GET.get('email', None)
+    u = User(username = username, email = email)
+    u.set_password(password)
+    u.save()
+
+    # Send acceptance email to user
+    email = EmailMessage('Welcome! - OSU Benchmarks Website',
+      'Welcome! You\'re account has been set up at the OSU Benchmarks' \
+      ' website!\n\n' \
+      'Username: %s\n' \
+      'Password: %s\n\n' \
+      'Open up http://%s/ in your browser, and enter your info into the side' \
+      ' panel to get started!' % (username, password, '127.0.0.1:8888'),
+      to=[email])
+
+    email.send()
+
+    # Confirmation message
+    return HttpResponse('OK! %s\'s account was created! An automated ' \
+                          'email was sent to him/her...' % (username,))
+
+  # Error
+  return HttpResponse('You don\'t have access to do this! Please log in or kindly leave!')
