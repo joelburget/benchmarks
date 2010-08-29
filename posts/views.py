@@ -117,8 +117,40 @@ def newpost(request, **kwargs):
                                 'category' : category,
                               }, \
                               context_instance=RequestContext(request))
-
 def manage_files(request, post_id):
+  if request.method == 'POST':
+    return manage_files_post(request, post_id)
+  else:
+    return manage_files_get(request, post_id)
+
+def manage_files_post(request, post_id):
+  print request
+  try:
+    post = Post.objects.get(pk=post_id)
+    if request.user != post.author:
+      return HttpResponseRedirect('/')
+    else:
+      for (key,value) in request.POST.items():
+        if key != "csrfmiddlewaretoken":
+          print key[-1]
+          print value[:-1]
+          f = PostFile.objects.get(pk=key[-1])
+          type = value[:-1]
+          if type == "specs":
+            f.filetype = 'S'
+          elif type == "code":
+            f.filetype = 'C'
+          elif type == "vcs":
+            f.filetype = 'V'
+          else:
+            f.filetype = 'O'
+          f.save()
+      return HttpResponseRedirect(post.get_absolute_url())
+  except Exception as e:
+    print e
+    return HttpResponseRedirect('/')
+
+def manage_files_get(request, post_id):
   try:
     post = Post.objects.get(pk=post_id)
     if request.user != post.author:

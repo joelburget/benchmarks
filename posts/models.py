@@ -8,6 +8,7 @@ from django.forms import ModelForm
 
 import html5lib
 from html5lib import sanitizer
+import os
 
 #
 # Post types
@@ -93,6 +94,9 @@ def get_upload_path(instance, filename):
 class PostFile(models.Model):
   file = models.FileField(upload_to=get_upload_path, null=True, blank=True)
   filetype = models.CharField(max_length=1, choices=FILETYPES, default='O')
+
+  def __unicode__(self):
+    return os.path.basename(self.file.name)
 
 #
 # Forms
