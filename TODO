@@ -71,3 +71,4 @@ x disabled account creation, etc.
 - move all forms to forms.py files, etc. with other stuff crammed into models.py
 - replace localhost:8888 links in user account creation methods with actual urls
   - if statement in settings.py determines localhost vs. cse.ohio-state....
+- MathJAX

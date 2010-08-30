@@ -45,7 +45,7 @@
 <a href="{{ object.get_absolute_url }}edit/">Edit {% if revision %} current Version{% endif %}</a>
 {% endif %}</h2>
 {% if object.problem %}
-<h3>In response to <a href="{{ object.problem.get_absolute_url }}">{{ object.problem.title }}</a></h3>
+<h3>{% if up_to_date %}In{% else %}Out of date{% endif %} response to <a href="{{ object.problem.get_absolute_url }}">{{ object.problem.title }}</a></h3>
 {% endif %}
 
 <!-- Body -->
@@ -71,9 +71,9 @@
 
 {% if object.post_set.all %}
   <h3>Solutions</h3>
-  <ul id="solutions-list">
+  <ul id="solutions-list" class="icons" style="margin-left:20px;">
   {% for response in object.post_set.all %}
-    <li class="solution-link"><a href="{{ response.get_absolute_url }}">{{ response.title }}</a></li>
+    <li class="solution-link"><a href="{{ response.get_absolute_url }}">{{ response.title }}</a> {% if not response.up_to_date %}(Out of Date, Last Update: {{ response.published }}){% endif %}</li>
   {% endfor %}
   </ul>
 {% endif %}

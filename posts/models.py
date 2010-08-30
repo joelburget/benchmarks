@@ -27,6 +27,7 @@ class Post(models.Model):
   published = models.DateTimeField(auto_now_add=True)
   category = models.CharField(max_length=1, choices=POSTTYPES)
   problem = models.ForeignKey('self', blank=True, null=True)
+  up_to_date = models.BooleanField(default=True)
 
   # Methods
   def __unicode__(self):
