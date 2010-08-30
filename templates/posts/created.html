@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}What would you like to do?{% endblock %}
+
+{% block content %}
+  <h1>What would you like to do?</h1>
+  <p>You've just created a post with files, would you like to sort them into categories (Specs, VCs, etc.) now, or see the new post first?</p>
+  
+  <form action="." method="post">
+    <input class="button" name="sort" type="submit" value="Sort Files" />
+    <input class="button" name="see" type="submit" value="See Post" />
+  </form>
+{% endblock %}

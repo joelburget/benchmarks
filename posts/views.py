@@ -3,6 +3,7 @@ from urllib import unquote
 from benchmarks.posts.helpers import *
 from benchmarks.posts.models import Post, PostForm, POSTTYPES
 from benchmarks.templatetags.templatetags.date_diff import date_diff
+from benchmarks.settings import SITE_ROOT
 
 from django.contrib.auth.models import User
 from django.core import serializers
@@ -24,6 +25,23 @@ def editpost(request, post_id, **kwargs):
 
     # Check status
     if status:
+      # Check for files
+      if request.FILES:
+        for f in request.FILES:
+          thisfile = request.FILES[f]
+          pf = PostFile(file=thisfile)
+          pf.save()
+
+          # Associate it to the post
+          post.files.add(pf)
+          post.save()
+          pf.file = thisfile
+          pf.save()
+
+          # Unzip
+          zippath = os.path.join(SITE_ROOT, 'assets/') + str(pf.file)
+          decompress(zippath, post)
+
       # Redirect to post
       return HttpResponseRedirect(post.get_absolute_url())
     else:
@@ -54,8 +72,35 @@ def newpost(request, **kwargs):
     status = new_post(post, request.POST)
 
     if status:
+      post.save()
+
+      # Check for files
+      if request.FILES:
+        for f in request.FILES:
+          thisfile = request.FILES[f]
+          #pf = PostFile(file=thisfile, filetype='O')
+          pf = PostFile(filetype='O')
+          pf.save()
+
+          # Associate it to the post
+          post.files.add(pf)
+          post.save()
+          pf.file = thisfile
+          pf.save()
+
+          # Unzip
+          zippath = os.path.join(SITE_ROOT, 'assets/') + str(pf.file)
+          decompress(zippath, post)
+
+        # Possibly this save should move down a level? I'm not sure.
+        # It would result in less saves so less overhead but I'm not
+        # sure they're that expensive, or if something could go wrong.
+        # If we decide to change this, remember to change the one
+        # above as well
+        #post.save()
+
       # Success, render the post
-      return HttpResponseRedirect(post.get_absolute_url())
+      return HttpResponseRedirect("%s%s" % (post.get_absolute_url(), "created/"))
     else:
       # Failure, rerender the form page
       form = PostForm(instance = post)
@@ -73,6 +118,45 @@ def newpost(request, **kwargs):
                                 'category' : category,
                               }, \
                               context_instance=RequestContext(request))
+def manage_files(request, post_id):
+  if request.method == 'POST':
+    return manage_files_post(request, post_id)
+  else:
+    return manage_files_get(request, post_id)
+
+def manage_files_post(request, post_id):
+  try:
+    post = Post.objects.get(pk=post_id)
+    if request.user != post.author:
+      return HttpResponseRedirect('/')
+    else:
+      for (key,value) in request.POST.items():
+        if key != "csrfmiddlewaretoken":
+          if value[:3] == "vcs":
+            f = PostFile.objects.get(pk=value[3:])
+            f.filetype = 'V'
+          elif value[:4] == "code":
+            f = PostFile.objects.get(pk=value[4:])
+            f.filetype = 'C'
+          elif value[:5] == "specs":
+            f = PostFile.objects.get(pk=value[5:])
+            f.filetype = 'S'
+          else:
+            f = PostFile.objects.get(pk=value[5:])
+            f.filetype = 'O'
+          f.save()
+      return HttpResponseRedirect(post.get_absolute_url())
+  except Exception:
+    return HttpResponseRedirect('/')
+
+def manage_files_get(request, post_id):
+  try:
+    post = Post.objects.get(pk=post_id)
+    if request.user != post.author:
+      return HttpRespnseRedirect('/')
+    return render_to_response('posts/manage_files.html', {'files': post.files}, context_instance=RequestContext(request))
+  except Exception:
+    return HttpResponseRedirect('/')
 
 def index(request):
   userlist = User.objects.all()
@@ -105,7 +189,9 @@ def index(request):
 
     if user == '':
       # Ugly hack
-      userq = ~Q(pk=0)
+      #This throws a syntax error for me.
+      #userq = ~Q(pk=0))
+      pass
     else:
       u = userlist.filter(username=user)
       userq = Q(author=u)
@@ -176,7 +262,6 @@ def posthistory(request, post_id, post_history_id, **kwargs):
   if request.is_ajax():
     return render_to_response('posts/post.html', { 'object' : post })
   else:
-    print "here"
     return render_to_response('posts/post_detail.html', 
         { 'object' : post }, 
         context_instance=RequestContext(request))
@@ -202,8 +287,20 @@ def revision_info(request, post_id, post_history_id, **kwargs):
   response = "<strong>by </strong> %s %s" % (post.author, date_diff(post.published),)
   return HttpResponse(response)
 
-#This is nothing like how it will end up, just testing for now
-def categorize(request):
+def created(request, post_id):
+  post = Post.objects.get(pk=post_id)
+  if request.method != 'POST':
+    if not post.files.all():
+      return HttpResponseRedirect(post.get_absolute_url())
+    else:
+      return direct_to_template(request, 'posts/created.html', {'post_id': post_id})
+
+  else:
+    if 'see' in request.POST.keys():
+      #temporary - change the others too!
+      return HttpResponseRedirect(post.get_absolute_url())
+    else:
+      return HttpResponseRedirect("%smanage_files/" % post.get_absolute_url())
   return render_to_response('posts/categorize.html', context_instance=RequestContext(request))
 
 def detail(request, object_id):

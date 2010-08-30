@@ -8,6 +8,7 @@ from django.forms import ModelForm
 
 import html5lib
 from html5lib import sanitizer
+import os
 
 #
 # Post types
@@ -27,6 +28,7 @@ class Post(models.Model):
   published = models.DateTimeField(auto_now_add=True)
   category = models.CharField(max_length=1, choices=POSTTYPES)
   problem = models.ForeignKey('self', blank=True, null=True)
+  files = models.ManyToManyField('PostFile', blank=True, null=True)
   up_to_date = models.BooleanField(default=True)
 
   # Methods
@@ -71,6 +73,7 @@ class PostRevision(models.Model):
   group = models.ForeignKey(Group)
   previous = models.ForeignKey('PostRevision', blank=True, null=True)
   published = models.DateTimeField(auto_now_add=True)
+  files = models.ManyToManyField('PostFile', blank=True, null=True)
 
   # Method
   def __unicode__(self):
@@ -80,19 +83,21 @@ class PostRevision(models.Model):
 # Files
 #
 FILETYPES = (
-  ('S', 'SPECS'),
-  ('C', 'CODE'),
-  ('V', 'VCS'),
-  ('O', 'OTHER'),
+  ('S', 'Specs'),
+  ('C', 'Code'),
+  ('V', 'VCs'),
+  ('O', 'Other'),
 )
 
 def get_upload_path(instance, filename):
-  return '%s/%s' % (instance.postrevision_set.all()[0].pk, filename)
+  return 'uploads/posts/%s/%s' % (instance.pk, filename)
 
 class PostFile(models.Model):
   file = models.FileField(upload_to=get_upload_path, null=True, blank=True)
-  filetype = models.CharField(max_length=1, choices=FILETYPES)
-  post_revision = models.ForeignKey(PostRevision, null=True)
+  filetype = models.CharField(max_length=1, choices=FILETYPES, default='O')
+
+  def __unicode__(self):
+    return os.path.basename(self.file.name)
 
 #
 # Forms

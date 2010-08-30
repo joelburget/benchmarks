@@ -18,8 +18,11 @@ urlpatterns = patterns('',
 
   # Edit post
   (r'^new/$', 'benchmarks.posts.views.newpost'),
-  (r'^categorize/$', 'benchmarks.posts.views.categorize'),
+  (r'^(?P<post_id>\d+)/manage_files/$', 'benchmarks.posts.views.manage_files'),
   (r'^(?P<post_id>\d+)/edit/$', 'benchmarks.posts.views.editpost'),
+
+  # Send users here after creating a new post
+  (r'^(?P<post_id>\d+)/created/$', 'benchmarks.posts.views.created'),
 
   # AJAX post history
   (r'^(?P<post_id>\d+)/history/(?P<post_history_id>.+)/info/$', 'benchmarks.posts.views.revision_info'),
