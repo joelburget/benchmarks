@@ -104,11 +104,12 @@ def handle_uploaded_file(f):
   destination.close()
 
 def comment_posted(request):
-  if request.GET.__contains__('c'):
-    comment_id = request.GET['c']
-    comment = ExtendedComment.objects.get(pk=comment_id)
+  # Redirect to the bottom of the comments section
+  id = request.POST.get('object_pk', None)
+  post = Post.objects.get(pk=id)
 
-    if comment:
-      return HttpResponseRedirect(comment.get_absolute_url())
-
-  return HttpResponseRedirect("/")
+  if post:
+    return HttpResponseRedirect("%s#leaveAComment" % \
+      (post.get_absolute_url(),))
+  else:
+    return HttpResponseRedirect("/")

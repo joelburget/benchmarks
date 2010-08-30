@@ -1,25 +1,24 @@
-- finish css forms
-* signal/js \n -> <br /> (Works with pre tags, not code?)
-* right hand menu
+x finish css forms
+x signal/js \n -> <br /> (Works with pre tags, not code?)
+x right hand menu
 - documentation
-* remove ugly from user profiles
-* favicon (change link later)
+x remove ugly from user profiles
+x favicon (change link later)
 - logo?
-- icons throughout website (famfamfam)
-* rss feeds
+x icons throughout website (famfamfam)
+x rss feeds
 - file management in edit posts
-* remove comment file upload (or get them working)
-- new page js validation
-* Django minify inline JS/CSS tags
+x remove comment file upload (or get them working)
+x new page js validation
+x Django minify inline JS/CSS tags
 - Minify external js files/combine into one
-- Finish revision views (AJAX, degraded view, etc)
-- group editing (might need to edit author setting in revision)
+x Finish revision views (AJAX, degraded view, etc)
+x group editing (might need to edit author setting in revision)
 - port revisions to save signal, rather than in view code
-- New post page - double tab on validation page
 - Fix HTML Soup (including removing b/i tags, nasty css hacks w/margins etc.)
 - More rigid post structures (as dr. weide said)
 - Advanced search (flash of hidden content? ask others if they get it)
-- user page design
+x user page design
 - secret key - change on deployment
 
 = New from Cleaning List =
@@ -53,15 +52,11 @@ http://djangosnippets.org/snippets/3/
  - this one might be good: http://www.csulb.edu/~fnewberg/Research/latexsymbols.pdf
 - too large?
  - draw - http://detexify.kirelabs.org/classify.html
-- remove clutter like models.py files for apps/stuff that don't use
+x remove clutter like models.py files for apps/stuff that don't use
 them (templatetags)
-- move stuff in comment-sanitizer into models
+x move stuff in comment-sanitizer into models
 - port revisions/etc into alternative save methods rather than in
 views (save_revision)
- - remember optional (..., files=[]) param, so you can keep files out
-of the view too
-   when you implement them
- - or check out django_reversion
 - duplicate code in posthistory/revision_info - refactor
 - Naming - consistent_method_name_style and names (history/revision)
 x fix Post.history() to not include self in posts w/history included
@@ -69,4 +64,11 @@ x post history stuff - add to lastpage middleware configuration
 x pyflakes/lint/checker - remove unused imports
 - pre vs. code - make code just monospace font?
 - css refactoring - use variables etc.
-- move deprecated html elements like b/i out
+x move deprecated html elements like b/i out
+- substantial/unsubstantial changes - radioboxes for problem editing to say if solutions are old, etc.
+x move comments on frontpage etc. to partials
+x disabled account creation, etc.
+- move all forms to forms.py files, etc. with other stuff crammed into models.py
+- replace localhost:8888 links in user account creation methods with actual urls
+  - if statement in settings.py determines localhost vs. cse.ohio-state....
+- MathJAX

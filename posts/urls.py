@@ -14,7 +14,7 @@ urlpatterns = patterns('',
   (r'^$', 'benchmarks.posts.views.index'),
 
   # View posts
-  (r'^(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', dict(info_dict)),
+  (r'^(?P<object_id>\d+)/$', 'benchmarks.posts.views.detail'),
 
   # Edit post
   (r'^new/$', 'benchmarks.posts.views.newpost'),

@@ -7,7 +7,7 @@ from django.forms import ModelForm
 # User Profiles
 class UserProfile(models.Model):
   user = models.ForeignKey(User, unique=True)
-  bio = models.CharField(max_length=500)
+  bio = models.TextField()
   showemail = models.BooleanField(default=True)
   group = models.ForeignKey(Group, null=True)
 
@@ -43,4 +43,3 @@ def new_profile(sender, instance, created, **kwargs):
     profile, created = UserProfile.objects.get_or_create(user=instance)
 
 post_save.connect(new_profile, sender=User)
-

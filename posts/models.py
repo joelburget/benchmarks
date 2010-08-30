@@ -29,6 +29,7 @@ class Post(models.Model):
   category = models.CharField(max_length=1, choices=POSTTYPES)
   problem = models.ForeignKey('self', blank=True, null=True)
   files = models.ManyToManyField('PostFile', blank=True, null=True)
+  up_to_date = models.BooleanField(default=True)
 
   # Methods
   def __unicode__(self):

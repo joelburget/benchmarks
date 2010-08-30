@@ -28,6 +28,19 @@ def update_post(post, params, user):
     # Fill post with new, edited data
     post.body = params['body']
 
+    # Check for substantial edits
+    if params.get('substantial', None) and post.category == 'P':
+      for child in post.post_set.all(): 
+        # Mark children as out of date
+        child.up_to_date = False
+        child.save()
+
+        # Notify authors
+        pass
+
+    if post.up_to_date == False:
+      post.up_to_date = True
+
     # Link up histories
     if post.previous != None:
       # History already exists for this post

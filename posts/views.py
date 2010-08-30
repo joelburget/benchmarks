@@ -1,7 +1,7 @@
 from urllib import unquote
 
 from benchmarks.posts.helpers import *
-from benchmarks.posts.models import Post, PostForm
+from benchmarks.posts.models import Post, PostForm, POSTTYPES
 from benchmarks.templatetags.templatetags.date_diff import date_diff
 from benchmarks.settings import SITE_ROOT
 
@@ -166,7 +166,7 @@ def index(request):
     # Get categories
     categories = []
 
-    for t in CATEGORY_CHOICES:
+    for t in POSTTYPES:
       code, category = t
 
       if category.lower() in request.GET:
@@ -175,9 +175,7 @@ def index(request):
     # Get advanced text fields
     title = request.GET.get('title', '')
     body = request.GET.get('body', '')
-
     user = request.GET.get('user', '')
-    #featured = request.GET.get('featured', '')
 
     if title != '' and body != '':
       text = Q(title__icontains=title) & Q(body__icontains=body)
@@ -198,8 +196,8 @@ def index(request):
       userq = Q(author=u)
 
     # Check for advanced query
-    # i.e. textfield, bodyfield, or less than the 4 default checkboxes
-    advanced_submitted = len(categories) < 4 or title != '' or body != '' or user != ''
+    # i.e. textfield, bodyfield, or less than the amount of post types we have
+    advanced_submitted = len(categories) < len(POSTTYPES) or title != '' or body != '' or user != ''
 
     # Advanced query
     pposts = Post.objects.filter(
@@ -236,8 +234,7 @@ def index(request):
       'u' : user,
       'userlist' : userlist,
       'p' : 'P' in categories, 
-      'r' : 'R' in categories, 
-      'v' : 'V' in categories, 
+      's' : 'S' in categories, 
       'o' : 'O' in categories, 
       'advanced_submitted' : advanced_submitted,
     },
@@ -303,3 +300,22 @@ def created(request, post_id):
       return HttpResponseRedirect(post.get_absolute_url())
     else:
       return HttpResponseRedirect("%smanage_files/" % post.get_absolute_url())
+  return render_to_response('posts/categorize.html', context_instance=RequestContext(request))
+
+def detail(request, object_id):
+  # Get object
+  object = Post.objects.get(pk=object_id)
+
+  # Get Revision
+  rev = None
+  if request.method == 'GET':
+    rev = request.GET.get('revision', None)
+
+  if rev != None and rev != 'original':
+    revision = PostRevision.objects.get(pk=rev)
+  else:
+    revision = None
+
+  # Render response
+  return render_to_response('posts/post_detail.html', {'object' : object, 'revision' : revision},
+    context_instance=RequestContext(request))

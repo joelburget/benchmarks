@@ -6,3 +6,4 @@ db/*.db
 do/*
 *.swp
 note
+email_settings.py

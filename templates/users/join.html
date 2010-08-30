@@ -11,12 +11,12 @@
 {% block content %}
 <div class="notice">
   <h1>Notes on Joining</h1>
-  <p>For reasons of academic integrity, only users accepted by the RSRG will be allowed an account. However, all of the content on this website is available openly to the public. Accounts merely enable participation via submitting content and published online discussion.</p>
+  <p>For reasons of academic integrity, user accounts will be manually reviewed to ensure authenticity.</p>
 
-  <p>Please enter your full <strong>real name</strong>, <strong>email address</strong>, <strong>research organization</strong>, and a short <strong>rationale</strong> demonstrating that you are actually a researcher in this field.</p>
+  <p>Please enter your full <strong>real name</strong>, <strong>email address</strong>, <strong>research organization</strong>, and a sentence or two of basic <strong>information</strong> about your research.</p>
 </div>
 
-<h1>Request an Account</h1>
+<h1>Create an Account</h1>
 
 <form id="joinForm" method="post" action="/joined/">
   <ol>
@@ -29,10 +29,12 @@
     <li><label>Email Address</label></li>
     <li><input class="validate[required, email]" id="email" name="email" /></li>
 
-    <li><label>Rationale</label></li>
-    <li><textarea class="validate[required,email]" id="reason" name="reason"></textarea></li>
+    <li><label>Information (We need to know that you're human!)</label></li>
+    <li><textarea class="validate[required,email]" id="reason" name="reason" style="height:100px;"></textarea></li>
 
-    <li><input type="submit" value="Submit Request" /></li>
+    <li>Please don't forget that we may take a few days to create your account for you! However, we will send you an immediate confirmation message, reminding you that we recieved your request.</li>
+
+    <li><input type="submit" value="Submit"></li>
   </ol>
 </form>
 {% endblock %}
