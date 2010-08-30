@@ -82,10 +82,10 @@ class PostRevision(models.Model):
 # Files
 #
 FILETYPES = (
-  ('S', 'SPECS'),
-  ('C', 'CODE'),
-  ('V', 'VCS'),
-  ('O', 'OTHER'),
+  ('S', 'Specs'),
+  ('C', 'Code'),
+  ('V', 'VCs'),
+  ('O', 'Other'),
 )
 
 def get_upload_path(instance, filename):

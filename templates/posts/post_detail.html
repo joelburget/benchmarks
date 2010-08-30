@@ -54,9 +54,12 @@
 <!-- Files -->
 {% if object.files.all %}
 <h3>Files:</h3>
+{% if user.username == object.author.username %}
+  <a href="manage_files/">Manage Files</a>
+{% endif %}
 <div id="files" class="files">
 {% for f in object.files.all %}
-  <li><a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a></li>
+  <li><a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a> - {{ f.get_filetype_display }}</li>
 {% endfor %}
 </div>
 {% endif %}
@@ -150,6 +153,7 @@
 (function($){
   $("input:file").uniform();
 
+  {% comment %}
 {% if object.files.all %}
   {% for file in object.files.all %}
   $('#files').fileTree(
@@ -162,6 +166,7 @@
   });
   {% endfor %}
 {% endif %}
+  {% endcomment %}
 
 {% get_comment_list for object as comment_list %}
 {% for comment in comment_list %}

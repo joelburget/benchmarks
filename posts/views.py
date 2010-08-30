@@ -99,7 +99,7 @@ def newpost(request, **kwargs):
         #post.save()
 
       # Success, render the post
-      return HttpResponseRedirect(post.get_absolute_url())
+      return HttpResponseRedirect("%s%s" % (post.get_absolute_url(), "created/"))
     else:
       # Failure, rerender the form page
       form = PostForm(instance = post)
@@ -124,7 +124,6 @@ def manage_files(request, post_id):
     return manage_files_get(request, post_id)
 
 def manage_files_post(request, post_id):
-  print request
   try:
     post = Post.objects.get(pk=post_id)
     if request.user != post.author:
@@ -132,22 +131,21 @@ def manage_files_post(request, post_id):
     else:
       for (key,value) in request.POST.items():
         if key != "csrfmiddlewaretoken":
-          print key[-1]
-          print value[:-1]
-          f = PostFile.objects.get(pk=key[-1])
-          type = value[:-1]
-          if type == "specs":
-            f.filetype = 'S'
-          elif type == "code":
-            f.filetype = 'C'
-          elif type == "vcs":
+          if value[:3] == "vcs":
+            f = PostFile.objects.get(pk=value[3:])
             f.filetype = 'V'
+          elif value[:4] == "code":
+            f = PostFile.objects.get(pk=value[4:])
+            f.filetype = 'C'
+          elif value[:5] == "specs":
+            f = PostFile.objects.get(pk=value[5:])
+            f.filetype = 'S'
           else:
+            f = PostFile.objects.get(pk=value[5:])
             f.filetype = 'O'
           f.save()
       return HttpResponseRedirect(post.get_absolute_url())
-  except Exception as e:
-    print e
+  except Exception:
     return HttpResponseRedirect('/')
 
 def manage_files_get(request, post_id):
@@ -266,7 +264,6 @@ def posthistory(request, post_id, post_history_id, **kwargs):
   if request.is_ajax():
     return render_to_response('posts/post.html', { 'object' : post })
   else:
-    print "here"
     return render_to_response('posts/post_detail.html', 
         { 'object' : post }, 
         context_instance=RequestContext(request))
@@ -291,3 +288,18 @@ def revision_info(request, post_id, post_history_id, **kwargs):
   # Return the post
   response = "<strong>by </strong> %s %s" % (post.author, date_diff(post.published),)
   return HttpResponse(response)
+
+def created(request, post_id):
+  post = Post.objects.get(pk=post_id)
+  if request.method != 'POST':
+    if not post.files.all():
+      return HttpResponseRedirect(post.get_absolute_url())
+    else:
+      return direct_to_template(request, 'posts/created.html', {'post_id': post_id})
+
+  else:
+    if 'see' in request.POST.keys():
+      #temporary - change the others too!
+      return HttpResponseRedirect(post.get_absolute_url())
+    else:
+      return HttpResponseRedirect("%smanage_files/" % post.get_absolute_url())
