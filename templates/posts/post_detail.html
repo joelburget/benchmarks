@@ -45,7 +45,7 @@
 <a href="{{ object.get_absolute_url }}edit/">Edit {% if revision %} current Version{% endif %}</a>
 {% endif %}</h2>
 {% if object.problem %}
-<h3>{% if up_to_date %}In{% else %}Out of date{% endif %} response to <a href="{{ object.problem.get_absolute_url }}">{{ object.problem.title }}</a></h3>
+<h3>{% if object.up_to_date %}In{% else %}Out of date{% endif %} response to <a href="{{ object.problem.get_absolute_url }}">{{ object.problem.title }}</a></h3>
 {% endif %}
 
 <!-- Body -->
