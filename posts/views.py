@@ -155,7 +155,8 @@ def manage_files_get(request, post_id):
     if request.user != post.author:
       return HttpRespnseRedirect('/')
     return render_to_response('posts/manage_files.html', {'files': post.files}, context_instance=RequestContext(request))
-  except Exception:
+  except Exception as e:
+    print e
     return HttpResponseRedirect('/')
 
 def index(request):

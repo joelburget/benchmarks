@@ -7,13 +7,16 @@
 
 input, textarea {
 	padding: 7px;
-	border: solid 1px @border-gray;
 	outline: 0;
 	font: normal 14px/100% Verdana, Tahoma, sans-serif;
-	width: 200px;
 	background: #fff;
   .rounded();
   clear: both;
+}
+
+input:not(#ignoredByIE), textarea:not(#ignoredByIE) {
+	border: solid 1px @border-gray;
+	width: 200px;
 }
 
 //I can't get all browsers to agree on how this should look
@@ -54,15 +57,15 @@ form {
   }
 
   li {
-    //clear: both;
+    clear: both;
   }
 
-  label {
+  label:not(#ignoredByIE) {
     //font-weight: bold;
     float: left;
     margin-right: 6px;
     line-height: 30px;
-    //clear: both;
+    clear: both;
   }
 
   .button {
