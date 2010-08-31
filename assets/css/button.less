@@ -8,32 +8,32 @@ if for the other form labels */
   clear: none;
 }
 
-input[type=radio] + label {
+li:not(#ignoredByIE) > input[type=radio] + label {
   font:100%/1.2 Arial,Sans-serif;
   text-decoration:none;
   border: 1px solid #bbb;
 }
 
-input[type=radio] + label.lpill {
+li:not(#ignoredByIE) > input[type=radio] + label.lpill {
   .rounded-tl();
   .rounded-bl();
 }
 
-input[type=radio] + label.rpill {
+li:not(#ignoredByIE) > input[type=radio] + label.rpill {
   .rounded-tr();
   .rounded-br();
   margin-right: 15px !important;
 }
 
-//li:not(#foo) > input[type=radio]
-li > input[type=radio] {
+li:not(#ignoredByIE) > input[type=radio] {
+//li > input[type=radio] {
   display: none;
 }
 
 /* Apply to all labels preceded by an input, but not in IE */
 /* Normal State */
-//li:not(#foo) > input + label
-li > input + label {
+li:not(#ignoredByIE) > input + label {
+//li > input + label {
     /*background: url(gr_custom-inputs.png) 0 -1px no-repeat;*/
     /*background-color: red;*/
     padding: 3px 8px;
@@ -43,53 +43,53 @@ li > input + label {
 
 /* Adjust custom state if the input is checked */
 /* Checked */
-li:not(#foo) > input[type=radio]:checked + label {
+li:not(#ignoredByIE) > input[type=radio]:checked + label {
     /*background-position: 0 -241px;*/
     background-color: #bbb;
 }
 
 /* Cover all possible states */
 /* Not checked hover */
-li:not(#foo) > input[type=radio]:hover + label,
-li:not(#foo) > input[type=radio]:focus + label,
-li:not(#foo) > input[type=radio] + label:hover { 
+li:not(#ignoredByIE) > input[type=radio]:hover + label,
+li:not(#ignoredByIE) > input[type=radio]:focus + label,
+li:not(#ignoredByIE) > input[type=radio] + label:hover { 
     /*background-position: 0 -181px; */
     background-color: #ddd;
 }
 /* Checked hover */
-li:not(#foo) > input[type=radio]:hover:checked + label,
-li:not(#foo) > input[type=radio]:focus:checked + label,
-li:not(#foo) > input[type=radio]:checked + label:hover  { 
+li:not(#ignoredByIE) > input[type=radio]:hover:checked + label,
+li:not(#ignoredByIE) > input[type=radio]:focus:checked + label,
+li:not(#ignoredByIE) > input[type=radio]:checked + label:hover  { 
     /*background-position: 0 -261px;*/
     background-color: #bbb;
  }
 /* Disabled */
-li:not(#foo) > input[type=radio]:disabled + label,
-li:not(#foo) > input[type=radio]:hover:disabled + label,
-li:not(#foo) > input[type=radio]:focus:disabled + label,
-li:not(#foo) > input[type=radio]:disabled + label:hover,
-li:not(#foo) > input[type=radio]:disabled + label:hover:active { 
+li:not(#ignoredByIE) > input[type=radio]:disabled + label,
+li:not(#ignoredByIE) > input[type=radio]:hover:disabled + label,
+li:not(#ignoredByIE) > input[type=radio]:focus:disabled + label,
+li:not(#ignoredByIE) > input[type=radio]:disabled + label:hover,
+li:not(#ignoredByIE) > input[type=radio]:disabled + label:hover:active { 
     /*background-position: 0 -221px; */
     background-color: black;
 }
 /* Disabled and checked */
-li:not(#foo) > input[type=radio]:disabled:checked + label,
-li:not(#foo) > input[type=radio]:hover:disabled:checked + label,
-li:not(#foo) > input[type=radio]:focus:disabled:checked + label,
-li:not(#foo) > input[type=radio]:disabled:checked + label:hover,
-li:not(#foo) > input[type=radio]:disabled:checked + label:hover:active {
+li:not(#ignoredByIE) > input[type=radio]:disabled:checked + label,
+li:not(#ignoredByIE) > input[type=radio]:hover:disabled:checked + label,
+li:not(#ignoredByIE) > input[type=radio]:focus:disabled:checked + label,
+li:not(#ignoredByIE) > input[type=radio]:disabled:checked + label:hover,
+li:not(#ignoredByIE) > input[type=radio]:disabled:checked + label:hover:active {
      /*background-position: 0 -301px; */
     background-color: purple;
 }
 /* Button pressed and not checked */
-li:not(#foo) > input[type=radio]:active + label,
-li:not(#foo) > input[type=radio] + label:hover:active { 
+li:not(#ignoredByIE) > input[type=radio]:active + label,
+li:not(#ignoredByIE) > input[type=radio] + label:hover:active { 
     /*background-position: 0 -201px; */
     background-color: #bbb;
 }
 /* Button pressed and checked */
-li:not(#foo) > input[type=radio]:active:checked + label,
-li:not(#foo) > input[type=radio]:checked + label:hover:active {
+li:not(#ignoredByIE) > input[type=radio]:active:checked + label,
+li:not(#ignoredByIE) > input[type=radio]:checked + label:hover:active {
      /*background-position: 0 -281px; */
     background-color: #bbb;
 }
