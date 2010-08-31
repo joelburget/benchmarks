@@ -40,7 +40,7 @@
     <input type="hidden" style="display:none;" value="{{ user.pk }}" name="author" id="author" />
     <input type="hidden" style="display:none;" value="{{ user.get_profile.group.pk }}" name="group" id="group" />
 
-    {% if edit %}
+    {% if edit and is_problem %}
       <li><label for="substantial">Substantial edit? (note: this will flag current solutions as out of date, use only for very important edits to the problem's definition)</label>
       <input name="substantial" id="substantial" type="checkbox" /></li>
     {% endif %}

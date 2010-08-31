@@ -57,6 +57,7 @@ def editpost(request, post_id, **kwargs):
                               {
                                 'form' : form,
                                 'edit' : True,
+                                'is_problem' : post.category == 'P',
                               },
                               context_instance=RequestContext(request))
 
