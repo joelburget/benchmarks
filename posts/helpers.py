@@ -2,7 +2,10 @@ import os
 import tarfile
 import zipfile
 
+from benchmarks import settings
 from benchmarks.posts.models import PostFile, PostForm, PostRevision
+
+from django.core.mail import EmailMessage
 
 def new_post(post, params):
   # Set content
@@ -36,10 +39,22 @@ def update_post(post, params, user):
         child.save()
 
         # Notify authors
-        pass
+        if settings.EMAIL_ENABLED and child.author.email != '':
+          email = EmailMessage('OSU Benchmarks - "%s" Updated' % (post.title,),
+                               'This message was automatically sent to you on '\
+                               'behalf of the OSU Benchmarks application.\n\n'\
+                               'The problem, "%s," has been updated, and this '\
+                               'directly affects your solution, "%s."\n\n'\
+                               'The change to the parent problem was marked '\
+                               'substantial, meaning all accompanying '\
+                               'solutions need to be updated to comply with '\
+                               'the new specifications of the problem.'\
+                                % (post.title, child.title),
+                               to=[child.author.email])
+          email.send()
 
-    if post.up_to_date == False:
-      post.up_to_date = True
+    # If we're updating a post, it is up_to_date
+    post.up_to_date = True
 
     # Link up histories
     if post.previous != None:

@@ -72,11 +72,11 @@
 {% render_partial post_info object %}
 </div>
 
-{% if object.files.all %}
+{% if object.post_set.all %}
   <h3>Solutions</h3>
   <ul id="solutions-list" class="icons" style="margin-left:20px;">
   {% for response in object.post_set.all %}
-    <li class="solution-link"><a href="{{ response.get_absolute_url }}">{{ response.title }}</a> {% if not response.up_to_date %}(Out of Date, Last Update: {{ response.published }}){% endif %}</li>
+    <li class="{% if not response.up_to_date %}old-{% endif %}solution-link"><a href="{{ response.get_absolute_url }}">{{ response.title }}</a> {% if not response.up_to_date %}(Out of Date, Last Update: {{ response.published }}){% endif %}</li>
   {% endfor %}
   </ul>
 {% endif %}
