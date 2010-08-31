@@ -1,37 +1,39 @@
 //partially based on http://www.thecssninja.com/css/custom-inputs-using-css
 @import "base.less";
 
-input[type=radio] + label
-{
+/* none is the default but we must specify this because we change
+if for the other form labels */
+
+#manageFilesForm label {
+  clear: none;
+}
+
+input[type=radio] + label {
   font:100%/1.2 Arial,Sans-serif;
   text-decoration:none;
   border: 1px solid #bbb;
 }
 
-input[type=radio] + label.lpill
-{
+input[type=radio] + label.lpill {
   .rounded-tl();
   .rounded-bl();
 }
 
-input[type=radio] + label.rpill
-{
+input[type=radio] + label.rpill {
   .rounded-tr();
   .rounded-br();
   margin-right: 15px !important;
 }
 
 //li:not(#foo) > input[type=radio]
-li > input[type=radio]
-{
+li > input[type=radio] {
   display: none;
 }
 
 /* Apply to all labels preceded by an input, but not in IE */
 /* Normal State */
 //li:not(#foo) > input + label
-li > input + label
-{
+li > input + label {
     /*background: url(gr_custom-inputs.png) 0 -1px no-repeat;*/
     /*background-color: red;*/
     padding: 3px 8px;
