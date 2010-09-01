@@ -135,9 +135,6 @@ def joined(request):
 
     # Send message
     email.send()
-  else:
-    #debugging?
-    print 'Emailing disabled! Not sending account registration!'
 
   return render_to_response('users/joined.html', context_instance=RequestContext(request))
 

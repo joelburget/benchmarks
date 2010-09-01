@@ -128,6 +128,7 @@ LASTPAGE_SKIP = (
   r'^.*/history/.*$',
   r'^/join/$',
   r'^/posts/new/$',
+  r'^/posts/.+/edit/$',
 )
 
 COMPRESS = True
