@@ -8,6 +8,7 @@ from benchmarks.extended_comments.models import ExtendedComment
 from benchmarks.feeds import RssPostsFeed, AtomPostsFeed
 from benchmarks.helpers import *
 from benchmarks.posts.models import Post
+from benchmarks.decorators import require_ajax
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -82,21 +83,18 @@ def our404(request, error='404'):
 def our500(request):
   return our404(request, error='500')
 
+@require_ajax
 def dirlist(request):
   response = '<ul class="jqueryFileTree" style="display:none;">\n'
 
-  if request.is_ajax():
-    if 'dir' in request.POST:
-      # Get directory
-      root = os.getcwd() + request.POST['dir']
-      l = generate_dirs_list(root)
-      response += l
-    else:
-      # No "dir" parameter
-      response += 'Error! A "dir" GET parameter is required to access this URL.'
+  if 'dir' in request.POST:
+    # Get directory
+    root = os.getcwd() + request.POST['dir']
+    l = generate_dirs_list(root)
+    response += l
   else:
-    # Non-POST methods
-    response += 'Error! This URL can only be accessed with a POST method.'
+    # No "dir" parameter
+    response += 'Error! A "dir" POST parameter is required to access this URL.'
 
   response += '</ul>'
   return HttpResponse(response)
