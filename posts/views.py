@@ -68,6 +68,7 @@ def newpost(request, **kwargs):
     status = new_post(post, request.POST)
 
     if status:
+      post.up_to_date = True
       post.save()
 
       # Check for files
