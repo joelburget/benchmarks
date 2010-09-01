@@ -188,9 +188,7 @@ def index(request):
 
     if user == '':
       # Ugly hack
-      #This throws a syntax error for me.
-      #userq = ~Q(pk=0))
-      pass
+      userq = ~Q(pk=0)
     else:
       u = userlist.filter(username=user)
       userq = Q(author=u)
