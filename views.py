@@ -16,6 +16,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.generic.simple import direct_to_template 
+from django.views.decorators.http import require_POST
 
 def homepage(request):
   # Grab all problems, all non-problems, and all comments
@@ -30,6 +31,7 @@ def homepage(request):
                             },
                             context_instance = RequestContext(request))
 
+@require_POST
 def loginuser(request):
   if request.method == 'POST':
     # Get post parameters
@@ -45,10 +47,6 @@ def loginuser(request):
     else:
       # Error! User isn't valid or account details are wrong
       return direct_to_template(request, 'login_invalid.html')
-  else:
-    # Login form accessed without using POST, just
-    # redirect them to the homepage
-    return HttpResponseRedirect('/')
 
 def logoutuser(request):
   # Logout user
@@ -109,8 +107,9 @@ def rss(request):
 def atom(request):
   return AtomPostsFeed().__call__(request)
 
+@require_POST
 def joined(request):
-  if request.method == 'POST' and settings.EMAIL_ENABLED:
+  if settings.EMAIL_ENABLED:
     # Generate email message from post params
     name = request.POST['name']
     username = name.lower().replace(' ', '')
@@ -139,6 +138,7 @@ def joined(request):
     # Send message
     email.send()
   else:
+    #debugging?
     print 'Emailing disabled! Not sending account registration!'
 
   return render_to_response('users/joined.html', context_instance=RequestContext(request))

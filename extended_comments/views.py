@@ -1,12 +1,8 @@
-from benchmarks.extended_comments.models import ExtendedComment, ExtendedCommentFile
-from benchmarks.extended_comments.forms import ExtendedCommentForm
-from benchmarks.extended_comments.decompress import decompress
-from benchmarks.posts.models import Post
-from benchmarks.settings import MEDIA_ROOT, SITE_ROOT
 import html5lib
 from html5lib import sanitizer
 import datetime
 import os
+
 from django.http import HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.views.decorators.http import require_POST
@@ -16,6 +12,12 @@ from django.conf import settings
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
+
+from benchmarks.extended_comments.models import ExtendedComment, ExtendedCommentFile
+from benchmarks.extended_comments.forms import ExtendedCommentForm
+from benchmarks.extended_comments.decompress import decompress
+from benchmarks.posts.models import Post
+from benchmarks.settings import MEDIA_ROOT, SITE_ROOT
 
 #This sanitizes the input the user will see in the preview area for comments
 #because that is not covered by the sanitization in comment-sanitizer/__init__.py

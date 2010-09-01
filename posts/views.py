@@ -13,11 +13,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.views.generic.simple import direct_to_template
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def editpost(request, post_id, **kwargs):
-  if not request.user.is_authenticated():
-    return direct_to_template(request, 'posts/must_login.html')
-
   if request.method == 'POST':
     # Update post
     post = get_object_or_404(Post, pk=post_id)
@@ -61,11 +60,8 @@ def editpost(request, post_id, **kwargs):
                               },
                               context_instance=RequestContext(request))
 
+@login_required
 def newpost(request, **kwargs):
-  if not request.user.is_authenticated():
-    # Require the user to be logged in
-    return direct_to_template(request, 'posts/must_login.html')
-
   # Check to make sure this is a POST request
   if request.method == 'POST':
     post = Post(author=request.user)
@@ -118,6 +114,7 @@ def newpost(request, **kwargs):
                                 'category' : category,
                               }, \
                               context_instance=RequestContext(request))
+
 def manage_files(request, post_id):
   if request.method == 'POST':
     return manage_files_post(request, post_id)
