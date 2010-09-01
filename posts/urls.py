@@ -25,6 +25,5 @@ urlpatterns = patterns('',
   (r'^(?P<post_id>\d+)/created/$', 'benchmarks.posts.views.created'),
 
   # AJAX post history
-  (r'^(?P<post_id>\d+)/history/(?P<post_history_id>.+)/info/$', 'benchmarks.posts.views.revision_info'),
-  (r'^(?P<post_id>\d+)/history/(?P<post_history_id>.+)/$', 'benchmarks.posts.views.posthistory'),
+  (r'^(?P<post_id>\d+)/history/(?P<post_history_id>[a-zA-Z0-9]+)(/.+)*/$', 'benchmarks.posts.views.posthistory'),
 )

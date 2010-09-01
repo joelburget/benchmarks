@@ -265,27 +265,6 @@ def posthistory(request, post_id, post_history_id, **kwargs):
         { 'object' : post }, 
         context_instance=RequestContext(request))
 
-def revision_info(request, post_id, post_history_id, **kwargs):
-  post = None
-
-  if post_history_id == 'original':
-    # Grab original post
-    post = Post.objects.get(pk=post_id)
-  else:
-    # Grab a post history object
-    rev_pk = 0
-
-    try:
-      rev_pk = int(post_history_id)
-    except:
-      return HttpResponse('ERROR: Bad history object [info].')
-
-    post = PostRevision.objects.get(pk=post_history_id)
-
-  # Return the post
-  response = "<strong>by </strong> %s %s" % (post.author, date_diff(post.published),)
-  return HttpResponse(response)
-
 def created(request, post_id):
   post = Post.objects.get(pk=post_id)
   if request.method != 'POST':
