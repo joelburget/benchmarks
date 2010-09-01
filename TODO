@@ -35,8 +35,8 @@ showing where
    the user could go next (ex. delete
 edituser_bad/login_invalid/comments_error.html etc.
    and make it redirect here instead)
-- custom decorators (@post/get/ajax_required, otherwise direct to 'bad
-request' pages), keep code DRY
+x custom decorators (@post/get/ajax_required, otherwise direct to 'bad
+request' pages), keep code DRY --Django already provides 2 of the 3
  - allows us to do:
    @login_required
    @post_required
