@@ -61,9 +61,9 @@
 {% if user.username == object.author.username %}
   <a href="manage_files/">Manage Files</a>
 {% endif %}
-<div id="files" class="files">
+<div style="margin-left:20px;" id="files" class="files icons">
 {% for f in object.files.all %}
-  <li><a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a> - {{ f.get_filetype_display }}</li>
+  <li class="{{ f.filetype}}-file"><a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a> - {{ f.get_filetype_display }}</li>
 {% endfor %}
 </div>
 {% endif %}
