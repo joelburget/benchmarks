@@ -1,5 +1,6 @@
 from urllib import unquote
 
+from benchmarks.helpers import *
 from benchmarks.posts.helpers import *
 from benchmarks.posts.models import Post, PostForm, POSTTYPES
 from benchmarks.templatetags.templatetags.date_diff import date_diff
@@ -161,22 +162,18 @@ def index(request):
   userlist = User.objects.all()
 
   if 'searchtxt' in request.GET:
-    searchtxt = request.GET['searchtxt']
+    searchtxt = request.GET['searchtxt']  # main search textbox
+    title = request.GET.get('title', '')  # advanced -title of post
+    body = request.GET.get('body', '')    # advanced - body of post
+    user = request.GET.get('user', '')    # advanced - author
 
-    # Get categories
-    categories = []
-
+    categories = []                       # get categories selected
     for t in POSTTYPES:
       code, category = t
-
       if category.lower() in request.GET:
         categories.append(code)
 
-    # Get advanced text fields
-    title = request.GET.get('title', '')
-    body = request.GET.get('body', '')
-    user = request.GET.get('user', '')
-
+    # Determine text search required
     if title != '' and body != '':
       text = Q(title__icontains=title) & Q(body__icontains=body)
     elif title != '' and body == '':
@@ -212,31 +209,20 @@ def index(request):
     searchtxt = ''
     pposts = Post.objects.all().order_by('-published')
 
-  paginator = Paginator(pposts, 10)
-
-  try:
-    page = int(request.GET.get('page', '1'))
-  except ValueError:
-    page = 1
-
-  try:
-    posts = paginator.page(page)
-  except (EmptyPage, InvalidPage):
-    posts = paginator.page(paginator.num_pages)
-
+  posts = get_page_of_objects(pposts, request)
   return render_to_response('posts/index.html', {
-      'searchtxt' : searchtxt,
-      'posts' : posts,
-      'title' : title,
-      'body' : body,
-      'u' : user,
-      'userlist' : userlist,
-      'p' : 'P' in categories, 
-      's' : 'S' in categories, 
-      'o' : 'O' in categories, 
-      'advanced_submitted' : advanced_submitted,
-    },
-    context_instance=RequestContext(request))
+    'searchtxt' : searchtxt,
+    'posts' : posts,
+    'title' : title,
+    'body' : body,
+    'u' : user,
+    'userlist' : userlist,
+    'p' : 'P' in categories, 
+    's' : 'S' in categories, 
+    'o' : 'O' in categories, 
+    'advanced_submitted' : advanced_submitted,
+  },
+  context_instance=RequestContext(request))
 
 def posthistory(request, post_id, post_history_id, **kwargs):
   post = None

@@ -30,7 +30,7 @@
 <p>Sorry, we don't have any featured posts yet.</p>
 {% endif %}
 
-<h1>Latest Solutions &mdash; <a href="/posts">View all</a></h1>
+<h1>Latest Solutions &mdash; <a href="/posts/?title=&body=&user=&solution=on&searchtxt=">View all</a></h1>
 {% if latest_posts %}
 {% for object in latest_posts %}
 {% render_partial post_preview object %}

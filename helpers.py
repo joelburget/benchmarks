@@ -1,6 +1,34 @@
 import os
 from benchmarks.settings import SITE_ROOT
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
+# Gets a given page of objects
+#
+# objects - List of objects to paginate
+# request - Request to parse for page number
+def get_page_of_objects(objects, request):
+  # Get paginator for objects
+  paginator = Paginator(objects, 10)
+  
+  # Get page
+  try:
+    page = int(request.GET.get('page', '1'))
+  except ValueError:
+    page = 1
+
+  # Grab page of objects
+  try:
+    objects = paginator.page(page)
+  except (EmptyPage, InvalidPage):
+    objects = paginator.page(paginator.num_pages)
+
+  # Return page of objects
+  return objects
+
+# Generates an HTML list of files and elements in a directory
+#
+# Params:
+# d - directory to start in
 def generate_dirs_list(d):
   """Creates a list of <li> elements for usage in the AJAX file browser."""
   foldersresult = ''

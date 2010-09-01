@@ -3,6 +3,7 @@ from django.views.generic.simple import direct_to_template
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from benchmarks.extended_comments.models import ExtendedComment
+from benchmarks.helpers import *
 from benchmarks.users.models import UserForm 
 from django.http import HttpResponseRedirect
 from django.db.models import Q
@@ -20,19 +21,7 @@ def index(request):
     searchtxt = ''
     pusers = User.objects.all()
 
-  # Paginate
-  paginator = Paginator(pusers, 10)
-  
-  try:
-    page = int(request.GET.get('page', '1'))
-  except ValueError:
-    page = 1
-
-  try:
-    users = paginator.page(page)
-  except (EmptyPage, InvalidPage):
-    users = paginator.page(paginator.num_pages)
-
+  users = get_page_of_objects(pusers, request) 
   return render_to_response('users/index.html', 
     context_instance=RequestContext(request, { 'searchtxt' : searchtxt, 'users' : users}))
 
@@ -68,30 +57,11 @@ def edituser(request, uname):
         profile = me.get_profile()
         profile.bio = request.POST.get('bio', '')
 
-        if 'showemail' in request.POST:
-          profile.showemail = True
-        else:
-          profile.showemail = False  # By HTML spec, nonchecked boxes don't go thru POST
-        if 'commentResponseSubscribe' in request.POST:
-          profile.commentResponseSubscribe = True
-        else:
-          profile.commentResponseSubscribe = False
-
-        if 'ownPostCommentSubscribe' in request.POST:
-          profile.ownPostCommentSubscribe = True
-        else:
-          profile.ownPostCommentSubscribe = False
-
-        if 'groupPostSubscribe' in request.POST:
-          profile.groupPostSubscribe = True
-        else:
-          profile.groupPostSubscribe = False
-
-        if 'allProblemSubscribe' in request.POST:
-          profile.allProblemSubscribe = True
-        else:
-          profile.allProblemSubscribe = False
-
+        profile.showemail = ('showemail' in request.POST) or False
+        profile.commentResponseSubscribe = ('commentResponseSubscribe' in request.POST) or False
+        profile.ownPostCommentSubscribe = ('ownPostCommentSubscribe' in request.POST) or False
+        profile.groupPostSubscribe = ('groupPostSubscribe' in request.POST) or False
+        profile.allProblemSubscribe = ('allProblemSubscribe' in request.POST) or False
         profile.save()
 
         return HttpResponseRedirect(me.get_absolute_url())
