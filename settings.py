@@ -86,7 +86,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfResponseMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'benchmarks.middleware.tracking.LastPage',
 )
 
 ROOT_URLCONF = 'benchmarks.urls'
@@ -116,21 +115,6 @@ INSTALLED_APPS = (
 )
 
 COMMENTS_APP = 'benchmarks.extended_comments'
-
-# Tuple of regular expressions
-# The LastPage middleware will skip tracking these.
-LASTPAGE_SKIP = (
-  r'^/dirlist.*$',
-  r'^/favicon.ico$',
-  r'^' + MEDIA_URL + '.*$',
-  r'^.*/atom/*$',
-  r'^.*/rss/*$',
-  r'^.*/history/.*$',
-  r'^/join/$',
-  r'^/posts/new/$',
-  r'^/posts/.+/edit/$',
-)
-
 COMPRESS = True
 
 # django.core.mail Setup

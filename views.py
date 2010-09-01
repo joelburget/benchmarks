@@ -42,18 +42,16 @@ def loginuser(request):
 
     if user is not None and user.is_active:
       # Login, valid and active user
-      lastpage = request.session.get('lastpage', '/')
       login(request, user)
-      return HttpResponseRedirect(lastpage)
+      return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     else:
       # Error! User isn't valid or account details are wrong
       return direct_to_template(request, 'login_invalid.html')
 
 def logoutuser(request):
   # Logout user
-  lastpage = request.session.get('lastpage', '/')
   logout(request)
-  return HttpResponseRedirect(lastpage)
+  return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 def our404(request, error='404'):
   # Get path
