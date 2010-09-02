@@ -161,7 +161,15 @@ def manage_files_get(request, post_id):
 def index(request):
   userlist = User.objects.all()
 
-  if 'searchtxt' in request.GET:
+  if not 'searchtxt' in request.GET:
+    # No searching, just render a paginated view of all posts
+    posts = get_page_of_objects(Post.objects.all().order_by('-published'), \
+                                request)
+    return render_to_response('posts/index.html', \
+                              { 'posts':posts, 'userlist' : userlist }, \
+                              context_instance=RequestContext(request))
+  else:
+    # Search performed
     searchtxt = request.GET['searchtxt']  # main search textbox
     title = request.GET.get('title', '')  # advanced -title of post
     body = request.GET.get('body', '')    # advanced - body of post
@@ -200,29 +208,21 @@ def index(request):
       userq,
       category__in=categories
     ).distinct().order_by('-published')
-  else:
-    advanced_submitted = False
-    user = ''
-    title = ''
-    body = ''
-    categories = []
-    searchtxt = ''
-    pposts = Post.objects.all().order_by('-published')
 
-  posts = get_page_of_objects(pposts, request)
-  return render_to_response('posts/index.html', {
-    'searchtxt' : searchtxt,
-    'posts' : posts,
-    'title' : title,
-    'body' : body,
-    'u' : user,
-    'userlist' : userlist,
-    'p' : 'P' in categories, 
-    's' : 'S' in categories, 
-    'o' : 'O' in categories, 
-    'advanced_submitted' : advanced_submitted,
-  },
-  context_instance=RequestContext(request))
+    # Render
+    posts = get_page_of_objects(pposts, request)
+    return render_to_response('posts/index.html', {
+      'searchtxt' : searchtxt,
+      'posts' : posts,
+      'title' : title,
+      'body' : body,
+      'u' : user,
+      'userlist' : userlist,
+      'p' : 'P' in categories, 
+      's' : 'S' in categories, 
+      'advanced_submitted' : advanced_submitted,
+    },
+    context_instance=RequestContext(request))
 
 def posthistory(request, post_id, post_history_id, **kwargs):
   post = None

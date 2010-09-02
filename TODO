@@ -24,7 +24,7 @@ x user page design
 = New from Cleaning List =
 - port view logic into generic views
  - see http://stackoverflow.com/questions/1970104/django-pagination-in-generic-views
- - or even pagify if we have weird problems -
+ x or even pagify if we have weird problems -
 http://stackoverflow.com/questions/669903/pagination-of-date-based-generic-views-in-django/905480#905480
 - change all forms to ModelForms, eliminate hardcoding, if possible
 - make all redirects for bad input etc. go to a standard error form
@@ -57,7 +57,7 @@ them (templatetags)
 x move stuff in comment-sanitizer into models
 - port revisions/etc into alternative save methods rather than in
 views (save_revision)
-- duplicate code in posthistory/revision_info - refactor
+x duplicate code in posthistory/revision_info - refactor
 - Naming - consistent_method_name_style and names (history/revision)
 x fix Post.history() to not include self in posts w/history included
 x post history stuff - add to lastpage middleware configuration
@@ -65,10 +65,10 @@ x pyflakes/lint/checker - remove unused imports
 - pre vs. code - make code just monospace font?
 - css refactoring - use variables etc.
 x move deprecated html elements like b/i out
-- substantial/unsubstantial changes - radioboxes for problem editing to say if solutions are old, etc.
+x substantial/unsubstantial changes - radioboxes for problem editing to say if solutions are old, etc.
 x move comments on frontpage etc. to partials
 x disabled account creation, etc.
 - move all forms to forms.py files, etc. with other stuff crammed into models.py
 - replace localhost:8888 links in user account creation methods with actual urls
   - if statement in settings.py determines localhost vs. cse.ohio-state....
-- MathJAX
+x MathJAX
