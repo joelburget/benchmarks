@@ -1,6 +1,17 @@
 import os
 from benchmarks.settings import SITE_ROOT
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.template.loader import render_to_string
+from django.http import HttpResponse
+
+# Returns an error page for view functions to render
+#
+# msg - Text message to display
+# status_code - HTTP Status code to return
+def redirect_to_error(msg, status_code):
+  content = render_to_string('error.html', \
+                             { 'msg':msg, 'status_code':status_code })
+  return HttpResponse(content, status=status_code)
 
 # Gets a given page of objects
 #
