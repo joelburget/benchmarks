@@ -127,7 +127,7 @@ def joined(request):
       "\n" \
       "To allow this user to join, click here:\n" \
       "http://%s/user-create/?username=%s&realname=%s&email=%s\n" \
-        % ((username, name, email, group, reason, '127.0.0.1:8888') + \
+        % ((username, name, email, group, reason, settings.SITE_URL) + \
           tuple(map(urllib.quote_plus, (username, name, email)))), \
       to=[settings.ADMIN_EMAIL])
 
@@ -159,7 +159,7 @@ def user_create(request):
       'Username: %s\n' \
       'Password: %s\n\n' \
       'Open up http://%s/ in your browser, and enter your info into the side' \
-      ' panel to get started!' % (username, password, '127.0.0.1:8888'),
+      ' panel to get started!' % (username, password, settings.SITE_URL),
       to=[email])
 
     email.send()

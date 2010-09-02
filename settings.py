@@ -141,3 +141,6 @@ host = platform.node()
 if host == 'syrus.cse.ohio-state.edu':
   FORCE_SCRIPT_NAME = ''
   DEBUG = False
+  SITE_URL = 'resolve.cse.ohio-state.edu'
+else:
+  SITE_URL = '127.0.0.1:8888'
