@@ -4,20 +4,34 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.template.loader import render_to_string
 from django.http import HttpResponse
 
-# Returns an error page for view functions to render
-#
-# msg - Text message to display
-# status_code - HTTP Status code to return
 def redirect_to_error(status_code, msg):
+  """Returns an error page for view functions to render
+
+  Arguments:
+  msg -- Text message to display
+  status_code -- HTTP Status code to return
+
+  Returns:
+  A Response object of an error page
+
+  """
+
   content = render_to_string('error.html', \
       { 'msg':msg, 'status_code':status_code, 'MEDIA_URL': MEDIA_URL })
   return HttpResponse(content, status=status_code)
 
-# Gets a given page of objects
-#
-# objects - List of objects to paginate
-# request - Request to parse for page number
 def get_page_of_objects(objects, request):
+  """Gets a given page of objects
+
+  Arguments:
+  objects -- List of objects to paginate
+  request -- Request to parse for page number
+
+  Returns:
+  A response object of the page requested
+
+  """
+
   # Get paginator for objects
   paginator = Paginator(objects, 10)
   
@@ -36,12 +50,16 @@ def get_page_of_objects(objects, request):
   # Return page of objects
   return objects
 
-# Generates an HTML list of files and elements in a directory
-#
-# Params:
-# d - directory to start in
 def generate_dirs_list(d):
-  """Creates a list of <li> elements for usage in the AJAX file browser."""
+  """Creates a list of <li> elements for usage in the AJAX file browser.
+  
+  Arguments:
+  d -- directory to start in
+
+  Returns:
+  An HTML list of the files and subdirectories in d
+  
+  """
   foldersresult = ''
   filesresult = ''
   files = os.listdir(d)
