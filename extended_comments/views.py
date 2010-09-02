@@ -18,6 +18,7 @@ from benchmarks.extended_comments.forms import ExtendedCommentForm
 from benchmarks.extended_comments.decompress import decompress
 from benchmarks.posts.models import Post
 from benchmarks.settings import MEDIA_ROOT, SITE_ROOT
+from benchmarks.helpers import redirect_to_error
 
 #This sanitizes the input the user will see in the preview area for comments
 #because that is not covered by the sanitization in comment-sanitizer/__init__.py
@@ -33,18 +34,21 @@ def post(request):
 
   object_pk = data.get("object_pk")
   if object_pk is None:
-    return render_to_response('comments/error.html', {'msg' :'There was an problem with your comment.'}, context_instance=RequestContext(request))
+    return redirect_to_error(403, "There was a problem with your comment.")
+    #return render_to_response('comments/error.html', {'msg' :'There was an problem with your comment.'}, context_instance=RequestContext(request))
   try:
     target = Post.objects.get(pk=object_pk)
   except (ObjectDoesNotExist, ValueError, ValidationError):
-    return render_to_response('comments/error.html', {'msg' :'There was an problem with your comment.'}, context_instance=RequestContext(request))
+    return redirect_to_error(403, "There was a problem with your comment.")
+    #return render_to_response('comments/error.html', {'msg' :'There was an problem with your comment.'}, context_instance=RequestContext(request))
 
   preview = "preview" in data
   data.user = request.user
   
   form = ExtendedCommentForm(target, data=data)
   if form.security_errors():
-    return render_to_response('comments/error.html', {'msg' :'There was an problem with your comment.'}, context_instance=RequestContext(request))
+    #return render_to_response('comments/error.html', {'msg' :'There was an problem with your comment.'}, context_instance=RequestContext(request))
+    return redirect_to_error(403, "There was a problem with your comment.")
   if form.is_valid():
     comment = ExtendedComment(content_type = ContentType.objects.get(app_label='posts', model='post'),
                               object_pk = object_pk,
@@ -114,4 +118,4 @@ def comment_posted(request):
     return HttpResponseRedirect("%s#leaveAComment" % \
       (post.get_absolute_url(),))
   else:
-    return HttpResponseRedirect("/")
+    return redirect_to_error(403, "/")

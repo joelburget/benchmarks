@@ -1,8 +1,6 @@
-from django import forms
 from django.contrib.auth.models import User, Group
 from django.db import models
 from django.db.models.signals import post_save
-from django.forms import ModelForm
 
 # User Profiles
 class UserProfile(models.Model):
@@ -26,16 +24,6 @@ class UserProfile(models.Model):
 
   def __unicode__(self):
     return 'Profile for %s' % (self.user.username,)
-
-# Form for user objects
-class UserForm(ModelForm):
-  class Meta():
-    model = User
-    fields = ('first_name', 'last_name', 'email')
-
-    first_name = forms.CharField(widget=forms.TextInput(attrs={'class':'required', 'size':'30'}))
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'required', 'size':'30'}))
-    email = forms.EmailField(widget=forms.TextInput(attrs={'class':'required email'}))
 
 # Set up profiles for new users
 def new_profile(sender, instance, created, **kwargs):

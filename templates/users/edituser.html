@@ -30,19 +30,19 @@
   <li><input class="validate[required,email]" type="text" name="email" id="email" value="{{ user.email }}" /> {{ formset.email.errors }}</li>
 
   <li><label for="showemail">Show Email to other users?</label>
-  <input class="" type="checkbox" {% if user.get_profile.showemail %}checked="yes"{% endif %}" name="showemail" id="showemail" /></li>
+  <input class="" type="checkbox" {% if user.get_profile.showemail %}checked="yes"{% endif %} name="showemail" id="showemail" /></li>
 
   <li><label for="commentResponseSubscribe">Subscribe to comments in posts you have commented on?</label>
-  <input class="" type="checkbox" {% if user.get_profile.commentResponseSubscribe %}checked="yes"{% endif %}" name="commentResponseSubscribe" id="commentResponseSubscribe" /></li>
+  <input class="" type="checkbox" {% if user.get_profile.commentResponseSubscribe %}checked="yes"{% endif %} name="commentResponseSubscribe" id="commentResponseSubscribe" /></li>
 
   <li><label for="ownPostCommentSubscribe">Subscribe to posts you have commented on?</label>
-  <input class="" type="checkbox" {% if user.get_profile.ownPostCommentSubscribe %}checked="yes"{% endif %}" name="ownPostCommentSubscribe" id="ownPostCommentSubscribe" /></li>
+  <input class="" type="checkbox" {% if user.get_profile.ownPostCommentSubscribe %}checked="yes"{% endif %} name="ownPostCommentSubscribe" id="ownPostCommentSubscribe" /></li>
 
   <li><label for="groupPostSubscribe">Subscribe to posts by members of your group?</label>
-  <input class="" type="checkbox" {% if user.get_profile.groupPostSubscribe %}checked="yes"{% endif %}" name="groupPostSubscribe" id="groupPostSubscribe" /></li>
+  <input class="" type="checkbox" {% if user.get_profile.groupPostSubscribe %}checked="yes"{% endif %} name="groupPostSubscribe" id="groupPostSubscribe" /></li>
 
   <li><label for="allProblemSubscribe">Subscribe to all new problems?</label>
-  <input class="" type="checkbox" {% if user.get_profile.allProblemSubscribe %}checked="yes"{% endif %}" name="allProblemSubscribe" id="allProblemSubscribe" /></li>
+  <input class="" type="checkbox" {% if user.get_profile.allProblemSubscribe %}checked="yes"{% endif %} name="allProblemSubscribe" id="allProblemSubscribe" /></li>
 
   <li><label for="bio">Bio</label></li>
   <li><textarea name="bio" id="bio">{{ user.get_profile.bio }}</textarea> {{ bioerrors }}</li>

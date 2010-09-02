@@ -4,7 +4,7 @@ from django.template import RequestContext
 from django.contrib.auth.models import User
 from benchmarks.extended_comments.models import ExtendedComment
 from benchmarks.helpers import *
-from benchmarks.users.models import UserForm 
+from benchmarks.users.forms import UserForm 
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
