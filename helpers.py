@@ -1,5 +1,5 @@
 import os
-from benchmarks.settings import SITE_ROOT
+from benchmarks.settings import SITE_ROOT, MEDIA_URL
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.template.loader import render_to_string
 from django.http import HttpResponse
@@ -8,9 +8,9 @@ from django.http import HttpResponse
 #
 # msg - Text message to display
 # status_code - HTTP Status code to return
-def redirect_to_error(msg, status_code):
+def redirect_to_error(status_code, msg):
   content = render_to_string('error.html', \
-                             { 'msg':msg, 'status_code':status_code })
+      { 'msg':msg, 'status_code':status_code, 'MEDIA_URL': MEDIA_URL })
   return HttpResponse(content, status=status_code)
 
 # Gets a given page of objects

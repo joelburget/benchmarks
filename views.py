@@ -54,10 +54,10 @@ def logoutuser(request):
   return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 def our404(request):
-  return redirect_to_error('This page doesn\'t exist.', 404)
+  return redirect_to_error(404, 'This page doesn\'t exist.')
 
 def our500(request):
-  return redirect_to_error('Something in our server broke. Please try again later.', 500)
+  return redirect_to_error(500, 'Something in our server broke. Please try again later.')
 
 @require_ajax
 def dirlist(request):
