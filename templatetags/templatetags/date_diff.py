@@ -6,6 +6,19 @@ register = template.Library()
 
 @register.filter
 def date_diff(d):
+    """Display a human-readable date-diff
+
+    Example Usage:
+    {{ object.date|date_diff }}
+
+    Arguments:
+    d -- the date to be diffed
+
+    Returns:
+    The diff from now to d, e.g. "less than 1 minute ago", "1 hour ago"
+
+    """
+
     now = datetime.datetime.now()
     today = datetime.datetime(now.year, now.month, now.day)
     delta = now - d
