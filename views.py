@@ -16,6 +16,7 @@ from django.core.mail import EmailMessage
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.template.loader import render_to_string
 from django.views.generic.simple import direct_to_template 
 from django.views.decorators.http import require_POST
 
@@ -120,24 +121,19 @@ def joined(request):
     email = request.POST['email']
     group = request.POST['group']
     reason = request.POST['reason']
+    url = '%s/user-create/?username=%s&realname=%s&email=%s' % ((settings.SITE_URL,) + tuple(map(urllib.quote_plus, (username, name, email))))
 
     # Send message
-    email = EmailMessage('Intent to Join - %s' % (name,),
-      "==========================================\n" \
-      "Intent to Join Software Benchmarks Website\n" \
-      "==========================================\n" \
-      "\n" \
-      "Username: %s\n" \
-      "Real Name: %s\n" \
-      "Email Address: %s\n" \
-      "Research Organization: %s\n" \
-      "Information: %s\n" \
-      "\n" \
-      "To allow this user to join, click here:\n" \
-      "http://%s/user-create/?username=%s&realname=%s&email=%s\n" \
-        % ((username, name, email, group, reason, settings.SITE_URL) + \
-          tuple(map(urllib.quote_plus, (username, name, email)))), \
-      to=[settings.ADMIN_EMAIL])
+    email = EmailMessage('Intent to Join - %s' % name,
+                         render_to_string('emails/user_request.txt',
+                           {
+                             'name' : name,
+                             'email' : email,
+                             'group' : group,
+                             'reason' : reason,
+                             'url' : url
+                           }),
+                         to=[settings.ADMIN_EMAIL])
 
     # Send message
     email.send()
@@ -166,13 +162,13 @@ def user_create(request):
 
     # Send acceptance email to user
     email = EmailMessage('Welcome! - OSU Benchmarks Website',
-      'Welcome! You\'re account has been set up at the OSU Benchmarks' \
-      ' website!\n\n' \
-      'Username: %s\n' \
-      'Password: %s\n\n' \
-      'Open up http://%s/ in your browser, and enter your info into the side' \
-      ' panel to get started!' % (username, password, settings.SITE_URL),
-      to=[email])
+      render_to_string('emails/user_created.txt', 
+                       {
+                         'username' : username,
+                         'password' : password,
+                         'url' : settings.SITE_URL
+                       }),
+                       to=[email])
 
     email.send()
 

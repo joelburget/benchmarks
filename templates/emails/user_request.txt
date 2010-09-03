@@ -1,0 +1,11 @@
+=========================================
+Intent to join the OSU Benchmarks Website
+=========================================
+
+  Real Name: {{ name }}
+  Email Address: {{ email }}
+  Research Organization: {{ group }}
+  Information: {{ reason }}
+
+To allow this user to join the Benchmarks website, please click or paste the
+following URL: {{ url }}
