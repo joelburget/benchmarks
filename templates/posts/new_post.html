@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load tex %}
+{% load partials %}
 
 {% block title %}New Post{% endblock %}
 
@@ -60,12 +60,11 @@
 {% endblock %}
 
 {% block jsblock %}
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+{% include "partials/jquery.html" %}
 <script src="{{ MEDIA_URL }}js/jquery.uniform.js" type="text/javascript"></script>
 <script src="{{ MEDIA_URL }}codemirror/js/codemirror.js" type="text/javascript"></script>
 <script src="{{ MEDIA_URL }}codemirror/js/mirrorframe.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}js/jquery.validationEngine-en.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}js/jquery.validationEngine.js" type="text/javascript"></script>
+{% include "partials/jquery_validation.html" %}
 
 <script>
 $(document).ready(function(){

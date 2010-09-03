@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load partials %}
 
 {% block title %}Categorize Your Files{% endblock %}
 
@@ -35,12 +36,10 @@
 {% else %}
 <p>There are no files attached to this post.</p>
 {% endif %}
-
 {% endblock %}
 
 {% block jsblock %}
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-
+{% include "partials/jquery.html" %}
 <script>
 $(document).ready(function(){
 });
