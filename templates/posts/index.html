@@ -56,8 +56,11 @@
 </div>
 {% endblock %}
 
-{% block cssblock %}
+{% block jsheadblock %}
 <link rel="stylesheet" href="http://dev.jquery.com/view/trunk/plugins/autocomplete/jquery.autocomplete.css" type="text/css" />
+{% endblock %}
+
+{% block cssblock %}
 <style>
   .nsshow {display: none;}
 </style>
@@ -70,11 +73,9 @@
 {% endblock %}
 
 {% block jsblock %}
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+{% include "partials/jquery.html" %}
+{% include "partials/jquery_autocomplete.html" %}
 
-<script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/autocomplete/lib/jquery.bgiframe.min.js"></script>
-<script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/autocomplete/lib/jquery.dimensions.js"></script>
-<script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/autocomplete/jquery.autocomplete.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
   /* User autocomplete */
