@@ -1,6 +1,5 @@
 """
 Group views and GroupProfile model tests
-FIXME: Login POST in setUp() doesn't work, so the last two fail automatically
 """
 
 from django.contrib.auth.models import Group, User
@@ -15,11 +14,10 @@ class GroupsTest(TestCase):
     self.url = self.group.groupprofile.get_absolute_url()
 
     self.user = User.objects.get(pk=1)
-    username = self.user.username
-    password = self.user.password
+    username = self.user.username  # password is same as username
 
     self.c = Client()
-    self.c.post('/login/', { 'username':username, 'password':password })
+    self.c.login(username=username,password=username)
 
   # Model Tests
 
@@ -40,15 +38,15 @@ class GroupsTest(TestCase):
   def test_view_group(self):
     """Tests that group URLs work"""
     resp = self.c.get(self.url)
-    found = resp.content.index(self.group.name) >= 0
-    self.failIfEqual(found, False)
+    found = resp.content.index(self.group.name)
+    self.failIfEqual(found, -1)
 
   def test_join_group(self):
     """Tests that a user can join a group"""
     resp = self.c.post('/groups/join/', { 'groupid':self.group.pk })
-    self.fail()
+    self.assertEqual(self.user.get_profile().group, self.group)
 
   def test_leave_group(self):
     """Tests that a user can leave a group"""
     resp = self.c.post('/groups/leave/', { 'groupid':self.group.pk })
-    self.fail()
+    self.assertEqual(self.user.get_profile().group, None)
