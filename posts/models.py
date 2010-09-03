@@ -4,7 +4,6 @@ from django import forms
 from django.contrib.auth.models import User, Group
 from django.db.models import signals
 from django.db import models
-from django.forms import ModelForm
 
 import html5lib
 from html5lib import sanitizer
@@ -98,10 +97,3 @@ class PostFile(models.Model):
 
   def __unicode__(self):
     return os.path.basename(self.file.name)
-
-#
-# Forms
-#
-class PostForm(ModelForm):
-  class Meta():
-    model = Post
