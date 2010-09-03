@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import Client
 
-class SimpleTest(TestCase):
+class UsersTest(TestCase):
   fixtures = ['users.json', 'groups.json']
 
   def setUp(self):
@@ -40,6 +40,12 @@ class SimpleTest(TestCase):
     self.assertEqual('Chuck Bartowski', user.get_profile().get_display_name())
 
   # View tests
+
+  def test_user_index(self):
+    """Tests that the user index page displays users"""
+    r = self.c.get('/users/')
+    found = r.content.index(self.user.username)
+    self.failIfEqual(found, -1)
 
   def test_show_user(self):
     """Tests that user profile pages work"""
