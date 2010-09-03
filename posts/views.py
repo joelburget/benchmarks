@@ -2,7 +2,8 @@ from urllib import unquote
 
 from benchmarks.helpers import *
 from benchmarks.posts.helpers import *
-from benchmarks.posts.models import Post, PostForm, POSTTYPES
+from benchmarks.posts.models import Post, POSTTYPES
+from benchmarks.posts.forms import PostForm
 from benchmarks.templatetags.templatetags.date_diff import date_diff
 from benchmarks.settings import SITE_ROOT
 

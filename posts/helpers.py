@@ -3,7 +3,8 @@ import tarfile
 import zipfile
 
 from benchmarks import settings
-from benchmarks.posts.models import PostFile, PostForm, PostRevision
+from benchmarks.posts.models import PostFile, PostRevision
+from benchmarks.posts.forms import PostForm
 
 from django.core.mail import EmailMessage
 
