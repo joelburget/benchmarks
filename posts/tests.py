@@ -1,23 +1,58 @@
 """
-This file demonstrates two different styles of tests (one doctest and one
-unittest). These will both pass when you run "manage.py test".
-
-Replace these with more appropriate tests for your application.
+Posts, etc. tests
 """
 
+from posts.models import *
 from django.test import TestCase
+from django.test.client import Client
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.failUnlessEqual(1 + 1, 2)
+class PostsTest(TestCase):
+  fixtures = ['users.json', 'groups.json', 'posts.json']
 
-__test__ = {"doctest": """
-Another way to test that 1 + 1 is equal to 2.
+  def setUp(self):
+    self.user = User.objects.get(pk=1)
+    self.url = self.user.get_absolute_url()
+    username = self.user.username  # password is same as username
 
->>> 1 + 1 == 2
-True
-"""}
+    self.c = Client()
+    self.c.login(username=username,password=username)
 
+  # Model tests
+
+  def test_no_revisions(self):
+    """Tests that revisions on a post without any returns itself"""
+    post = Post.objects.all()[0]
+    self.failUnlessEqual([post], post.get_revisions())
+
+  def test_some_revisions(self):
+    """Tests that revisions on a post are returned"""
+    post = Post.objects.all()[0]
+    prev = PostRevision(author=post.author, group=post.group, body='body!')
+    post.previous = prev
+    self.failUnlessEqual([post, prev], post.get_revisions())
+
+  def test_sanitize(self):
+    """Tests that post bodies are sanitized"""
+    post = Post(title='Boo', body='Hello! <script>alert();</script>',
+                author=User.objects.all()[0], group=Group.objects.all()[0])
+    post.save()
+    self.failUnlessEqual(post.body, 'Hello! &lt;script&gt;alert();&lt;/script&gt;')
+
+  # View tests
+
+  def test_posts_index(self):
+    """Tests the posts index page"""
+    r = self.c.get('/posts/')
+
+    # Note: truncates titles because we only display `x` words
+    found = r.content.index(Post.objects.get(pk=1).title[:10]) != -1 and \
+            r.content.index(Post.objects.get(pk=2).title[:10]) != -1 and \
+            r.content.index(Post.objects.get(pk=3).title[:10]) != -1
+    self.failIfEqual(found, False)
+
+  def test_post_detail(self):
+    """Tests the post detail view page"""
+    post = Post.objects.all()[0]
+    r = self.c.get(post.get_absolute_url())
+    found = r.content.index(post.title)
+    self.failIfEqual(found, -1)

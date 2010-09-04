@@ -1,0 +1,40 @@
+[
+  {
+    "pk": "1",
+    "model": "posts.Post",
+    "fields": {
+      "title": "Test Problem",
+      "body": "This is a a body.",
+      "category": "P",
+      "author": "1",
+      "group": "1",
+      "up_to_date": "True"
+    }
+  },
+
+  {
+    "pk": "2",
+    "model": "posts.Post",
+    "fields": {
+      "title": "Test Solution",
+      "body": "This is a a body of a solution.",
+      "category": "S",
+      "author": "1",
+      "group": "1",
+      "up_to_date": "True"
+    }
+  },
+
+  {
+    "pk": "3",
+    "model": "posts.Post",
+    "fields": {
+      "title": "Test Solution #2",
+      "body": "This is a a body again!",
+      "category": "S",
+      "author": "1",
+      "group": "1",
+      "up_to_date": "True"
+    }
+  }
+]
