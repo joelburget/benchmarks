@@ -4,7 +4,8 @@ from django.template import RequestContext
 from django.contrib.auth.models import User
 from benchmarks.extended_comments.models import ExtendedComment
 from benchmarks.helpers import *
-from benchmarks.users.forms import UserForm 
+from benchmarks.helpers import *
+from benchmarks.users.forms import *
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
@@ -37,43 +38,26 @@ def showuser(request, uname):
                                              }))
 
 def edituser(request, uname):
-  # Get the users wanted to edit, and the current user
-  wanteduser = get_object_or_404(User, username=uname)
+  person = get_object_or_404(User, username=uname)
   me = request.user
 
-  # Ensure that the user editing this profile is allowed (i.e. the
-  # user and the profile are the same person)
-  if wanteduser.username == me.username:
-    # Allow edits
-    if request.method == 'POST':
-      # Save changes
-      meform = UserForm(request.POST, instance=me)
+  if person == me:
+    # Incorrect permissions
+    redirect_to_error(403, 'You don\'t have permission!')
 
-      if meform.is_valid():      
-        # Save form
-        meform.save()
+  if request.method == 'POST':
+    # Save incoming data
+    profile_form = UserProfileForm(request.POST, instance = me.get_profile())
+    user_form = UserForm(request.POST, instance = me)
 
-        # Hack for profiles
-        profile = me.get_profile()
-        profile.bio = request.POST.get('bio', '')
+    profile_form.save()
+    user_form.save()
 
-        profile.showemail = ('showemail' in request.POST) or False
-        profile.commentResponseSubscribe = ('commentResponseSubscribe' in request.POST) or False
-        profile.ownPostCommentSubscribe = ('ownPostCommentSubscribe' in request.POST) or False
-        profile.groupPostSubscribe = ('groupPostSubscribe' in request.POST) or False
-        profile.allProblemSubscribe = ('allProblemSubscribe' in request.POST) or False
-        profile.save()
-
-        return HttpResponseRedirect(me.get_absolute_url())
-      else:
-        # Redisplay with errors
-        return render_to_response('users/edituser.html',
-          context_instance=RequestContext(request, { 'formset' : meform, }))
-    else:
-      # Display form
-      formset = UserForm(instance=me)
-      return render_to_response('users/edituser.html',
-        context_instance=RequestContext(request, { 'formset' : formset, }))
+    return HttpResponseRedirect(me.get_absolute_url())
   else:
-    # Disallow edits
-    return direct_to_template(request, 'users/edituser_bad.html')
+    # Display form
+    dict = {
+      'profile_form' : UserProfileForm(instance = me.get_profile()),
+      'user_form' : UserForm(instance=me)
+    }
+    return render_to_response('users/edit.html', dict, context_instance=RequestContext(request))

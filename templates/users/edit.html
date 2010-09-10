@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load partials %}
+
+{% block title %}Editing {{ user.username }}{% endblock %}
+
+{% block cssblock %}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/validationEngine.jquery.css" type="text/css" media="screen" charset="utf-8" />
+{% endblock %}
+
+{% block content %}
+<!-- Notice -->
+<div class="notice">
+  <h2>Notice</h2>
+  <p><strong>We will not share email addresses with the public.</strong> Addresses are only displayed to other users, provided you allow it. Providing your address will make it even easier to collaborate with other users, and as such, is highly recommended.</p>
+  <p><strong>Profile pictures can be added through Gravatar.</strong> To set up your profile picture, visit <a href="http://gravatar.com/site/signup">gravatar.com</a>, and register there with the same email address you used here. Once you upload your picture at Gravatar, we will automatically link up and display it here for you.</p>
+</div>
+
+<!-- Form -->
+<h2>Edit Profile</h2>
+<form action="." method="post" id="editForm">
+<ol>
+  {% csrf_token %}
+
+  {% for field in user_form %}
+    <li>{{ field.label_tag }}</li>
+    <li>{{ field }}</li>
+  {% endfor %}
+
+  {% for field in profile_form %}
+    <li>{{ field.label_tag }}</li>
+    {% if field.label == 'Bio'%}<li>{{ field }}</li>{% else %}{{ field }}{% endif %}
+  {% endfor %}
+
+  <li><input type="submit" value="Save" /></li>
+</ol>
+</form>
+
+{% block jsblock %}
+{% include "partials/jquery.html" %}
+<script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
+{% include "partials/jquery_validation.html" %}
+
+<script>
+$(document).ready(function() {
+  $('#editForm').validationEngine();
+});
+</script>
+{% endblock %}
+{% endblock %}
