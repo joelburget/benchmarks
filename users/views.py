@@ -41,9 +41,9 @@ def edituser(request, uname):
   person = get_object_or_404(User, username=uname)
   me = request.user
 
-  if person == me:
+  if me.is_authenticated() == False or person != me:
     # Incorrect permissions
-    redirect_to_error(403, 'You don\'t have permission!')
+    return redirect_to_error(403, 'You don\'t have permission!')
 
   if request.method == 'POST':
     # Save incoming data
