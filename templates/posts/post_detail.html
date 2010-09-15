@@ -190,6 +190,7 @@
     // Revisions button is clicked, refresh content
     $.get(escape('/posts/{{ object.pk }}/history/' + $('#revision').val() + "/" + new Date().getTime() + "/"), function(data) {
       $('#post-content').fadeOut(500, function() {
+        alert("data: " + data);
         $(this).html(data).fadeIn(500).effect('highlight', {}, 1000);
       });
     });

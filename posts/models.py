@@ -56,16 +56,13 @@ class Post(models.Model):
 
     return hist
 
-def convert_markdown(sender, instance, **kwargs):
-  instance.body_display = markdown.markdown(instance.body)
-signals.pre_save.connect(convert_markdown, sender=Post)
-
 #
 # Revisions
 #
 class PostRevision(models.Model):
   # Attributes
   body = models.TextField()
+  body_display = models.TextField(blank=True, null=True)
   author = models.ForeignKey(User)
   group = models.ForeignKey(Group)
   previous = models.ForeignKey('PostRevision', blank=True, null=True)
@@ -75,6 +72,12 @@ class PostRevision(models.Model):
   # Method
   def __unicode__(self):
     return str(date_diff(self.published))
+
+def convert_markdown(sender, instance, **kwargs):
+  instance.body_display = markdown.markdown(instance.body)
+
+signals.pre_save.connect(convert_markdown, sender=Post)
+signals.pre_save.connect(convert_markdown, sender=PostRevision)
 
 #
 # Files
