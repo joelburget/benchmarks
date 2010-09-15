@@ -29,3 +29,10 @@
   </form>
 {% endblock %}
 
+{% block jsblock %}
+{% include "partials/jquery.html" %}
+{% include "partials/jquery_texteditor.html" %}
+<script type="text/javascript">
+{% include "partials/textEditor.html" %}
+</script>
+{% endblock %}
