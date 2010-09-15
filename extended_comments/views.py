@@ -1,5 +1,3 @@
-import html5lib
-from html5lib import sanitizer
 import datetime
 import os
 
@@ -58,8 +56,7 @@ def post(request):
                               published = datetime.datetime.now())
     if preview:
       comment = request.POST.__getitem__('comment')
-      p = html5lib.HTMLParser(tokenizer=sanitizer.HTMLSanitizer)
-      comment = p.parse(comment).childNodes[0].childNodes[1].toxml()[6:-7]
+      comment = comment.comment
       
       return render_to_response(
           'comments/preview.html', {

@@ -1,3 +1,4 @@
+import markdown
 from benchmarks.templatetags.templatetags.date_diff import date_diff
 
 from django import forms
@@ -19,6 +20,7 @@ class Post(models.Model):
   # Attributes
   title = models.CharField(max_length=200)
   body = models.TextField()
+  body_display = models.TextField(blank=True, null=True)
   author = models.ForeignKey(User)
   group = models.ForeignKey(Group)
   previous = models.ForeignKey('PostRevision', blank=True, null=True)
@@ -54,11 +56,9 @@ class Post(models.Model):
 
     return hist
 
-def sanitize_post(sender, instance, **kwargs):
-  #p = html5lib.HTMLParser(tokenizer=sanitizer.HTMLSanitizer)
-  #instance.body = p.parse(instance.body).childNodes[0].childNodes[1].toxml()[6:-7]
-  pass
-signals.pre_save.connect(sanitize_post, sender=Post)
+def convert_markdown(sender, instance, **kwargs):
+  instance.body_display = markdown.markdown(instance.body)
+signals.pre_save.connect(convert_markdown, sender=Post)
 
 #
 # Revisions
