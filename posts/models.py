@@ -5,8 +5,6 @@ from django.contrib.auth.models import User, Group
 from django.db.models import signals
 from django.db import models
 
-import html5lib
-from html5lib import sanitizer
 import os
 
 #
@@ -57,9 +55,9 @@ class Post(models.Model):
     return hist
 
 def sanitize_post(sender, instance, **kwargs):
-    p = html5lib.HTMLParser(tokenizer=sanitizer.HTMLSanitizer)
-    instance.body = p.parse(instance.body).childNodes[0].childNodes[1].toxml()[6:-7]
-
+  #p = html5lib.HTMLParser(tokenizer=sanitizer.HTMLSanitizer)
+  #instance.body = p.parse(instance.body).childNodes[0].childNodes[1].toxml()[6:-7]
+  pass
 signals.pre_save.connect(sanitize_post, sender=Post)
 
 #

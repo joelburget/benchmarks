@@ -30,10 +30,7 @@
     <li>{{ form.title }}</li>
 
     <li>{{ form.body.label_tag }}</li>
-    <div id="minihelp">
-    	<p>We accept LaTeX like <span style="font-family:monospace; font-size: 1.2em;">$$x^2$$</span>, and HTML like <code>pre</code>, <i>i</i>, <b>b</b>, and <a href="/formatting" target="_blank">more.</a></p>
-    </div>    
-    <li>{{ form.body }}</li>
+    <li>{{ form.body|safe }}</li>
 
     <input type="hidden" style="display:none;" value="{% if category %}{{ category }}{% else %}P{% endif %}" name="category" id="category" />
     <input type="hidden" style="display:none;" value="{{ problem }}" name="problem" id="problem" />
@@ -62,8 +59,8 @@
 {% block jsblock %}
 {% include "partials/jquery.html" %}
 <script src="{{ MEDIA_URL }}js/jquery.uniform.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}codemirror/js/codemirror.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}codemirror/js/mirrorframe.js" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}js/jquery-textEditor/jquery.a-tools-1.5.2.min.js" type="text/javascript"></script>
+<script src="{{ MEDIA_URL }}js/jquery-textEditor/jquery.texteditor.js" type="text/javascript"></script>
 {% include "partials/jquery_validation.html" %}
 
 <script>
@@ -80,17 +77,24 @@ $(document).ready(function(){
   });
 
   $("input:file").uniform();
-  var editor = CodeMirror.fromTextArea('id_body', {
-       parserfile: "parsexml.js",
-       path: "{{ MEDIA_URL }}codemirror/js/",
-       stylesheet: "{{ MEDIA_URL }}codemirror/css/xmlcolors.css",
-       height: "400px",
-       width: "500px",
-       electricChars: false,
-       //tabMode: "spaces",
-       content: "{% filter escapejs %}{% firstof form.instance.body '<h2>Section Title</h2>' %}{% endfilter %}"
+  $("#id_body").textEditor({
+    icons_dir: "{{ MEDIA_URL}}img/icons/",
+    separator_icon: "separator.png",
+    buttons: [
+      ['Horizontally center', '->%s<-', 'edit-alignment-center.png'],
+      [],
+      ['Heading', '# %s', 'edit-heading.png'],
+      ['Bold or emphasized', '**%s**', 'edit-bold.png'],
+      ['Italic', '_%s_', 'edit-italic.png'],
+      ['Code block', '`%s`', 'edit-code.png'],
+      ['Mathematical statements', '$$%s$$', 'edit-mathematics.png'],
+      [],
+      ['Bulleted list', '* %s', 'edit-list.png'],
+      ['Ordered list', '1. %s', 'edit-list-order.png'],
+      ['Blockquote', '> %s', 'edit-quotation.png'],
+      ['Horizontal Rule', '- - -', 'edit-rule.png'],
+    ]
   });
-  $("div.CodeMirror-wrapping textarea").attr("tabindex", "1");
 });
 </script>
 {% endblock %}
