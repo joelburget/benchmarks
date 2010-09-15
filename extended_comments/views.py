@@ -56,7 +56,6 @@ def post(request):
                               published = datetime.datetime.now())
     if preview:
       comment = request.POST.__getitem__('comment')
-      comment = comment.comment
       
       return render_to_response(
           'comments/preview.html', {
