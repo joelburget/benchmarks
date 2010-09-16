@@ -105,6 +105,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     #'django.contrib.comments',
     'django.contrib.admin',
+    'django.contrib.markup',
     'benchmarks.groups',
     'benchmarks.posts',
     'benchmarks.users',
