@@ -132,6 +132,7 @@ else:
   EMAIL_HOST_PASSWORD = email_settings.EMAIL_HOST_PASSWORD
   EMAIL_PORT = email_settings.EMAIL_PORT
   ADMIN_EMAIL = email_settings.ADMIN_EMAIL
+  SERVER_EMAIL = ADMIN_EMAIL
   EMAIL_ENABLED = True
 
 # Server-specific lines
