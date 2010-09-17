@@ -50,9 +50,9 @@
 
 <!-- Body -->
 {% if revision %}
-<div id="post-content">{% render_partial post_full revision %}</div>
+<div id="post-content">{{ object.display_body|safe }}</div>
 {% else %}
-<div id="post-content">{% render_partial post_full object %}</div>
+<div id="post-content">{{ object.display_body|safe }}</div>
 {% endif %}
 
 <!-- Files -->

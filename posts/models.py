@@ -1,13 +1,19 @@
 from benchmarks.templatetags.templatetags.date_diff import date_diff
+from benchmarks.templatetags.helpers.latexmath2png import math2png
+from benchmarks.settings import MEDIA_ROOT, MEDIA_URL
 
 from django import forms
 from django.contrib.auth.models import User, Group
 from django.db.models import signals
 from django.db import models
 
+import re
+import hashlib
 import html5lib
 from html5lib import sanitizer
 import os
+from multiprocessing import Process, Queue
+from Queue import Empty
 
 #
 # Post types
@@ -20,7 +26,8 @@ POSTTYPES = (
 class Post(models.Model):
   # Attributes
   title = models.CharField(max_length=200)
-  body = models.TextField()
+  raw_body = models.TextField(default="<h2>Section Title</h2>")
+  display_body = models.TextField()
   author = models.ForeignKey(User)
   group = models.ForeignKey(Group)
   previous = models.ForeignKey('PostRevision', blank=True, null=True)
@@ -56,9 +63,77 @@ class Post(models.Model):
 
     return hist
 
+  def render_equations(self):
+    """Fill in display_body and create equation images
+
+    Note:
+    The image is created on the server and stored in the
+    {{ MEDIA_URL }}formulas/ directory. The server must
+    have a working installation of LaTeX and dvipng.
+    
+    """
+
+    #
+    # Helpers
+    #
+
+    # This is always spawned as a separate process
+    def make_images(q):
+      eq = None
+      while True:
+        try:
+          (eq, hash) = q.get(timeout=1)
+          # create and save image
+          dir = MEDIA_ROOT + "/formulas/"
+          math2png([eq], dir, prefix=hash)
+        except Empty:
+          return
+
+    q = Queue()
+    p = Process(target=make_images, args=(q,))
+    p.start()
+    
+    def __replace(m):
+      formula = m.group(1)
+
+      # hash the formula to make a unique url
+      h = hashlib.sha1()
+      h.update(formula)
+
+      # use hexdigest because digest produces possibly unsafe characters
+      hash = h.hexdigest() 
+
+      # This sends the formula to the other thread to render as an image
+      q.put((formula, hash))
+                           
+      # Notice the extra 1 before ".png" that shows up in the hash for some
+      # reason.
+      return '<img src="%sformulas/%s1.png" alt="%s" />' \
+          % (MEDIA_URL, hash, formula)
+
+    #
+    # Endhelpers
+    #
+
+    self.display_body = self.raw_body
+
+    svalue = re.sub(
+        '\$\$(.*?)\$\$',
+        __replace,
+        self.display_body,
+        re.DOTALL)
+
+    # If you're brave, remove the following line, and the user will get their
+    # response without having to wait for the images to render. Probably.
+    p.join()
+
+    self.display_body = svalue
+    self.save()
+
 def sanitize_post(sender, instance, **kwargs):
     p = html5lib.HTMLParser(tokenizer=sanitizer.HTMLSanitizer)
-    instance.body = p.parse(instance.body).childNodes[0].childNodes[1].toxml()[6:-7]
+    instance.display_body = p.parse(instance.display_body) \
+                             .childNodes[0].childNodes[1].toxml()[6:-7]
 
 signals.pre_save.connect(sanitize_post, sender=Post)
 
@@ -67,7 +142,7 @@ signals.pre_save.connect(sanitize_post, sender=Post)
 #
 class PostRevision(models.Model):
   # Attributes
-  body = models.TextField()
+  display_body = models.TextField()
   author = models.ForeignKey(User)
   group = models.ForeignKey(Group)
   previous = models.ForeignKey('PostRevision', blank=True, null=True)
