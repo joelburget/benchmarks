@@ -26,6 +26,7 @@ urlpatterns = patterns('',
   (r'^groups/', include('benchmarks.groups.urls')),
   (r'^posts/', include('benchmarks.posts.urls')),
   (r'^users/', include('benchmarks.users.urls')),
+  (r'^search/', include('haystack.urls')),
 
   # Feeds
   (r'^rss/$', 'benchmarks.views.rss'),

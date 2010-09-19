@@ -1,0 +1,3 @@
+{{ object.title }}
+{{ object.author.get_profile.get_display_name }}
+{{ object.body }}

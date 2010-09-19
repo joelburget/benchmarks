@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load partials %}
+
+{% block title %}Search{% endblock %}
+
+{% block content %}
+<h1>Search</h1>
+
+<form method="get" action=".">
+    <table>
+        {{ form.as_table }}
+        <tr>
+            <td>&nbsp;</td>
+            <td>
+                <input type="submit" value="Search">
+            </td>
+        </tr>
+    </table>
+
+    {% if page.object_list %}
+        <h3>Results</h3>
+
+        {% for result in page.object_list %}
+            <div class="block">
+                {% if result.object.user %}
+                  {% render_partial user result.object.user %}
+                {% else %}
+                  {% render_partial post_preview result.object %}
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>No results found.</p>
+        {% endfor %}
+    {% endif %}
+</form>
+{% endblock %}
