@@ -3,16 +3,56 @@ import django
 import platform
 import socket
 
-# Django settings for benchmarks project.
+# Production vs. Development settings
+# Controls debugging, web app url, and FCGI setup, if needed
+if platform.node() == 'syrus.cse.ohio-state.edu':
+  # Production
+  FORCE_SCRIPT_NAME = ''
+  SITE_URL = 'resolve.cse.ohio-state.edu'
+  DEBUG = False
+  TEMPLATE_DEBUG = False
+else:
+  # Development
+  SITE_URL = '127.0.0.1:8000'
+  DEBUG = True
+  TEMPLATE_DEBUG = True
+
+# Paths
+# DJANGO_ROOT - Path to Django installation
+# SITE_ROOT - Path to this file
+DJANGO_ROOT = os.path.dirname(os.path.realpath(django.__file__))
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+
+# Haystack search configuration
+HAYSTACK_SITECONF = 'benchmarks.search_sites'
+HAYSTACK_SEARCH_ENGINE = 'whoosh'
+HAYSTACK_WHOOSH_PATH = os.path.join(SITE_ROOT, 'db/search_index')
+
+# Contrib apps settings
 AUTH_PROFILE_MODULE = 'users.UserProfile'
+COMMENTS_APP = 'benchmarks.extended_comments'
 
-# Set up relative paths
-DJANGO_ROOT = os.path.dirname(os.path.realpath(django.__file__)) # path to the django installation
-SITE_ROOT = os.path.dirname(os.path.realpath(__file__)) # path to the project directory
+# Email settings for django.core.mail
+# Used for registration purposes
+# See the readme for setting up email_settings.py
+EMAIL_ENABLED = False
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+try:
+  import email_settings
+except ImportError:
+  # This is okay, eg. if we are in the development environment
+  pass
+else:
+  EMAIL_USE_TLS = email_settings.EMAIL_USE_TLS
+  EMAIL_HOST = email_settings.EMAIL_HOST
+  EMAIL_HOST_USER = email_settings.EMAIL_HOST_USER
+  EMAIL_HOST_PASSWORD = email_settings.EMAIL_HOST_PASSWORD
+  EMAIL_PORT = email_settings.EMAIL_PORT
+  ADMIN_EMAIL = email_settings.ADMIN_EMAIL
+  SERVER_EMAIL = ADMIN_EMAIL
+  EMAIL_ENABLED = True
 
+# Administrator email settings
 ADMINS = (
     ('Joel Burget', 'burget.6@osu.edu'),
     ('Colin Drake', 'drake.248@osu.edu'),
@@ -20,9 +60,9 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+# Database configuration
 DATABASES = {
     'default': {
-      #sqlite3 for now
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': os.path.join(SITE_ROOT, 'db') + '/development.db',                      # Or path to gatabase file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
@@ -79,6 +119,7 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+# Included middleware classes
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -88,8 +129,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
+# Base URL configuration
 ROOT_URLCONF = 'benchmarks.urls'
 
+# Template search directories
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
@@ -97,7 +140,10 @@ TEMPLATE_DIRS = (
     os.path.join(SITE_ROOT, 'templates')
 )
 
+# Django apps included
 INSTALLED_APPS = (
+    'haystack',
+    'flup',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -109,38 +155,5 @@ INSTALLED_APPS = (
     'benchmarks.posts',
     'benchmarks.users',
     'benchmarks.extended_comments',
-    'benchmarks.flup',
     'benchmarks.templatetags',
 )
-
-COMMENTS_APP = 'benchmarks.extended_comments'
-COMPRESS = True
-
-# django.core.mail Setup
-# Used for registration purposes
-EMAIL_ENABLED = False
-
-try:
-  import email_settings
-except ImportError:
-  # This is okay, eg. if we are in the development environment
-  pass
-else:
-  EMAIL_USE_TLS = email_settings.EMAIL_USE_TLS
-  EMAIL_HOST = email_settings.EMAIL_HOST
-  EMAIL_HOST_USER = email_settings.EMAIL_HOST_USER
-  EMAIL_HOST_PASSWORD = email_settings.EMAIL_HOST_PASSWORD
-  EMAIL_PORT = email_settings.EMAIL_PORT
-  ADMIN_EMAIL = email_settings.ADMIN_EMAIL
-  SERVER_EMAIL = ADMIN_EMAIL
-  EMAIL_ENABLED = True
-
-# Server-specific lines
-host = platform.node()
-
-if host == 'syrus.cse.ohio-state.edu':
-  FORCE_SCRIPT_NAME = ''
-  DEBUG = False
-  SITE_URL = 'resolve.cse.ohio-state.edu'
-else:
-  SITE_URL = '127.0.0.1:8888'
