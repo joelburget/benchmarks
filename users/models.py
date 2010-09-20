@@ -5,7 +5,7 @@ from django.db.models.signals import post_save
 # User Profiles
 class UserProfile(models.Model):
   user = models.ForeignKey(User, unique=True)
-  bio = models.TextField()
+  bio = models.TextField(blank=True, null=True)
   showemail = models.BooleanField(default=True)
   group = models.ForeignKey(Group, null=True)
 
