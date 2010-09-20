@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}New{% endblock %}
+
+{% block content %}
+<h1>New Post</h1>
+<form method="post" action=".">{% csrf_token %}
+  <input style="display:none" name="category" id="category" value="{{ category }}" />
+  <label for="title">Title</label>
+  <input name="title" id="title" />
+  <input type="submit" value="Next" />
+</form>
+{% endblock %}

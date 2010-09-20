@@ -283,3 +283,58 @@ def detail(request, object_id):
   # Render response
   return render_to_response('posts/post_detail.html', {'object' : object, 'revision' : revision},
     context_instance=RequestContext(request))
+
+@login_required
+def new(request):
+  if request.method == 'GET':
+    if request.user.get_profile().group == None:
+      # No group error
+      return redirect_to_error(403, 'You need to join a group before posting!')
+    else:
+      # Render basic new post page
+      return direct_to_template(request, 'posts/new.html')
+  else:
+    # Create a new post
+    title = request.POST.get('title')
+    category = request.POST.get('category', 'P')
+    post = Post(title = title,
+                category = category, 
+                author = request.user, 
+                group = request.user.get_profile().group)
+    post.save()
+    return HttpResponseRedirect('/posts/%s/upload/' % post.pk)
+
+@login_required
+def upload(request, post_id):
+  post = get_object_or_404(Post, pk=post_id)
+
+  if request.method == 'GET':
+    if post.group == request.user.get_profile().group:
+      # Render form
+      return direct_to_template(request, 'posts/upload.html', {'post':post})
+    else:
+      # Incorrect permissions
+      return redirect_to_error(403, '')    
+  else:
+    # Associate uploaded files with this post
+    for f in request.FILES:
+      file = PostFile(file = f, filetype = 'O')
+      file.save()
+      post.files.add(file)
+
+    post.save()
+    return HttpResponseRedirect('/posts/%s/manage/' % post.pk)
+
+@login_required
+def manage(request, post_id):
+  post = get_object_or_404(Post, pk=post_id)
+
+  if request.method == 'GET':
+    if post.group == request.user.get_profile().group:
+      # Render form
+      pass
+    else:
+      # Incorrect permissions
+      return redirect_to_error(403, '')
+  else:
+    pass
