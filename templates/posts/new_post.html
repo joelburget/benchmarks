@@ -13,6 +13,11 @@
   <h3 id="nojs">This page works best with Javascript enabled&hellip;</h3>
 </noscript>
 
+{% comment %}
+{% load introspection %}
+{% inspect_object "form" form %}
+{% endcomment %}
+
 <h2>{% if edit %}Edit{% else %}New{% endif %} Post</h2>
 
 {% if user.get_profile.group == None %}
@@ -29,11 +34,11 @@
     <li>{{ form.title.label_tag }}</li>
     <li>{{ form.title }}</li>
 
-    <li>{{ form.body.label_tag }}</li>
+    <li>Body</li>
     <div id="minihelp">
     	<p>We accept LaTeX like <span style="font-family:monospace; font-size: 1.2em;">$$x^2$$</span>, and HTML like <code>pre</code>, <i>i</i>, <b>b</b>, and <a href="/formatting" target="_blank">more.</a></p>
     </div>    
-    <li>{{ form.body }}</li>
+    <li>{{ form.raw_body }}</li>
 
     <input type="hidden" style="display:none;" value="{% if category %}{{ category }}{% else %}P{% endif %}" name="category" id="category" />
     <input type="hidden" style="display:none;" value="{{ problem }}" name="problem" id="problem" />
@@ -80,7 +85,7 @@ $(document).ready(function(){
   });
 
   $("input:file").uniform();
-  var editor = CodeMirror.fromTextArea('id_body', {
+  var editor = CodeMirror.fromTextArea('id_raw_body', {
        parserfile: "parsexml.js",
        path: "{{ MEDIA_URL }}codemirror/js/",
        stylesheet: "{{ MEDIA_URL }}codemirror/css/xmlcolors.css",
@@ -88,7 +93,6 @@ $(document).ready(function(){
        width: "500px",
        electricChars: false,
        //tabMode: "spaces",
-       content: "{% filter escapejs %}{% firstof form.instance.body '<h2>Section Title</h2>' %}{% endfilter %}"
   });
   $("div.CodeMirror-wrapping textarea").attr("tabindex", "1");
 });

@@ -48,12 +48,13 @@ def editpost(request, post_id, **kwargs):
     else:
       # Failure, rerender the form page
       form = PostForm(instance = post)
-      return render_to_response('posts/new_post.html', {'form' : form, 'edit': True }, \
+      return render_to_response('posts/new_post.html', 
+                                {'form' : form, 'edit': True },
                                 context_instance=RequestContext(request))
-  else:
+  else: # request.method == 'GET'
     # Display edit form for post
     post = get_object_or_404(Post, pk=post_id)
-    form = PostForm(instance = post)
+    form = PostForm(instance=post)
     return render_to_response('posts/new_post.html',
                               {
                                 'form' : form,
@@ -98,8 +99,11 @@ def newpost(request, **kwargs):
         # above as well
         #post.save()
 
+      post.render_equations()
+
       # Success, render the post
-      return HttpResponseRedirect("%s%s" % (post.get_absolute_url(), "created/"))
+      return HttpResponseRedirect("%s%s" % (post.get_absolute_url(), 
+                                  "created/"))
     else:
       # Failure, rerender the form page
       form = PostForm(instance = post)
@@ -154,9 +158,9 @@ def manage_files_get(request, post_id):
     post = Post.objects.get(pk=post_id)
     if request.user != post.author:
       return HttpRespnseRedirect('/')
-    return render_to_response('posts/manage_files.html', {'files': post.files}, context_instance=RequestContext(request))
+    return render_to_response('posts/manage_files.html', \
+      {'files': post.files}, context_instance=RequestContext(request))
   except Exception as e:
-    print e
     return HttpResponseRedirect('/')
 
 def index(request):
@@ -173,7 +177,7 @@ def index(request):
     # Search performed
     searchtxt = request.GET['searchtxt']  # main search textbox
     title = request.GET.get('title', '')  # advanced -title of post
-    body = request.GET.get('body', '')    # advanced - body of post
+    body = request.GET.get('raw_body', '')    # advanced - body of post
     user = request.GET.get('user', '')    # advanced - author
 
     categories = []                       # get categories selected
@@ -184,11 +188,11 @@ def index(request):
 
     # Determine text search required
     if title != '' and body != '':
-      text = Q(title__icontains=title) & Q(body__icontains=body)
+      text = Q(title__icontains=title) & Q(raw_body__icontains=body)
     elif title != '' and body == '':
       text = Q(title__icontains=title)
     elif title == '' and body != '':
-      text = Q(body__icontains=body)
+      text = Q(raw_body__icontains=body)
     else:
       text = Q(title__icontains=searchtxt) | Q(body__icontains=searchtxt)
 
@@ -201,7 +205,8 @@ def index(request):
 
     # Check for advanced query
     # i.e. textfield, bodyfield, or less than the amount of post types we have
-    advanced_submitted = len(categories) < len(POSTTYPES) or title != '' or body != '' or user != ''
+    advanced_submitted = len(categories) < len(POSTTYPES) \
+                         or title != '' or body != '' or user != ''
 
     # Advanced query
     pposts = Post.objects.filter(
@@ -226,6 +231,8 @@ def index(request):
     context_instance=RequestContext(request))
 
 def posthistory(request, post_id, post_history_id, **kwargs):
+  print post_id
+  print post_history_id
   post = None
 
   if post_history_id == 'original':
@@ -256,7 +263,9 @@ def created(request, post_id):
     if not post.files.all():
       return HttpResponseRedirect(post.get_absolute_url())
     else:
-      return direct_to_template(request, 'posts/created.html', {'post_id': post_id})
+      return direct_to_template(request, 
+                                'posts/created.html', 
+                                {'post_id': post_id})
 
   else:
     if 'see' in request.POST.keys():
@@ -264,11 +273,13 @@ def created(request, post_id):
       return HttpResponseRedirect(post.get_absolute_url())
     else:
       return HttpResponseRedirect("%smanage_files/" % post.get_absolute_url())
-  return render_to_response('posts/categorize.html', context_instance=RequestContext(request))
+  return render_to_response('posts/categorize.html', 
+                            context_instance=RequestContext(request))
 
 def detail(request, object_id):
   # Get object
   object = Post.objects.get(pk=object_id)
+
 
   # Get Revision
   rev = None

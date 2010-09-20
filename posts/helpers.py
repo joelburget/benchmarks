@@ -9,6 +9,14 @@ from benchmarks.posts.forms import PostForm
 from django.core.mail import EmailMessage
 
 def new_post(post, params):
+  """Create a new post
+
+  Arguments:
+  post -- A new, empty post object to be filled in
+  params -- request.POST
+
+  """
+
   # Set content
   form = PostForm(params, instance = post)
 
@@ -18,19 +26,19 @@ def new_post(post, params):
     return True
   else:
     # Data is invalid
-    print form.errors
     return False
 
 def update_post(post, params, user):
-  if params.get('body', ''):
+  if params.get('raw_body', ''):
     # Move old content into a Revision
     rev = PostRevision(author = user)
-    rev.body = post.body
+    rev.display_body = post.display_body
     rev.group = post.group
     rev.save()
 
     # Fill post with new, edited data
-    post.body = params['body']
+    post.raw_body = params['raw_body']
+    post.render_equations()
 
     # Check for substantial edits
     if params.get('substantial', None) and post.category == 'P':
