@@ -1,5 +1,5 @@
 import datetime
-import markdown
+import markdown2
 from os.path import basename
 
 from django.conf import settings
@@ -68,6 +68,6 @@ class ExtendedCommentFile(models.Model):
 #
 
 def convert_markdown(sender, instance, **kwargs):
-  instance.comment_display = markdown.markdown(instance.comment)
+  instance.comment_display = markdown2.markdown(instance.comment)
 
 signals.pre_save.connect(convert_markdown, sender=ExtendedComment)
