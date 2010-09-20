@@ -2,7 +2,7 @@
 assets/CACHE/*
 assets/uploads/*
 assets/css/*.css
-db/*.db
+db/*
 do/*
 *.swp
 note
