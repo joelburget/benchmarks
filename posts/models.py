@@ -26,7 +26,6 @@ POSTTYPES = (
 class Post(models.Model):
   # Attributes
   title = models.CharField(max_length=200)
-  raw_body = models.TextField(default="<h2>Section Title</h2>")
   display_body = models.TextField()
   author = models.ForeignKey(User)
   group = models.ForeignKey(Group)
@@ -114,8 +113,6 @@ class Post(models.Model):
     #
     # Endhelpers
     #
-
-    self.display_body = self.raw_body
 
     svalue = re.sub(
         '\$\$(.*?)\$\$',

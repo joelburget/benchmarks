@@ -29,7 +29,7 @@ def new_post(post, params):
     return False
 
 def update_post(post, params, user):
-  if params.get('raw_body', ''):
+  if params.get('body', ''):
     # Move old content into a Revision
     rev = PostRevision(author = user)
     rev.display_body = post.display_body
@@ -37,7 +37,7 @@ def update_post(post, params, user):
     rev.save()
 
     # Fill post with new, edited data
-    post.raw_body = params['raw_body']
+    post.body = params['body']
     post.render_equations()
 
     # Check for substantial edits

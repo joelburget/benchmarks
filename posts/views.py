@@ -177,7 +177,7 @@ def index(request):
     # Search performed
     searchtxt = request.GET['searchtxt']  # main search textbox
     title = request.GET.get('title', '')  # advanced -title of post
-    body = request.GET.get('raw_body', '')    # advanced - body of post
+    body = request.GET.get('body', '')    # advanced - body of post
     user = request.GET.get('user', '')    # advanced - author
 
     categories = []                       # get categories selected
@@ -188,11 +188,11 @@ def index(request):
 
     # Determine text search required
     if title != '' and body != '':
-      text = Q(title__icontains=title) & Q(raw_body__icontains=body)
+      text = Q(title__icontains=title) & Q(body__icontains=body)
     elif title != '' and body == '':
       text = Q(title__icontains=title)
     elif title == '' and body != '':
-      text = Q(raw_body__icontains=body)
+      text = Q(body__icontains=body)
     else:
       text = Q(title__icontains=searchtxt) | Q(body__icontains=searchtxt)
 
