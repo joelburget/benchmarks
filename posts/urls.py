@@ -17,12 +17,15 @@ urlpatterns = patterns('',
   (r'^(?P<object_id>\d+)/$', 'benchmarks.posts.views.detail'),
 
   # Edit post
-  (r'^new/$', 'benchmarks.posts.views.newpost'),
-  (r'^(?P<post_id>\d+)/manage_files/$', 'benchmarks.posts.views.manage_files'),
-  (r'^(?P<post_id>\d+)/edit/$', 'benchmarks.posts.views.editpost'),
+  (r'^new/title$', 'benchmarks.posts.views.title'),
+  (r'^new/upload$', 'benchmarks.posts.views.upload'),
+  (r'^new/manage$', 'benchmarks.posts.views.manage'),
+  (r'^new/description$', 'benchmarks.posts.views.description'),
 
-  # Send users here after creating a new post
-  (r'^(?P<post_id>\d+)/created/$', 'benchmarks.posts.views.created'),
+  (r'^(?P<post_id>\d+)/title$', 'benchmarks.posts.views.title'),
+  (r'^(?P<post_id>\d+)/upload$', 'benchmarks.posts.views.upload'),
+  (r'^(?P<post_id>\d+)/manage$', 'benchmarks.posts.views.manage'),
+  (r'^(?P<post_id>\d+)/description$', 'benchmarks.posts.views.description'),
 
   # AJAX post history
   (r'^(?P<post_id>\d+)/history/(?P<post_history_id>[a-zA-Z0-9]+)(/.+)*/$', 'benchmarks.posts.views.posthistory'),
