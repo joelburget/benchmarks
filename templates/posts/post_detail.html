@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load gravatar %}
 {% load extended_comments %}
-{% load linebreaks_smart %}
 {% load partials %}
 {% load tex %}
 
@@ -113,7 +112,7 @@
     <p class="commentBox" {% if user == comment.user %}style="background-color:#ddd;"{% endif %}><a href="{{ comment.get_absolute_url }}">#{{ forloop.counter }}</a> &mdash; {{ comment.published|date:"F j, Y" }} at {{ comment.published|date:"P" }} by <a href="{{ comment.user.get_profile.get_absolute_url }}">{{ comment.user.get_profile.get_display_name }}</a></p> 
     <div class="gravatar"><a href="{{ comment.user.get_absolute_url }}">{% gravatar comment.user.email 48 %}</a></div>
     <div class="comment">
-      {{ comment.comment|safe|linebreaks|tex_to_images }}
+      {{ comment.comment_display|safe|tex_to_images }}
 
       {% if comment.extendedcommentfile_set.all %}
         <h4>Attached Files:</h4>
@@ -151,6 +150,7 @@
 
 {% block jsblock %}
 {% include "partials/jquery.html" %}
+{% include "partials/jquery_texteditor.html" %}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/jqueryFileTree/jqueryFileTree.js"></script>
 <script src="{{ MEDIA_URL }}js/jquery.uniform.js" type="text/javascript"></script>
 
@@ -191,11 +191,14 @@
     // Revisions button is clicked, refresh content
     $.get(escape('/posts/{{ object.pk }}/history/' + $('#revision').val() + "/" + new Date().getTime() + "/"), function(data) {
       $('#post-content').fadeOut(500, function() {
+        alert("data: " + data);
         $(this).html(data).fadeIn(500).effect('highlight', {}, 1000);
       });
     });
     return false;
   });
+
+  {% include "partials/textEditor.html" %}
 })(jQuery);
 </script>
 {% endblock %}

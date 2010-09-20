@@ -1,4 +1,5 @@
 import datetime
+import markdown
 from os.path import basename
 
 from django.conf import settings
@@ -6,9 +7,6 @@ from django.contrib.comments.models import BaseCommentAbstractModel
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import signals
-
-import html5lib
-from html5lib import sanitizer
 
 #
 # Comments
@@ -20,6 +18,7 @@ class ExtendedComment(BaseCommentAbstractModel):
   user = models.ForeignKey(User)
   published = models.DateTimeField('Date Published', auto_now_add=True)
   comment = models.TextField('comment', max_length=COMMENT_MAX_LENGTH)
+  comment_display = models.TextField(max_length=COMMENT_MAX_LENGTH)
   #file = models.ForeignKey('ExtendedCommentFile', null=True, blank=True)
 
   #I'm not sure if this class is really necessary, but the normal comment
@@ -68,8 +67,7 @@ class ExtendedCommentFile(models.Model):
 # Signals
 #
 
-def sanitize_comment(sender, instance, **kwargs):
-  p = html5lib.HTMLParser(tokenizer=sanitizer.HTMLSanitizer)
-  instance.comment = p.parse(instance.comment).childNodes[0].childNodes[1].toxml()[6:-7]
+def convert_markdown(sender, instance, **kwargs):
+  instance.comment_display = markdown.markdown(instance.comment)
 
-signals.pre_save.connect(sanitize_comment, sender=ExtendedComment)
+signals.pre_save.connect(convert_markdown, sender=ExtendedComment)

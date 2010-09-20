@@ -1,2 +1,2 @@
-{% load linebreaks_smart %}
-{{ item.display_body|linebreaks_smart }}
+{% load tex %}
+{{ item.body_display|tex_to_images }}

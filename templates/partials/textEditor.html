@@ -1,0 +1,18 @@
+$("textarea").textEditor({
+  icons_dir: "{{ MEDIA_URL }}img/icons/",
+  separator_icon: "separator.png",
+  buttons: [
+    ['Horizontally center', '->%s<-', 'edit-alignment-center.png'],
+    [],
+    ['Heading', '# %s', 'edit-heading.png'],
+    ['Bold or emphasized', '**%s**', 'edit-bold.png'],
+    ['Italic', '_%s_', 'edit-italic.png'],
+    ['Code block', '`%s`', 'edit-code.png'],
+    ['Mathematical statements', '$$%s$$', 'edit-mathematics.png'],
+    [],
+    ['Bulleted list', '* %s', 'edit-list.png'],
+    ['Ordered list', '1. %s', 'edit-list-order.png'],
+    ['Blockquote', '> %s', 'edit-quotation.png'],
+    ['Horizontal Rule', '- - -', 'edit-rule.png'],
+  ]
+});

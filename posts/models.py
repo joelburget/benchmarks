@@ -1,3 +1,4 @@
+import markdown
 from benchmarks.templatetags.templatetags.date_diff import date_diff
 from benchmarks.templatetags.helpers.latexmath2png import math2png
 from benchmarks.settings import MEDIA_ROOT, MEDIA_URL
@@ -7,10 +8,6 @@ from django.contrib.auth.models import User, Group
 from django.db.models import signals
 from django.db import models
 
-import re
-import hashlib
-import html5lib
-from html5lib import sanitizer
 import os
 from multiprocessing import Process, Queue
 from Queue import Empty
@@ -26,7 +23,12 @@ POSTTYPES = (
 class Post(models.Model):
   # Attributes
   title = models.CharField(max_length=200)
+<<<<<<< HEAD
   display_body = models.TextField()
+=======
+  body = models.TextField()
+  body_display = models.TextField(blank=True, null=True)
+>>>>>>> 875c6168de1f92e46095718898cd93173dd912c9
   author = models.ForeignKey(User)
   group = models.ForeignKey(Group)
   previous = models.ForeignKey('PostRevision', blank=True, null=True)
@@ -62,6 +64,7 @@ class Post(models.Model):
 
     return hist
 
+<<<<<<< HEAD
   def render_equations(self):
     """Fill in display_body and create equation images
 
@@ -134,12 +137,19 @@ def sanitize_post(sender, instance, **kwargs):
 
 signals.pre_save.connect(sanitize_post, sender=Post)
 
+=======
+>>>>>>> 875c6168de1f92e46095718898cd93173dd912c9
 #
 # Revisions
 #
 class PostRevision(models.Model):
   # Attributes
+<<<<<<< HEAD
   display_body = models.TextField()
+=======
+  body = models.TextField()
+  body_display = models.TextField(blank=True, null=True)
+>>>>>>> 875c6168de1f92e46095718898cd93173dd912c9
   author = models.ForeignKey(User)
   group = models.ForeignKey(Group)
   previous = models.ForeignKey('PostRevision', blank=True, null=True)
@@ -149,6 +159,12 @@ class PostRevision(models.Model):
   # Method
   def __unicode__(self):
     return str(date_diff(self.published))
+
+def convert_markdown(sender, instance, **kwargs):
+  instance.body_display = markdown.markdown(instance.body)
+
+signals.pre_save.connect(convert_markdown, sender=Post)
+signals.pre_save.connect(convert_markdown, sender=PostRevision)
 
 #
 # Files

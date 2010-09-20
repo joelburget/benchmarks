@@ -251,7 +251,7 @@ def posthistory(request, post_id, post_history_id, **kwargs):
 
   # Return the post
   if request.is_ajax():
-    return render_to_response('posts/post.html', { 'object' : post })
+    return render_to_string('partials/post_full.html', { 'item' : post })
   else:
     return render_to_response('posts/post_detail.html', 
         { 'object' : post }, 
