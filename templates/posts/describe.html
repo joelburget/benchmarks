@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Describe{% endblock %}
+
+{% block content %}
+<h1>Describe this post</h1>
+
+<form method="post" action=".">
+  <ul>
+    <li>
+    <textarea name="body" id="body">
+# Results
+
+Describe results here.
+{% for file in post.files.all %}
+# {{ file.get_filetype_display }} Files
+
+Describe files of this type here.
+{% endfor %}
+    </textarea>
+    </li>
+
+    <li><input type="submit" value="Save" /></li>
+  </ul>
+</form>
+{% endblock %}

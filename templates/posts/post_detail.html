@@ -49,9 +49,9 @@
 
 <!-- Body -->
 {% if revision %}
-<div id="post-content">{{ object.display_body|safe }}</div>
+<div id="post-content">{{ object.body_display|safe }}</div>
 {% else %}
-<div id="post-content">{{ object.display_body|safe }}</div>
+<div id="post-content">{{ object.body_display|safe }}</div>
 {% endif %}
 
 <!-- Files -->

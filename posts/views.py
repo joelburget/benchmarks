@@ -2,7 +2,7 @@ from urllib import unquote
 
 from benchmarks.helpers import *
 from benchmarks.posts.helpers import *
-from benchmarks.posts.models import Post, POSTTYPES
+from benchmarks.posts.models import Post, POSTTYPES, FILETYPES
 from benchmarks.posts.forms import PostForm
 from benchmarks.templatetags.templatetags.date_diff import date_diff
 from benchmarks.settings import SITE_ROOT
@@ -334,7 +334,11 @@ def upload(request, post_id):
       post.files.add(file)
 
     post.save()
-    return HttpResponseRedirect('/posts/%s/manage/' % post.pk)
+
+    if request.FILES:
+      return HttpResponseRedirect('/posts/%s/manage/' % post.pk)
+    else:
+      return HttpResponseRedirect('/posts/%s/description/' % post.pk)
 
 @login_required
 def manage(request, post_id):
@@ -343,9 +347,39 @@ def manage(request, post_id):
   if request.method == 'GET':
     if post.group == request.user.get_profile().group:
       # Render form
-      pass
+      return direct_to_template(request, 'posts/manage_files.html', {'post' : post}) 
     else:
       # Incorrect permissions
       return redirect_to_error(403, '')
   else:
-    pass
+    # Update filetypes for all files associated with this post
+    for key in request.POST:
+      value = request.POST[key]
+
+      if key != 'csrfmiddlewaretoken':
+        pk = value[:-1]
+        type = value[-1:]
+
+        file = PostFile.objects.get(pk=pk)
+        file.filetype = type
+        file.save()
+
+    return HttpResponseRedirect('/posts/%s/description/' % post.pk)
+
+@login_required
+def description(request, post_id):
+  post = get_object_or_404(Post, pk=post_id)
+
+  if request.method == 'GET':
+    if post.group == request.user.get_profile().group:
+      # Render form
+      return direct_to_template(request, 'posts/describe.html', {'post':post})
+    else:
+      # Incorrect permissions
+      return redirect_to_error(403, '')
+  else:
+    # Update text
+    post.body = request.POST['body']
+    post.save()
+
+    return HttpResponseRedirect(post.get_absolute_url())

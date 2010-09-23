@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load partials %}
+{% load filetypes %}
 
 {% block title %}Categorize Your Files{% endblock %}
 
@@ -14,23 +15,25 @@
   <h3 id="nojs">This page works best with Javascript enabled&hellip;</h3>
 </noscript>
 
-{% if files.all %}
+{% if post.files.all %}
 <h3>Files:</h3>
 <form id="manageFilesForm" action="." method="post">
   <ul>
-{% for f in files.all %}
-{% comment %}
-<li><span class="buttons"><button type="button" class="btn" value="specs"><span><span><b>&nbsp;</b>Specs</span></span></button>&nbsp;<button type="button" class="btn" value="vcs"><span><span><b>&nbsp;</b>VCs</span></span></button>&nbsp;<button type="button" class="btn" value="code"><span><span><b>&nbsp;</b>Code</span></span></button>&nbsp;<button type="button" class="btn" value="other"><span><span><b>&nbsp;</b>Other</span></span></button></span><a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a></li>
-{% endcomment %}
-<li>
-<input type="radio" value="specs{{ f.pk }}" id="specs{{ f.pk }}" name="group{{ f.pk }}" {% if f.filetype == 'S' %}checked{% endif %}/><label for="specs{{ f.pk }}" class="lpill">Specs</label>
-<input type="radio" value="vcs{{ f.pk }}" id="vcs{{ f.pk }}" name="group{{ f.pk }}" {% if f.filetype == 'V' %}checked{% endif %} /><label for="vcs{{ f.pk }}">VCs</label>
-<input type="radio" value="code{{ f.pk }}" id="code{{ f.pk }}" name="group{{ f.pk }}" {% if f.filetype == 'C' %}checked{% endif %} /><label for="code{{ f.pk }}">Code</label>
-<input type="radio" value="other{{ f.pk }}" id="other{{ f.pk }}" name="group{{ f.pk }}" {% if f.filetype == 'O' %}checked{% endif %} /><label for="other{{ f.pk }}" class="rpill">Other</label>
-<a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a>
-</li>
-{% endfor %}
-<li><input class="button" type="submit" value="Submit" /></li>
+
+    {% filetypes post %}
+
+    {% comment %}
+    {% for f in post.files.all %} <li>
+      <input type="radio" value="specs{{ f.pk }}" id="specs{{ f.pk }}" name="group{{ f.pk }}" {% if f.filetype == 'S' %}checked{% endif %}/><label for="specs{{ f.pk }}" class="lpill">Specs</label>
+      <input type="radio" value="vcs{{ f.pk }}" id="vcs{{ f.pk }}" name="group{{ f.pk }}" {% if f.filetype == 'V' %}checked{% endif %} /><label for="vcs{{ f.pk }}">VCs</label>
+      <input type="radio" value="code{{ f.pk }}" id="code{{ f.pk }}" name="group{{ f.pk }}" {% if f.filetype == 'C' %}checked{% endif %} /><label for="code{{ f.pk }}">Code</label>
+      <input type="radio" value="other{{ f.pk }}" id="other{{ f.pk }}" name="group{{ f.pk }}" {% if f.filetype == 'O' %}checked{% endif %} /><label for="other{{ f.pk }}" class="rpill">Other</label>
+      <a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a>
+      </li>
+    {% endfor %}
+    {% endcomment %}
+
+    <li><input class="button" type="submit" value="Submit" /></li>
   </ul>
 </form>
 {% else %}

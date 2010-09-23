@@ -152,9 +152,8 @@ signals.pre_save.connect(convert_markdown, sender=PostRevision)
 # Files
 #
 FILETYPES = (
-  ('S', 'Specs'),
-  ('C', 'Code'),
-  ('V', 'VCs'),
+  ('N', 'Tool Input'),
+  ('U', 'Tool Output'),
   ('O', 'Other'),
 )
 
