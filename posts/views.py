@@ -310,7 +310,9 @@ def new(request):
     # Create a new post
     title = request.POST.get('title')
     category = request.POST['category'] if 'category' in request.POST else 'P'
-    problem = Post.objects.get(pk=request.POST['problem']) if 'problem' in request.POST else None
+    pk = request.POST['problem'].isdigit()
+    problem = Post.objects.get(pk=int(request.POST['problem'])) if pk else None
+
     post = Post(title = title,
                 problem = problem,
                 category = category, 
