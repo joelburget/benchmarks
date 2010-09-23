@@ -6,6 +6,7 @@
 <h1>New Post</h1>
 <form method="post" action=".">{% csrf_token %}
   <input style="display:none" name="category" id="category" value="{{ category }}" />
+  <input style="display:none" name="problem" id="problem" value="{{ problem }}" />
   <label for="title">Title</label>
   <input name="title" id="title" />
   <input type="submit" value="Next" />

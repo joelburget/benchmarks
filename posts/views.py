@@ -303,12 +303,16 @@ def new(request):
       return redirect_to_error(403, 'You need to join a group before posting!')
     else:
       # Render basic new post page
-      return direct_to_template(request, 'posts/new.html')
+      return direct_to_template(request, 'posts/new.html', {
+                                  'category' : request.GET.get('category', 'P'),
+                                  'problem' : request.GET.get('problem', '')})
   else:
     # Create a new post
     title = request.POST.get('title')
-    category = request.POST.get('category', 'P')
+    category = request.POST['category'] if 'category' in request.POST else 'P'
+    problem = Post.objects.get(pk=request.POST['problem']) if 'problem' in request.POST else None
     post = Post(title = title,
+                problem = problem,
                 category = category, 
                 author = request.user, 
                 group = request.user.get_profile().group)
