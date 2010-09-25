@@ -64,5 +64,5 @@ class UsersTest(TestCase):
     user = User(username="jeff")
     user.save()
     r = self.c.get('%sedit/' % user.get_absolute_url())
-    found = r.content.index('Sorry, you cannot edit a profile other than your own!')
+    found = r.content.index('Oops!')
     self.failIfEqual(found, -1)
