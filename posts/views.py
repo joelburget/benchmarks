@@ -335,12 +335,16 @@ def upload(request, post_id):
   else:
     # Associate uploaded files with this post
     for f in request.FILES:
-      file = PostFile(file = f, filetype = 'O')
+      file = PostFile(file = request.FILES[f], filetype = 'O')
       file.save()
       post.files.add(file)
 
+      zippath = os.path.join(SITE_ROOT, 'assets/') + str(file.file)
+      decompress(zippath, post)
+
     post.save()
 
+    # Redirect to either the file management interface or the description editor
     if request.FILES:
       return HttpResponseRedirect('/posts/%s/manage/' % post.pk)
     else:
