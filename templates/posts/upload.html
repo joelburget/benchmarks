@@ -14,15 +14,17 @@
 <h1>Upload files</h1>
 
 <form enctype="multipart/form-data" action="." method="post">{% csrf_token %}
-  <li><label>Files</label></li>
-  <li> 
-    <ul id="fileUploads">
-      <li><input class="realupload" type="file" name="file1" id="file1" /></li>
-    </ul>
-  </li>
-  <li><a href="#" id="addFile">Add another file...</a></li>
+  <ul>
+    <li><label>Files</label></li>
+    <li> 
+      <ul id="fileUploads">
+        <li><input class="realupload" type="file" name="file1" id="file1" /></li>
+      </ul>
+    </li>
+    <li><a href="#" id="addFile">Add another file...</a></li>
 
-  <li><input class="button" type="submit" value="Next" /></li>
+    <li><input class="button" type="submit" value="Next" /></li>
+  </ul>
 </form>
 {% endblock %}
 
@@ -31,14 +33,22 @@
 <script src="{{ MEDIA_URL }}js/jquery.uniform.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-  var num_of_files = 1;
+  var num_files = 1;
   $("input:file").uniform();
+
+  // "Add file" link clicked
   $('#addFile').click(function() {
+    // Update file counter
     num_files++;
-    $('#fileUploads').append(
-      '<li><input class="realupload" type="file" name="file' + num_files + '" id="file' + num_files + '" /></li>'
-    );
-    $('#file' + num_files).uniform();
+
+    // Create and insert file 
+    var li = $(document.createElement('li'))
+      .appendTo('#fileUploads');
+    $(document.createElement('input'))
+      .addClass('realupload')
+      .attr({'type': 'file', name: 'file' + num_files, 'id': 'file' + num_files})
+      .appendTo(li)
+      .uniform();
     return false;
   });
 });
