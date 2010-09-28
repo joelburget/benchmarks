@@ -9,6 +9,8 @@ from django.db.models import signals
 from django.db import models
 
 import os
+import re
+import hashlib
 from multiprocessing import Process, Queue
 from Queue import Empty
 
@@ -61,7 +63,7 @@ class Post(models.Model):
     return hist
 
   def render_equations(self):
-    """Fill in display_body and create equation images
+    """Fill in body_display and create equation images
 
     Note:
     The image is created on the server and stored in the
@@ -115,14 +117,14 @@ class Post(models.Model):
     svalue = re.sub(
         '\$\$(.*?)\$\$',
         __replace,
-        self.display_body,
+        self.body_display,
         re.DOTALL)
 
     # If you're brave, remove the following line, and the user will get their
     # response without having to wait for the images to render. Probably.
     p.join()
 
-    self.display_body = svalue
+    self.body_display = svalue
     self.save()
 
 #
@@ -145,8 +147,8 @@ class PostRevision(models.Model):
 def convert_markdown(sender, instance, **kwargs):
   instance.body_display = markdown2.markdown(instance.body)
 
-signals.pre_save.connect(convert_markdown, sender=Post)
-signals.pre_save.connect(convert_markdown, sender=PostRevision)
+#signals.pre_save.connect(convert_markdown, sender=Post)
+#signals.pre_save.connect(convert_markdown, sender=PostRevision)
 
 #
 # Files
