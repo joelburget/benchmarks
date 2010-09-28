@@ -31,12 +31,12 @@ class PostsTest(TestCase):
     post.previous = prev
     self.failUnlessEqual([post, prev], post.get_revisions())
 
-  def test_sanitize(self):
-    """Tests that post bodies are sanitized"""
-    post = Post(title='Boo', body='Hello! <script>alert();</script>',
+  def test_markdown(self):
+    """Tests that post bodies are markdownified"""
+    post = Post(title='Boo', body='# Hello!\nI like **bold** text.',
                 author=User.objects.all()[0], group=Group.objects.all()[0])
     post.save()
-    self.failUnlessEqual(post.body, 'Hello! &lt;script&gt;alert();&lt;/script&gt;')
+    self.failUnlessEqual(post.body_display, u'<h1>Hello!</h1>\n\n<p>I like <strong>bold</strong> text.</p>\n')
 
   # View tests
 

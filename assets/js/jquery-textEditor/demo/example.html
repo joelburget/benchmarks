@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <title>Test page!</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    <script type="text/javascript" src="../jquery.a-tools-1.5.2.min.js"></script>
+    <script type="text/javascript" src="../jquery.texteditor.js"></script>
+    <style>
+    textarea { width: 500px; height: 200px; }
+    .texteditor-separator {
+      margin: 5px;
+    }
+    .texteditor-button {
+      margin: 5px;
+    }
+    .texteditor-button:hover {
+      background-color: #eee;
+    }
+    </style>
+  </head>
+
+  <body>
+    <h1>Test page!</h1>
+
+    <form>
+      <textarea id="ta"></textarea><br />
+      <input type="submit" value="Save!" />
+    </form>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+      $('#ta').textEditor({
+        icons_dir: 'images/',
+        separator_icon: 'separator.png',
+        buttons: [
+          ['Horizontally center', '->%s<-', 'edit-alignment-center.png'],
+          [],
+          ['Heading', '# %s', 'edit-heading.png'],
+          ['Bold or emphasized', '**%s**', 'edit-bold.png'],
+          ['Italic', '_%s_', 'edit-italic.png'],
+          ['Code block', '`%s`', 'edit-code.png'],
+          ['Mathematical statements', '$$%s$$', 'edit-mathematics.png'],
+          [],
+          ['Bulleted list', '* %s', 'edit-list.png'],
+          ['Ordered list', '1. %s', 'edit-list-order.png'],
+          ['Blockquote', '> %s', 'edit-quotation.png'],
+          ['Horizontal Rule', '- - -', 'edit-rule.png'],
+        ]
+      });
+    });
+    </script>
+  </body>
+</html>

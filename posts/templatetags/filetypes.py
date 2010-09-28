@@ -1,4 +1,5 @@
 from benchmarks.posts.models import FILETYPES
+from benchmarks.settings import MEDIA_URL
 from django import template
 
 register = template.Library()
@@ -38,6 +39,6 @@ def filetypes(post):
       # Next filetype
       count += 1
 
-    out += '<a href="%s">%s</a></li>' % (file.file, file)
+    out += '<a href="%s%s">%s</a></li>' % (MEDIA_URL, file.file, file.file.name)
       
   return out
