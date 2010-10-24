@@ -8,14 +8,14 @@
 <form method="post" action=".">
   <ul>
     <li>
-    <textarea name="body" id="body">
+    <textarea style="width:400px;height:300px" name="body" id="body">
 # Results
 
 Describe results here.
-{% for file in post.files.all %}
-# {{ file.get_filetype_display }} Files
+{% for type in ftypes %}
+# {{ type }} Files
 
-Describe files of this type here.
+Describe "{{ type}}" files here.
 {% endfor %}
     </textarea>
     </li>
