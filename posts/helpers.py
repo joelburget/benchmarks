@@ -32,7 +32,7 @@ def update_post(post, params, user):
   if params.get('body', ''):
     # Move old content into a Revision
     rev = PostRevision(author = user)
-    rev.display_body = post.display_body
+    rev.body_display = post.body_display
     rev.group = post.group
     rev.save()
 

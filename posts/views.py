@@ -6,6 +6,7 @@ from benchmarks.posts.models import Post, POSTTYPES, FILETYPES
 from benchmarks.posts.forms import PostForm
 from benchmarks.templatetags.templatetags.date_diff import date_diff
 from benchmarks.settings import SITE_ROOT
+from benchmarks.markdown2 import markdown
 
 from django.contrib.auth.models import User
 from django.core import serializers
@@ -42,6 +43,11 @@ def editpost(request, post_id, **kwargs):
           # Unzip
           zippath = os.path.join(SITE_ROOT, 'assets/') + str(pf.file)
           decompress(zippath, post)
+
+      # Convert to markdown then replace TeX with images
+      post.body_display = markdown(post.body)
+      post.save()
+      post.render_equations()
 
       # Redirect to post
       return HttpResponseRedirect(post.get_absolute_url())
@@ -99,6 +105,9 @@ def newpost(request, **kwargs):
         # above as well
         #post.save()
 
+      # Convert to markdown then replace TeX with images
+      post.body_display = markdown(post.body)
+      post.save()
       post.render_equations()
 
       # Success, render the post
@@ -231,8 +240,6 @@ def index(request):
     context_instance=RequestContext(request))
 
 def posthistory(request, post_id, post_history_id, **kwargs):
-  print post_id
-  print post_history_id
   post = None
 
   if post_history_id == 'original':
@@ -395,5 +402,10 @@ def description(request, post_id):
     # Update text
     post.body = request.POST['body']
     post.save()
+
+    # Convert to markdown then replace TeX with images
+    post.body_display = markdown(post.body)
+    post.save()
+    post.render_equations()
 
     return HttpResponseRedirect(post.get_absolute_url())
