@@ -390,9 +390,9 @@ def description(request, post_id):
   if request.method == 'GET':
     if post.group == request.user.get_profile().group:
       # Render form
-      ftypes = []
+      ftypes = set()
       for file in post.files.all():
-        ftypes.append(file.get_filetype_display())
+        ftypes.add(file.get_filetype_display())
 
       return direct_to_template(request, 'posts/describe.html', {'post':post, 'ftypes':ftypes})
     else:

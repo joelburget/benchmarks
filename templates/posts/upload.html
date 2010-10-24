@@ -13,6 +13,15 @@
 
 <h1>Upload files</h1>
 
+<p>Next, you need to populate your new {{ post.get_category_display }} with 
+content. This is done with the file upload form below. Click on a button to
+choose a file to upload, and click the "Add another file..." link to add another
+file field.</p>
+
+<p><strong>Note:</strong> One of our goals is to keep an academically sound
+historical archive of progress in the software verification field. Please upload
+files whenever possible, instead of pasting links in the description section.</p>
+
 <form enctype="multipart/form-data" action="." method="post">{% csrf_token %}
   <ul>
     <li><label>Files</label></li>

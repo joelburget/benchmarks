@@ -16,7 +16,21 @@
 </noscript>
 
 {% if post.files.all %}
-<h3>Files:</h3>
+<h1>Manage files</h1>
+
+<p>Next, you need to categorize your files.</p>
+
+<p>
+<ul>
+  <li><strong>Tool Input:</strong> Code, Specs, etc.</li>
+  <li><strong>Tool Output:</strong> Verification Conditions, Tracing Tables, etc.</li>
+  <li><strong>Other:</strong> Any other type of document (instructional documentation, scientific papers, etc).</li>
+</ul>
+</p>
+
+<p>Each uploaded file is assigned to the category selected in grey button to its left. By default,
+the "Other" category is chosen for all files.</p>
+
 <form id="manageFilesForm" action="." method="post">
   <ul>
 

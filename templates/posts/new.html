@@ -3,7 +3,12 @@
 {% block title %}New{% endblock %}
 
 {% block content %}
-<h1>New Post</h1>
+<h1>New {% if problem %}Solution{% else %}Problem{% endif %}</h1>
+
+<p>Welcome to the new {% if problem %}solution{% else %}problem{% endif %} wizard. To start,
+please fill the following textbox with a descriptive title. For example, "Iterative Realization for the 
+UnboundedNaturalAdd Problem".</p>
+
 <form method="post" action=".">{% csrf_token %}
   <input style="display:none" name="category" id="category" value="{{ category }}" />
   <input style="display:none" name="problem" id="problem" value="{{ problem }}" />
