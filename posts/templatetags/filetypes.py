@@ -29,7 +29,7 @@ def filetypes(post):
       elif count == num - 1:
         klass = "rpill"
       else:
-        klass = ""
+        klass = "mpill"
 
       # Generate output
       checked = 'checked' if filetype == abbr else ''

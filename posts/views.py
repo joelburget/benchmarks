@@ -374,8 +374,11 @@ def manage(request, post_id):
       value = request.POST[key]
 
       if key != 'csrfmiddlewaretoken':
-        pk = value[:-1]
-        type = value[-1:]
+        # e.g. value = 'code3'
+        # pk = '3'
+        # type = 'code'
+        pk = value[-1:]
+        type = value[:-1]
 
         file = PostFile.objects.get(pk=pk)
         file.filetype = type
