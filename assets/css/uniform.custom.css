@@ -29,6 +29,12 @@ div.uploader {
   -moz-border-radius: 4px;
   -opera-border-radius: 4px;
   border-radius: 4px;
+  -webkit-box-shadow: 0 1px 0 #fff;
+  -moz-box-shadow: 0 1px 0 #fff;
+  box-shadow: 0 1px 0 #fff;
+  background: #eee;
+  background: -webkit-gradient(linear, left top, left bottom,from(#fff), to(#ddd));
+  background: -moz-linear-gradient(top, #fff, #ddd);
 }
 
 div.uploader span.filename {
@@ -44,10 +50,20 @@ div.uploader.focus,
 div.uploader.hover,
 div.uploader:hover {
   background-position: 0px -353px;
-	border-color: #999;
+  border-color: #999;
   -webkit-box-shadow: 0 0 3px #888;
   -moz-box-shadow: 0 0 3px #888;
   box-shadow: 0 0 3px #888;
+  background: #eee;
+  background: -webkit-gradient(linear, left top, left bottom,from(#fff), to(#ddd));
+  background: -moz-linear-gradient(top, #fff, #ddd);
+}
+
+div.uploader:active {
+  text-shadow: 0 1px 0 #eee;
+  -webkit-box-shadow: inset 0 1px 4px #000;
+  -moz-box-shadow: inset 0 1px 4px #000;
+  box-shadow: inset 0 1px 4px #000;
 }
 
 /* PRESENTATION */
