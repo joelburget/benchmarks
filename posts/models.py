@@ -13,6 +13,7 @@ import re
 import hashlib
 from multiprocessing import Process, Queue
 from Queue import Empty
+import reversion
 
 #
 # Post types
@@ -29,7 +30,6 @@ class Post(models.Model):
   body_display = models.TextField(blank=True, null=True)
   author = models.ForeignKey(User)
   group = models.ForeignKey(Group)
-  previous = models.ForeignKey('PostRevision', blank=True, null=True)
   published = models.DateTimeField(auto_now_add=True)
   category = models.CharField(max_length=1, choices=POSTTYPES)
   problem = models.ForeignKey('self', blank=True, null=True)
@@ -45,22 +45,6 @@ class Post(models.Model):
 
   def get_comments_absolute_url(self):
     return '%s#comments' % (self.get_permalink(),)
-
-  def save_revision(self, data):
-    pass
-
-  def get_revisions(self):
-    hist = [self]
-
-    if self.previous == None:
-      return hist
-
-    cur = self
-    while cur.previous != None:
-      cur = cur.previous
-      hist.append(cur)
-
-    return hist
 
   def render_equations(self):
     """Fill in body_display and create equation images
@@ -127,28 +111,8 @@ class Post(models.Model):
     self.body_display = svalue
     self.save()
 
-#
-# Revisions
-#
-class PostRevision(models.Model):
-  # Attributes
-  body = models.TextField()
-  body_display = models.TextField(blank=True, null=True)
-  author = models.ForeignKey(User)
-  group = models.ForeignKey(Group)
-  previous = models.ForeignKey('PostRevision', blank=True, null=True)
-  published = models.DateTimeField(auto_now_add=True)
-  files = models.ManyToManyField('PostFile', blank=True, null=True)
-
-  # Method
-  def __unicode__(self):
-    return str(date_diff(self.published))
-
-def convert_markdown(sender, instance, **kwargs):
-  instance.body_display = markdown2.markdown(instance.body)
-
-#signals.pre_save.connect(convert_markdown, sender=Post)
-#signals.pre_save.connect(convert_markdown, sender=PostRevision)
+if not reversion.is_registered(Post):
+	reversion.register(Post, follow=["files"])
 
 #
 # Files
@@ -168,3 +132,6 @@ class PostFile(models.Model):
 
   def __unicode__(self):
     return os.path.basename(self.file.name)
+
+if not reversion.is_registered(PostFile):
+	reversion.register(PostFile)

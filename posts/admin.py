@@ -14,4 +14,3 @@ class PostAdmin(admin.ModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(PostFile)
-admin.site.register(PostRevision)
