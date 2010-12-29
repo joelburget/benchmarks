@@ -2,6 +2,6 @@
 {% load tex %}
 <div id="c{{ tem.id }}">
   <p class="commentBox">{{ item.published|date:"F j, Y" }} at {{ item.published|date:"P" }} - <a href="{{ item.user.get_absolute_url }}">{{ item.user.get_profile.get_display_name }}</a> on <a href="{{ item.get_absolute_url }}">{{ item.content_object.title }}</a></p> 
-  <div class="gravatar"><a href="{{ item.user.get_absolute_url }}">{% gravatar item.user.email 48 %}</a></div>
+  <div><a href="{{ item.user.get_absolute_url }}">{% gravatar item.user.email 48 %}</a></div>
   <div class="comment">{{ item.comment|safe|linebreaks|tex_to_images }}</div>
 </div></li>
