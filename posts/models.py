@@ -111,10 +111,14 @@ class Post(models.Model):
     self.body_display = svalue
     self.save()
 
+# Revisions
+
 if not reversion.is_registered(Post):
 	reversion.register(Post, follow=["files"])
 
-def update_validity(sender, instance, created, **kwargs):
+# Signals
+
+def update_validity(sender, instance, **kwargs):
 	"""Mark self as up-to-daet and all children as out-of-date"""
 	instance.up_to_date = True
 
@@ -122,7 +126,7 @@ def update_validity(sender, instance, created, **kwargs):
 		sol.up_to_date = False
 		sol.save()
 
-signals.post_save.connect(update_validity, sender=Post)
+signals.pre_save.connect(update_validity, sender=Post)
 
 #
 # Files
@@ -142,6 +146,8 @@ class PostFile(models.Model):
 
   def __unicode__(self):
     return os.path.basename(self.file.name)
+
+# Revisions
 
 if not reversion.is_registered(PostFile):
 	reversion.register(PostFile)
