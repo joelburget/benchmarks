@@ -254,7 +254,7 @@ def posthistory(request, post_id, post_history_id, **kwargs):
     except:
       return HttpResponse('ERROR: Bad history object.')
 
-    post = PostRevision.objects.get(pk=post_history_id)
+    #post = PostRevision.objects.get(pk=post_history_id)
 
   # Return the post
   if request.is_ajax():
@@ -294,7 +294,8 @@ def detail(request, object_id):
     rev = request.GET.get('revision', None)
 
   if rev != None and rev != 'original':
-    revision = PostRevision.objects.get(pk=rev)
+    pass
+		#revision = PostRevision.objects.get(pk=rev)
   else:
     revision = None
 

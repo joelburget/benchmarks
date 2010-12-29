@@ -3,7 +3,7 @@ import tarfile
 import zipfile
 
 from benchmarks import settings
-from benchmarks.posts.models import PostFile, PostRevision
+from benchmarks.posts.models import PostFile
 from benchmarks.posts.forms import PostForm
 
 from django.core.mail import EmailMessage
@@ -31,10 +31,10 @@ def new_post(post, params):
 def update_post(post, params, user):
   if params.get('body', ''):
     # Move old content into a Revision
-    rev = PostRevision(author = user)
-    rev.body_display = post.body_display
-    rev.group = post.group
-    rev.save()
+    #rev = PostRevision(author = user)
+    #rev.body_display = post.body_display
+    #rev.group = post.group
+    #rev.save()
 
     # Fill post with new, edited data
     post.body = params['body']
