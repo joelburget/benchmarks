@@ -114,6 +114,16 @@ class Post(models.Model):
 if not reversion.is_registered(Post):
 	reversion.register(Post, follow=["files"])
 
+def update_validity(sender, instance, created, **kwargs):
+	"""Mark self as up-to-daet and all children as out-of-date"""
+	instance.up_to_date = True
+
+	for sol in instance.post_set.all():
+		sol.up_to_date = False
+		sol.save()
+
+signals.post_save.connect(update_validity, sender=Post)
+
 #
 # Files
 #
