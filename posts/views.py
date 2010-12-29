@@ -378,8 +378,14 @@ def manage(request, post_id):
         # e.g. value = 'code3'
         # pk = '3'
         # type = 'code'
-        pk = value[-1:]
-        type = value[:-1]
+        pk = key.replace("group", "")
+
+        if "input" in value:
+          type = "N"
+        elif "output" in value:
+          type = "U"
+        elif "other" in value:
+          type = "O"
 
         file = PostFile.objects.get(pk=pk)
         file.filetype = type
