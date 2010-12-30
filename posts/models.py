@@ -1,4 +1,5 @@
 import markdown2
+from benchmarks import reversion
 from benchmarks.templatetags.templatetags.date_diff import date_diff
 from benchmarks.templatetags.helpers.latexmath2png import math2png
 from benchmarks.settings import MEDIA_ROOT, MEDIA_URL
@@ -13,7 +14,6 @@ import re
 import hashlib
 from multiprocessing import Process, Queue
 from Queue import Empty
-import reversion
 
 #
 # Post types
