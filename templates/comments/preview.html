@@ -10,7 +10,7 @@
   <form action="{% comment_form_target %}" method="post">{% csrf_token %}
     {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
     <h1>{% trans "Preview your comment" %}</h1>
-    <div class="comment">{{ comment|markdown|safe|tex_to_images }}</div>
+    <div class="comment">{{ comment|tex_to_images|markdown|safe }}</div>
     <p>
     {% trans "and" %} <input type="submit" name="submit" class="submit-post" value="{% trans "Post your comment" %}" id="submit" /> {% trans "or make changes" %}:
     </p>

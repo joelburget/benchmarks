@@ -52,7 +52,9 @@ default_packages = [
         'amsmath',
         'amsthm',
         'amssymb',
-        'bm'
+        'bm',
+        'amsfonts',
+        'geometry'
         ]
 
 def __build_preamble(packages):
