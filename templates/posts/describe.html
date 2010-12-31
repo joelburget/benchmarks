@@ -13,9 +13,13 @@ Output, Other), please include usage and releation to the solution as a whole.</
 using <a href="http://en.wikipedia.org/wiki/Markdown">Markdown</a> syntax.</p>
 
 <form method="post" action=".">
+	<input type="hidden" style="display:none" name="edit" value="{{ edit }}" />
   <ul>
     <li>
     <textarea style="width:400px;height:300px" name="body" id="body">
+{% if post.body %}
+{{ post.body }}
+{% else %}
 # Results
 
 Describe results here.
@@ -24,6 +28,7 @@ Describe results here.
 
 Describe "{{ type}}" files here.
 {% endfor %}
+{% endif %}
     </textarea>
     </li>
 

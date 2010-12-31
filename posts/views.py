@@ -1,3 +1,7 @@
+from __future__ import with_statement
+
+import reversion
+
 from urllib import unquote
 
 from benchmarks.helpers import *
@@ -400,22 +404,30 @@ def description(request, post_id):
   if request.method == 'GET':
     if post.group == request.user.get_profile().group:
       # Render form
+      edit = bool(request.GET.get("edit", False))
       ftypes = set()
       for file in post.files.all():
         ftypes.add(file.get_filetype_display())
 
-      return direct_to_template(request, 'posts/describe.html', {'post':post, 'ftypes':ftypes})
+      return direct_to_template(request, 'posts/describe.html', {'post':post, 'ftypes':ftypes, 'edit':edit})
     else:
       # Incorrect permissions
       return redirect_to_error(403, '')
   else:
+    edit = bool(request.POST.get("edit", False))
+
     # Update text
     post.body = request.POST['body']
     post.save()
 
     # Convert to markdown then replace TeX with images
     post.body_display = markdown(post.body)
-    post.save()
+
+    if edit:
+      with reversion.revision:
+        post.save()
+    else:
+      post.save()
     post.render_equations()
 
     return HttpResponseRedirect(post.get_absolute_url())
