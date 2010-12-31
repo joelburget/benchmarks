@@ -58,7 +58,7 @@
 {% if object.files.all %}
 <h3>Files:</h3>
 {% if user.username == object.author.username %}
-  <a href="manage_files/">Manage Files</a>
+  <p><a href="manage_files/">Manage Files</a></p>
 {% endif %}
 <div style="margin-left:20px;" id="files" class="files icons">
 {% for f in object.files.all %}
