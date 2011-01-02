@@ -9,6 +9,8 @@ from django.contrib.auth.models import User, Group
 from django.db.models import signals
 from django.db import models
 
+from reversion.models import Version
+
 import os
 import re
 import hashlib
@@ -45,6 +47,9 @@ class Post(models.Model):
 
   def get_comments_absolute_url(self):
     return '%s#comments' % (self.get_permalink(),)
+
+  def get_revisions(self):
+    return Version.objects.get_for_object(self)
 
   def render_equations(self):
     """Fill in body_display and create equation images

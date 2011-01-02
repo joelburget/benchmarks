@@ -1,6 +1,7 @@
 from __future__ import with_statement
 
 import reversion
+from reversion.models import Version
 
 from urllib import unquote
 
@@ -258,11 +259,11 @@ def posthistory(request, post_id, post_history_id, **kwargs):
     except:
       return HttpResponse('ERROR: Bad history object.')
 
-    #post = PostRevision.objects.get(pk=post_history_id)
+    post = Version.objects.get(pk=rev_pk)
 
   # Return the post
   if request.is_ajax():
-    return render_to_string('partials/post_full.html', { 'item' : post })
+    return HttpResponse(post.field_dict['body_display'])
   else:
     return render_to_response('posts/post_detail.html', 
         { 'object' : post }, 

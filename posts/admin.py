@@ -1,4 +1,5 @@
 from benchmarks.posts.models import *
+from benchmarks.reversion.helpers import patch_admin
 from django.contrib import admin
 
 class PostAdmin(admin.ModelAdmin):
@@ -14,3 +15,4 @@ class PostAdmin(admin.ModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(PostFile)
+patch_admin(Post)
