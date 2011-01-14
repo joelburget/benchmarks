@@ -32,7 +32,7 @@ files whenever possible, instead of pasting links in the description section.</p
     </li>
     <li><a href="#" id="addFile">Add another file...</a></li>
 
-    <li><input class="button" type="submit" value="Next" /></li>
+    <li><input class="button" type="submit" value="{% if edit %}Save{% else %}Next{% endif %}" /></li>
   </ul>
 </form>
 {% endblock %}
