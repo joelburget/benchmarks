@@ -1,4 +1,5 @@
 import markdown2
+
 from benchmarks import reversion
 from benchmarks.templatetags.templatetags.date_diff import date_diff
 from benchmarks.templatetags.helpers.latexmath2png import math2png
@@ -11,6 +12,7 @@ from django.db import models
 
 from reversion.models import Version
 
+import datetime
 import os
 import re
 import hashlib
@@ -123,6 +125,10 @@ if not reversion.is_registered(Post):
 
 # Signals
 
+def update_date(sender, instance, **kwargs):
+  """Update published dates"""
+  instance.published = datetime.datetime.now()
+
 def update_validity(sender, instance, **kwargs):
 	"""Mark self as up-to-daet and all children as out-of-date"""
 	instance.up_to_date = True
@@ -131,6 +137,7 @@ def update_validity(sender, instance, **kwargs):
 		sol.up_to_date = False
 		sol.save()
 
+signals.pre_save.connect(update_date, sender=Post)
 signals.pre_save.connect(update_validity, sender=Post)
 
 #
