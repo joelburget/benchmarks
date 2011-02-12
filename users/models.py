@@ -22,6 +22,9 @@ class UserProfile(models.Model):
     else:
       return self.user.username
 
+  def get_absolute_url(self):
+    return '/users/%s' % self.user.username
+
   def __unicode__(self):
     return 'Profile for %s' % (self.user.username,)
 
