@@ -21,7 +21,7 @@
     <ol>
       <li><select id="revision" name="revision" value="{{ revision.pk }}">
       {% for rev in object.get_revisions %}
-        <option value="{% if rev.field_dict.published == object.published %}original{% else %}{{ rev.pk }}{% endif %}" {% if rev.pk == revision.pk %}selected="selected"{% endif %}>
+        <option value="{% if rev.field_dict.published == object.published %}original{% else %}{{ rev.pk }}{% endif %}" {% if forloop.last %}selected="selected"{% endif %}>
                 Version {{ forloop.counter }}: updated
                 {{ rev.field_dict.published }} by {% username rev.field_dict.author %}
                 {% if forloop.first %}(Original){% endif %}
