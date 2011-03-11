@@ -44,6 +44,7 @@ the "Other" category is chosen for all files.</p>
       </li>
     {% endfor %}
 
+    <input type="hidden" name="edit" value="{{ edit }}" />
     <li><input class="button" type="submit" value="{% if edit %}Save{% else %}Next{% endif %}" /></li>
   </ul>
 </form>

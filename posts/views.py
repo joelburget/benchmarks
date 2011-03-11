@@ -370,7 +370,8 @@ def manage(request, post_id):
   if request.method == 'GET':
     if post.group == request.user.get_profile().group:
       # Render form
-      return direct_to_template(request, 'posts/manage_files.html', {'post' : post}) 
+      edit = request.GET.get("edit")
+      return direct_to_template(request, 'posts/manage_files.html', {'post' : post, 'edit' : edit}) 
     else:
       # Incorrect permissions
       return redirect_to_error(403, '')
@@ -379,7 +380,7 @@ def manage(request, post_id):
     for key in request.POST:
       value = request.POST[key]
 
-      if key != 'csrfmiddlewaretoken':
+      if key != 'csrfmiddlewaretoken' and key != "edit":
         # e.g. value = 'code3'
         # pk = '3'
         # type = 'code'
@@ -396,7 +397,10 @@ def manage(request, post_id):
         file.filetype = type
         file.save()
 
-    return HttpResponseRedirect('/posts/%s/description/' % post.pk)
+    if request.POST.get("edit") == "true":
+      return HttpResponseRedirect(post.get_absolute_url())
+    else:
+      return HttpResponseRedirect('/posts/%s/description/' % post.pk)
 
 @login_required
 def description(request, post_id):
