@@ -15,7 +15,7 @@
   <h3 id="nojs">This page works best with Javascript enabled&hellip;</h3>
 </noscript>
 
-{% if post.files.all %}
+{% if post.postfile_set.all %}
 <h1>Manage files</h1>
 
 <p>Next, you need to categorize your files.</p>
@@ -36,7 +36,7 @@ the "Other" category is chosen for all files.</p>
     {% filetypes post %}
     {% endcomment %}
 
-    {% for f in post.files.all %} <li>
+    {% for f in post.postfile_set.all %} <li>
       <input type="radio" value="input{{ f.pk }}" id="input{{ f.pk }}" name="group{{ f.pk }}" {% if f.filetype == 'N' %}checked{% endif %}/><label for="input{{ f.pk }}" class="lpill">Tool Input</label>
       <input type="radio" value="output{{ f.pk }}" id="output{{ f.pk }}" name="group{{ f.pk }}" {% if f.filetype == 'U' %}checked{% endif %} /><label for="output{{ f.pk }}" class="mpill">Tool Output</label>
       <input type="radio" value="other{{ f.pk }}" id="other{{ f.pk }}" name="group{{ f.pk }}" {% if f.filetype == 'O' %}checked{% endif %} /><label for="other{{ f.pk }}" class="rpill">Other</label>

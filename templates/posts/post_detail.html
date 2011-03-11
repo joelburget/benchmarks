@@ -57,9 +57,9 @@
 
 <!-- Files -->
 <h3>Files{% if user.username == object.author.username %} <a href="upload/?edit=true">Upload More</a> <a href="manage/?edit=true">Manage</a></h3>{% endif %}
-{% if object.files.all %}
+{% if object.postfile_set.all %}
 <div style="margin-left:20px;" id="files" class="files icons">
-{% for f in object.files.all %}
+{% for f in object.postfile_set.all %}
   <li class="{{ f.filetype}}-file"><a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a> - {{ f.get_filetype_display }}</li>
 {% endfor %}
 </div>

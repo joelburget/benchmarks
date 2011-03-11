@@ -37,7 +37,7 @@ class Post(models.Model):
   published = models.DateTimeField(auto_now_add=True)
   category = models.CharField(max_length=1, choices=POSTTYPES)
   problem = models.ForeignKey('self', blank=True, null=True)
-  files = models.ManyToManyField('PostFile', blank=True, null=True)
+  #files = models.ManyToManyField('PostFile', blank=True, null=True)
   up_to_date = models.BooleanField(default=True)
 
   # Methods
@@ -150,11 +150,12 @@ FILETYPES = (
 )
 
 def get_upload_path(instance, filename):
-  return 'uploads/posts/%s/%s' % (instance.pk, filename)
+  return 'uploads/posts/%s/%s' % (instance.post.pk, filename)
 
 class PostFile(models.Model):
   file = models.FileField(upload_to=get_upload_path, null=True, blank=True)
   filetype = models.CharField(max_length=1, choices=FILETYPES, default='O')
+  post = models.ForeignKey("Post")
 
   def __unicode__(self):
     return os.path.basename(self.file.name)

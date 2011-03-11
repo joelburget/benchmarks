@@ -40,7 +40,7 @@ def editpost(request, post_id, **kwargs):
           pf.save()
 
           # Associate it to the post
-          post.files.add(pf)
+          post.postfile_set.add(pf)
           post.save()
           pf.file = thisfile
           pf.save()
@@ -94,7 +94,7 @@ def newpost(request, **kwargs):
           pf.save()
 
           # Associate it to the post
-          post.files.add(pf)
+          post.postfile_set.add(pf)
           post.save()
           pf.file = thisfile
           pf.save()
@@ -173,7 +173,7 @@ def manage_files_get(request, post_id):
     if request.user != post.author:
       return HttpRespnseRedirect('/')
     return render_to_response('posts/manage_files.html', \
-      {'files': post.files}, context_instance=RequestContext(request))
+      {'files': post.postfile_set}, context_instance=RequestContext(request))
   except Exception as e:
     return HttpResponseRedirect('/')
 
@@ -272,7 +272,7 @@ def posthistory(request, post_id, post_history_id, **kwargs):
 def created(request, post_id):
   post = Post.objects.get(pk=post_id)
   if request.method != 'POST':
-    if not post.files.all():
+    if not post.postfile_set.all():
       return HttpResponseRedirect(post.get_absolute_url())
     else:
       return direct_to_template(request, 
@@ -348,9 +348,9 @@ def upload(request, post_id):
   else:
     # Associate uploaded files with this post
     for f in request.FILES:
-      file = PostFile(file = request.FILES[f], filetype = 'O')
+      file = PostFile(file = request.FILES[f], filetype = 'O', post=post)
       file.save()
-      post.files.add(file)
+      post.postfile_set.add(file)
 
       zippath = os.path.join(SITE_ROOT, 'assets/') + str(file.file)
       decompress(zippath, post)
@@ -407,7 +407,7 @@ def description(request, post_id):
       # Render form
       edit = bool(request.GET.get("edit", False))
       ftypes = set()
-      for file in post.files.all():
+      for file in post.postfile_set.all():
         ftypes.add(file.get_filetype_display())
 
       return direct_to_template(request, 'posts/describe.html', {'post':post, 'ftypes':ftypes, 'edit':edit})
