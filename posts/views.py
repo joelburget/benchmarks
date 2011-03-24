@@ -341,21 +341,31 @@ def upload(request, post_id):
   if request.method == 'GET':
     if post.group == request.user.get_profile().group:
       # Render form
-      return direct_to_template(request, 'posts/upload.html', {'post':post})
+      edit = request.GET.get("edit", False)
+      return direct_to_template(request, 'posts/upload.html', {'post':post, 'edit':edit})
     else:
       # Incorrect permissions
       return redirect_to_error(403, '')    
   else:
     # Associate uploaded files with this post
+    edit = bool(request.POST.get("edit", False))
+
     for f in request.FILES:
       file = PostFile(file = request.FILES[f], filetype = 'O', post=post)
+
       file.save()
       post.postfile_set.add(file)
 
       zippath = os.path.join(SITE_ROOT, 'assets/') + str(file.file)
       decompress(zippath, post)
 
-    post.save()
+    if edit:
+      with reversion.revision:
+        post.save()
+
+      return HttpResponseRedirect('/posts/%s/' % post.pk)
+    else:
+      post.save()
 
     # Redirect to either the file management interface or the description editor
     if request.FILES:
