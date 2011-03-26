@@ -121,7 +121,7 @@ class Post(models.Model):
 # Revisions
 
 if not reversion.is_registered(Post):
-	reversion.register(Post, follow=["files"])
+	reversion.register(Post, follow=["postfile_set"])
 
 # Signals
 
