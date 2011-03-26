@@ -244,6 +244,12 @@ def index(request):
     },
     context_instance=RequestContext(request))
 
+def postfiles(request, post_id, post_history_id, **kwargs):
+  post = Post.objects.get(pk=post_id)
+  id_as_int = int(post_history_id)
+
+  return render_to_response("posts/files.html", {"object":post, "i":id_as_int})
+
 def posthistory(request, post_id, post_history_id, **kwargs):
   post = None
 

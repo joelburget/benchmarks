@@ -4,6 +4,7 @@
 {% load partials %}
 {% load tex %}
 {% load username %}
+{% load version %}
 
 {% block title %}{{ object.title }}{% endblock %}
 
@@ -21,7 +22,7 @@
     <ol>
       <li><select id="revision" name="revision" value="{{ revision.pk }}">
       {% for rev in object.get_revisions %}
-        <option value="{% if rev.field_dict.published == object.published %}original{% else %}{{ rev.pk }}{% endif %}" {% if forloop.last %}selected="selected"{% endif %}>
+        <option num="{{ forloop.counter }}" value="{% if rev.field_dict.published == object.published %}original{% else %}{{ rev.pk }}{% endif %}" {% if forloop.last %}selected="selected"{% endif %}>
                 Version {{ forloop.counter }}: updated
                 {{ rev.field_dict.published }} by {% username rev.field_dict.author %}
                 {% if forloop.first %}(Original){% endif %}
@@ -60,7 +61,7 @@
 {% if object.postfile_set.all %}
 <div style="margin-left:20px;" id="files" class="files icons">
 {% for f in object.postfile_set.all %}
-  <li class="{{ f.filetype}}-file"><a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a> - {{ f.get_filetype_display }}</li>
+  <li class="{{ f.filetype}}-file"><a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a> - {{ f.get_filetype_display }} 
 {% endfor %}
 </div>
 {% endif %}
@@ -183,12 +184,22 @@
 
   $('#revisions').submit(function() {
     // Revisions button is clicked, refresh content
-    $.get(escape('/posts/{{ object.pk }}/history/' + $('#revision').val() + "/" + new Date().getTime() + "/"), function(data) {
-      $('#post-content').fadeOut(500, function() {
-        $(this).html(data).fadeIn(500); 
-        //$('#post-content').effect('highlight', {}, 1000); //This line breaks the animation
+    if ($("#revision").children().size() != 1) {
+      $.get(escape('/posts/{{ object.pk }}/history/' + $('#revision').val() + "/" + new Date().getTime() + "/"), function(data) {
+        $('#post-content').fadeOut(500, function() {
+          $(this).html(data).fadeIn(500); 
+          //$('#post-content').effect('highlight', {}, 1000); //This line breaks the animation
+        });
       });
-    });
+
+      $.get(escape('/posts/{{ object.pk }}/files/' + (2 - (parseInt($('#revision').children("*[selected]").attr("num")) - 1)) + "/" + new Date().getTime() + "/"), function(data) {
+        $('#files').fadeOut(500, function() {
+          $(this).html(data).fadeIn(500); 
+          //$('#files').effect('highlight', {}, 1000); //This line breaks the animation
+        });
+      });
+    }
+
     return false;
   });
 

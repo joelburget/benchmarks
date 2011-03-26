@@ -1,0 +1,7 @@
+{% load version %}
+<!-- Files -->
+{% if object.postfile_set.all %}
+{% for f in object.postfile_set.all %}
+  {% version f i %}
+{% endfor %}
+{% endif %}

@@ -163,4 +163,4 @@ class PostFile(models.Model):
 # Revisions
 
 if not reversion.is_registered(PostFile):
-	reversion.register(PostFile)
+	reversion.register(PostFile, follow=["post"])
