@@ -263,7 +263,11 @@ def posthistory(request, post_id, post_history_id, **kwargs):
 
   # Return the post
   if request.is_ajax():
-    return HttpResponse(post.field_dict['body_display'])
+    # For some reason it would return a 500 without this
+    if post.field_dict['body_display']:
+      return HttpResponse(post.field_dict['body_display'])
+    else:
+      return HttpResponse('')
   else:
     return render_to_response('posts/post_detail.html', 
         { 'object' : post }, 
