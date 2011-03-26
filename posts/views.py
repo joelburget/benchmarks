@@ -352,7 +352,7 @@ def upload(request, post_id):
       return redirect_to_error(403, '')    
   else:
     # Associate uploaded files with this post
-    edit = bool(request.POST.get("edit", False))
+    edit = request.POST.get("edit")
 
     for f in request.FILES:
       file = PostFile(file = request.FILES[f], filetype = 'O', post=post)
@@ -363,7 +363,7 @@ def upload(request, post_id):
       zippath = os.path.join(SITE_ROOT, 'assets/') + str(file.file)
       decompress(zippath, post)
 
-    if edit:
+    if edit == "true":
       with reversion.revision:
         post.save()
 
@@ -371,11 +371,11 @@ def upload(request, post_id):
     else:
       post.save()
 
-    # Redirect to either the file management interface or the description editor
-    if request.FILES:
-      return HttpResponseRedirect('/posts/%s/manage/' % post.pk)
-    else:
-      return HttpResponseRedirect('/posts/%s/description/' % post.pk)
+      # Redirect to either the file management interface or the description editor
+      if request.FILES:
+        return HttpResponseRedirect('/posts/%s/manage/' % post.pk)
+      else:
+        return HttpResponseRedirect('/posts/%s/description/' % post.pk)
 
 @login_required
 def manage(request, post_id):
