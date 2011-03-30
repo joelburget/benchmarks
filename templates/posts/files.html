@@ -4,4 +4,6 @@
 {% for f in object.postfile_set.all %}
   {% version f i %}
 {% endfor %}
+{% else %}
+<p>No files are attached to this post.</p>
 {% endif %}
