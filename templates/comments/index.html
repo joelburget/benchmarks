@@ -3,6 +3,10 @@
 
 {% block title %}Comments{% endblock %}
 
+{% block cssblock %}
+<link rel="stylesheet" href="/static_media/css/jquery.autocomplete.css" type="text/css" />
+{% endblock %}
+
 {% block content %}
 <h2>Comments</h2>
 
@@ -38,10 +42,6 @@
   {% endif %}
   </p>
 </div>
-{% endblock %}
-
-{% block jsheadblock %}
-<link rel="stylesheet" href="http://dev.jquery.com/view/trunk/plugins/autocomplete/jquery.autocomplete.css" type="text/css" />
 {% endblock %}
 
 {% block jsblock %}
