@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load partials %}
+
+{% block title %}Comments{% endblock %}
+
+{% block content %}
+<h2>Comments</h2>
+
+<h3>Search</h3>
+<form action="." method="get" class="block">
+  <div id="advanced">
+    <label for=searchtxt">Text</label> <input type="text" name="searchtxt" id="searchtxt" value="{{ searchtxt }}" class="nshide" /><br />
+    <label for="user">Author (Optional)</label> <input name="user" id="user" type="text" value="{{ u }}" /><br />
+    
+    <input type="submit" value="Search" />
+  </div>
+</form>
+
+<h3>Results</h3>
+{% if comments.object_list %}
+{% for comment in comments.object_list %}
+{% render_partial comment_preview comment %}
+{% endfor %}
+{% else %}
+<p>Sorry, no comments exist that match your criteria!</p>
+{% endif %}
+
+<div class="block">
+  <p>
+  {% if comments.has_previous %}
+    <a href="?page={{ comments.previous_page_number }}">Previous</a>
+  {% endif %}
+
+  <strong>Page {{ comments.number }} of {{ comments.paginator.num_pages }}</strong>
+
+  {% if comments.has_next %}
+    <a href="?page={{ comments.next_page_number }}">Next</a>
+  {% endif %}
+  </p>
+</div>
+{% endblock %}
+
+{% block jsheadblock %}
+<link rel="stylesheet" href="http://dev.jquery.com/view/trunk/plugins/autocomplete/jquery.autocomplete.css" type="text/css" />
+{% endblock %}
+
+{% block jsblock %}
+{% include "partials/jquery.html" %}
+{% include "partials/jquery_autocomplete.html" %}
+
+<script type="text/javascript">
+$(document).ready(function() {
+  /* User autocomplete */
+  var users = "{% for u in userlist %}{{ u.username }}${% endfor %}".split("$");
+  $('#user').autocomplete(users);
+    return false;
+  });
+});
+</script>
+{% endblock %}

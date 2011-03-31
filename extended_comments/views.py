@@ -11,10 +11,13 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
+from benchmarks.helpers import get_page_of_objects
 from benchmarks.extended_comments.models import ExtendedComment, ExtendedCommentFile
 from benchmarks.extended_comments.forms import ExtendedCommentForm
 from benchmarks.extended_comments.decompress import decompress
 from benchmarks.posts.models import Post
+from django.db.models import Q
+from django.contrib.auth.models import User
 from benchmarks.settings import MEDIA_ROOT, SITE_ROOT
 from benchmarks.helpers import redirect_to_error
 
@@ -115,3 +118,43 @@ def comment_posted(request):
       (post.get_absolute_url(),))
   else:
     return redirect_to_error(403, "/")
+
+# This method is almost exactly the same as the one in posts/views.py. It might
+# be worth it to factor out the duplicate functionality. Probably not.
+def index(request):
+  userlist = User.objects.all()
+
+  if not 'searchtxt' in request.GET:
+    # No searching, just render a paginated view of all posts
+    comments = get_page_of_objects(ExtendedComment.objects.all() \
+                                .order_by('-published'), request)
+    return render_to_response('comments/index.html', \
+                              { 'comments':comments, 'userlist' : userlist }, \
+                              context_instance=RequestContext(request))
+  else:
+    # Search performed
+    searchtxt = request.GET['searchtxt']  # main search textbox
+    user = request.GET.get('user', '')    # advanced - author
+
+    if user == '':
+      # Ugly hack
+      userq = ~Q(pk=0)
+    else:
+      u = userlist.filter(username=user)
+      userq = Q(user=u)
+
+    # Advanced query
+    pcomments = ExtendedComment.objects.filter(
+      Q(comment__icontains=searchtxt),
+      userq
+    ).distinct().order_by('-published')
+
+    # Render
+    comments = get_page_of_objects(pcomments, request)
+    return render_to_response('comments/index.html', {
+      'searchtxt' : searchtxt,
+      'u' : user,
+      'userlist' : userlist,
+      'comments' : comments,
+    },
+    context_instance=RequestContext(request))
