@@ -6,7 +6,7 @@
 
 <h3>Membership</h3>
 <h4>Why Join?</h4>
-<p>Anyone can view posts and comments but members enjoy these benefits:</p>
+<p>Anyone can view problems, solutions, and comments but members enjoy these benefits:</p>
 <ul class="icons">
   <li id="propose-link">Propose new benchmarks or solutions on this site.</li>
   <li id="comment-link">Comment on other posts.</li>
@@ -22,7 +22,7 @@
 <p>After you sign in for the first time, open your {% if user.is_authenticated %}<a href="{{ user.get_absolute_url }}">profile</a>{% else %}profile (see the top right corner of the page, where it says "Hello &lt;name&gt;!"){% endif %}. From there, click "Edit Profile" and fill out your personal information, if you desire to do so. Of course, we highly recommend not skipping this step! It will allow other researchers to easily get in touch with you!</p>
 
 <h3>Posting Content</h3>
-<h4>Post Types</h4>
+<h4>Problems and Solutions</h4>
 <p>Each post can be classified as a Problem, a proposed Solution to a problem, or Other (used for interesting papers, for example). To create a new Problem, see the next section on <a href="#newpost">on adding new problems</a>. To propose a new Solution to a problem, scroll to the "Actions" section of a problem and click "Add a solution to this problem."</p>
 
 <h4 id="newpost">Adding New Problems</h4>
@@ -31,7 +31,7 @@
 <h4>Formatting Content</h4>
 <p>Most HTML tags, such as &lt;p&gt;, <b>&lt;b&gt;</b>, <i>&lt;i&gt;</i>, and <code>&lt;pre&gt;</code> are allowed. CSS such as <span style="font-family:monospace; font-size: 1.25em;">style="font-weight:bold;"</span> is also allowed, but not recommended. We have default stylings for all page elements. Javascript is not allowed for security reasons. Additionally, LaTeX formatting can be achieved by surrounding single line formulas in double-dollar signs (for example, <code>$$x^2$$</code>).</p> 
 
-<h4>Uploading Attachments to Posts</h4>
+<h4>Uploading Attachments</h4>
 <p>Files can be included through HTML hyperlinks, or by using the file upload button below the text field.  You may upload as many files and filetypes as you like.  Zipped folders and tarballs (*.zip, *.tar.gz, *.tar.bz2, or similar) will automatically be decompressed. Users will be offered the choice of looking in a tree browser to preview files one at a time, or downloading the entire archive.</p> 
 
 <h3>Comments</h3>
