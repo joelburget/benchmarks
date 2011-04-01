@@ -9,6 +9,7 @@
 
 {% block content %}
 <h2>Comments</h2>
+<p>This page is mainly for searching old comments. To post a new one please see the Problem or Solution you would like to comment on.</p>
 
 <h3>Search</h3>
 <form action="." method="get" class="block">
@@ -16,8 +17,8 @@
     <label for=searchtxt">Text</label> <input type="text" name="searchtxt" id="searchtxt" value="{{ searchtxt }}" class="nshide" /><br />
     <label for="user">Author (Optional)</label> <input name="user" id="user" type="text" value="{{ u }}" /><br />
     
-    <input type="submit" value="Search" />
   </div>
+    <input type="submit" value="Search" />
 </form>
 
 <h3>Results</h3>
