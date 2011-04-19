@@ -11,9 +11,6 @@
 {% endblock %}
 
 {% block content %}
-<noscript>
-  <h3 id="nojs">This page works best with Javascript enabled&hellip;</h3>
-</noscript>
 
 {% if post.postfile_set.all %}
 <h1>Manage files</h1>
@@ -51,12 +48,4 @@ the "Other" category is chosen for all files.</p>
 {% else %}
 <p>There are no files attached to this post.</p>
 {% endif %}
-{% endblock %}
-
-{% block jsblock %}
-{% include "partials/jquery.html" %}
-<script>
-$(document).ready(function(){
-});
-</script>
 {% endblock %}
