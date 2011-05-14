@@ -7,6 +7,7 @@
 {% block cssblock %}
 <style>
   li {list-style-type: none;}
+  .small-left-margin {margin-left: 10px; float: none !important;}
 </style>
 {% endblock %}
 
@@ -38,6 +39,9 @@ the "Other" category is chosen for all files.</p>
       <input type="radio" value="output{{ f.pk }}" id="output{{ f.pk }}" name="group{{ f.pk }}" {% if f.filetype == 'U' %}checked{% endif %} /><label for="output{{ f.pk }}" class="mpill">Tool Output</label>
       <input type="radio" value="other{{ f.pk }}" id="other{{ f.pk }}" name="group{{ f.pk }}" {% if f.filetype == 'O' %}checked{% endif %} /><label for="other{{ f.pk }}" class="rpill">Other</label>
       <a href="{{ MEDIA_URL }}{{ f.file }}">{{ f }}</a>
+      <span class="checkbox">
+        <label for="delete{{ f.pk }}" class="small-left-margin"> Delete</label><input type="checkbox" value="delete{{ f.pk }}" id="delete{{ f.pk }}" name="group{{ f.pk }}" />
+      </span>
       </li>
     {% endfor %}
 
@@ -48,4 +52,29 @@ the "Other" category is chosen for all files.</p>
 {% else %}
 <p>There are no files attached to this post.</p>
 {% endif %}
+{% endblock %}
+
+{% block jsblock %}
+{% include "partials/jquery.html" %}
+<script type="text/javascript">
+(function($){
+  $("label[class='checkbox']").addClass("unchecked");
+
+  $(".checkbox").click(function() {
+    if ($(this).children("input").attr("checked")) {
+      // uncheck
+      $(this).children("input").attr({checked: ""});
+      $(this).removeClass("checked");
+      $(this).addClass("unchecked");
+      return false;
+    } else {
+      // check
+      $(this).children("input").attr({checked: "checked"});
+      $(this).removeClass("unchecked");
+      $(this).addClass("checked");
+      return false;
+    }
+  });
+})(jQuery);
+</script>
 {% endblock %}
